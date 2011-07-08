@@ -59,8 +59,10 @@ h3. TOKEN SET RATIO
 h3. PROCESS
 
 <pre><code>> choices = ["Atlanta Falcons", "New York Jets", "New York Giants", "Dallas Cowboys"]
-> process.extractOne(choices, "cowboys")
-("Dallas Cowboys", 90)
+> process.extract("new york jets", choices, limit=2)
+  [('New York Jets', 100), ('New York Giants', 78)]
+> process.extractOne("cowboys", choices)
+  ("Dallas Cowboys", 90)
 </code></pre>
 
 h2. License
