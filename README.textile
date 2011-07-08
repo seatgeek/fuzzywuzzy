@@ -40,7 +40,7 @@ h3. PARTIAL RATIO
   100
 </code></pre>
 
-h3. TOKEN SET RATIO
+h3. TOKEN SORT RATIO
 
 <pre><code>> fuzz.ratio("fuzzy wuzzy was a bear", "wuzzy fuzzy was a bear")
   90
@@ -57,8 +57,8 @@ h3. TOKEN SET RATIO
 </code></pre>
 
 h3. PROCESS
-<pre><code>
-> choices = ["Atlanta Falcons", "New York Jets", "New York Giants", "Dallas Cowboys"]
+
+<pre><code>> choices = ["Atlanta Falcons", "New York Jets", "New York Giants", "Dallas Cowboys"]
 > process.extractOne(choices, "cowboys")
 ("Dallas Cowboys", 90)
 </code></pre>
