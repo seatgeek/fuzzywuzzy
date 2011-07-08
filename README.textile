@@ -14,6 +14,7 @@ _[Manual]_
 # Download this: http://github.com/seatgeek/fuzzywuzzy/zipball/master
 # Unzip that download.
 # run python setup.py install
+<pre><code>python setup.py install</code></pre>
 
 _[GIT Clone]_
 
