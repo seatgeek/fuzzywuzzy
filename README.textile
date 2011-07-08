@@ -14,6 +14,7 @@ _[Manual]_
 # Download this: http://github.com/seatgeek/fuzzywuzzy/zipball/master
 # Unzip that download.
 # run python setup.py install
+
 <pre><code>python setup.py install</code></pre>
 
 _[GIT Clone]_
@@ -53,6 +54,13 @@ h3. TOKEN SET RATIO
   84
 > fuzz.token_set_ratio("fuzzy was a bear", "fuzzy fuzzy was a bear")
   100
+</code></pre>
+
+h3. PROCESS
+<pre><code>
+> choices = ["Atlanta Falcons", "New York Jets", "New York Giants", "Dallas Cowboys"]
+> process.extractOne(choices, "cowboys")
+("Dallas Cowboys", 90)
 </code></pre>
 
 h2. License
