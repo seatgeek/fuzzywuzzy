@@ -156,12 +156,19 @@ def partial_token_set_ratio(s1,  s2):
 
 # q is for quick
 def QRatio(s1,  s2):
+    if not utils.validate_string(s1): return 0
+    if not utils.validate_string(s2): return 0
+
     p1 = utils.full_process(s1)
     p2 = utils.full_process(s2)
+
     return ratio(p1, p2)
 
 # w is for weighted
 def WRatio(s1,  s2):
+    if not utils.validate_string(s1): return 0
+    if not utils.validate_string(s2): return 0
+
     p1 = utils.full_process(s1)
     p2 = utils.full_process(s2)
 

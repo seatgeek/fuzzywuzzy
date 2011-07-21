@@ -21,6 +21,14 @@ def remove_punctuation(s):
     s = s.replace(","," ").replace("."," ").replace("-"," ").replace(":"," ")
     return s
 
+def validate_string(s):
+    if s is None: return False
+    try:
+        if len(s) == 0: return False
+    except:
+        return False
+    return True
+
 def full_process(s):
     s = s.lower()
     s = s.strip()

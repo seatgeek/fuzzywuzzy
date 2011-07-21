@@ -184,6 +184,34 @@ class ProcessTest(unittest.TestCase):
         best = process.extractOne(query, choices)
         self.assertIsNotNone(best)
 
+    def testEmptyStrings(self):
+        choices = [
+            "",
+            "new york mets vs chicago cubs",
+            "new york yankees vs boston red sox",
+            "",
+            ""
+        ]
+
+        query = "new york mets at chicago cubs"
+
+        best = process.extractOne(query, choices)
+        self.assertEqual(best[0], choices[1])
+
+    def testNullStrings(self):
+        choices = [
+            None,
+            "new york mets vs chicago cubs",
+            "new york yankees vs boston red sox",
+            None,
+            None
+        ]
+
+        query = "new york mets at chicago cubs"
+
+        best = process.extractOne(query, choices)
+        self.assertEqual(best[0], choices[1])
+
 
 if __name__ == '__main__':
     unittest.main()         # run all tests
