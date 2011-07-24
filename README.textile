@@ -23,6 +23,11 @@ In a directory of your choice, type:
 <pre><code>git clone git://github.com/seatgeek/fuzzywuzzy.git fuzzywuzzy
 python setup.py install</code></pre>
 
+_[With Pip]_
+
+Run:
+<pre><code>pip install -e git+git://github.com/seatgeek/fuzzywuzzy.git#egg=fuzzywuzzy</code></pre>
+
 h2. Usage
 
 <pre><code>> from fuzzywuzzy import fuzz
