@@ -34,13 +34,22 @@ punctuation_table = string.maketrans(table_pattern, table_spaces)
 def remove_punctuation(s):
     return string.translate(s, punctuation_table)
 
-def validate_string(s):
+def validate_stringold(s):
     if s is None: return False
     try:
         if len(s) == 0: return False
     except:
         return False
     return True
+
+def validate_string(s):
+    try:
+        if len(s)>0:
+            return True
+        else:
+            return False
+    except:
+        return False
 
 def full_process(s):
     s = s.lower()
