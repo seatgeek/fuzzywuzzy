@@ -1,5 +1,13 @@
 import string
 
+table_pattern = ',.-:'
+# Add chars whit ordinals over 127 to the table
+for i in range(128, 256):
+    table_pattern+=chr(i)
+# translation table must have the same length
+table_spaces = ' '*len(table_pattern)
+punctuation_table = string.maketrans(table_pattern, table_spaces)
+
 # encode as string, decode as unicode bytes
 def asciidammit(x):
     if type(x) is str:
@@ -22,14 +30,6 @@ def remove_punctuationold(s):
     if s is None: return s
     s = s.replace(","," ").replace("."," ").replace("-"," ").replace(":"," ")
     return s
-
-table_pattern = ',.-:'
-# Add chars whit ordinals over 127 to the table
-for i in range(128, 256):
-    table_pattern+=chr(i)
-# translation table must have the same length
-table_spaces = ' '*len(table_pattern)
-punctuation_table = string.maketrans(table_pattern, table_spaces)
 
 def remove_punctuation(s):
     return string.translate(s, punctuation_table)
