@@ -26,21 +26,8 @@ def asciidammit(x):
         x = unicode(x)
         return asciidammit(x)
 
-def remove_punctuationold(s):
-    if s is None: return s
-    s = s.replace(","," ").replace("."," ").replace("-"," ").replace(":"," ")
-    return s
-
 def remove_punctuation(s):
     return string.translate(s, punctuation_table)
-
-def validate_stringold(s):
-    if s is None: return False
-    try:
-        if len(s) == 0: return False
-    except:
-        return False
-    return True
 
 def validate_string(s):
     try:
