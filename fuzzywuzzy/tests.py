@@ -31,7 +31,6 @@ class UtilsTest(unittest.TestCase):
 
     def test_asciidammit(self):
         for s in self.mixed_strings:
-            print '###'
             utils.asciidammit(s)
 
 class RatioTest(unittest.TestCase):

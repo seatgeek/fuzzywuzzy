@@ -12,6 +12,12 @@ bad_chars=''
 for i in range(128,256):
     bad_chars+=chr(i)
 
+pro_badchars=bad_chars
+pro_table_from=string.punctuation+string.ascii_uppercase
+pro_table_to=' '*len(string.punctuation)+string.ascii_lowercase
+pro_table=string.maketrans(pro_table_from, pro_table_to)
+
+
 def asciionly(s):
     return s.translate(None, bad_chars)
 
@@ -53,13 +59,15 @@ def validate_string(s):
     except:
         return False
 
-def full_process(s):
+def full_processold(s):
     s = s.lower()
     s = s.strip()
     s = remove_punctuation(s)
     x = asciidammit(s)
     return x
 
+def full_process(s):
+    return s.translate(pro_table, bad_chars).strip()
 
 
 

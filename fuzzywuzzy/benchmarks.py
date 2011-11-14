@@ -51,3 +51,10 @@ for s in mixed_strings:
     print 'Test for string: "%s"' % s
     #print 'Old: %f' % round(timeit('utils.asciidammitold(\'%s\')' % s, "import utils",number=iterations),4)
     print 'New: %f' % round(timeit('utils.asciidammit(\'%s\')' % s, "import utils",number=iterations),4)
+
+print
+
+for s in mixed_strings+cirque_strings+choices:
+    print 'Test for string: "%s"' % s
+    print 'Old: %f' % round(timeit('utils.full_processold(\'%s\')' % s, "import utils",number=iterations),4)
+    print 'New: %f' % round(timeit('utils.full_process(\'%s\')' % s, "import utils",number=iterations),4)
