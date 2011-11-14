@@ -8,8 +8,16 @@ for i in range(128, 256):
 table_spaces = ' '*len(table_pattern)
 punctuation_table = string.maketrans(table_pattern, table_spaces)
 
+bad_chars=''
+for i in range(128,256):
+    bad_chars+=chr(i)
+
+def asciionly(s):
+    return s.translate(None, bad_chars)
+
 # encode as string, decode as unicode bytes
-def asciidammit(x):
+'''
+def asciidammitold(x):
     if type(x) is str:
         try:
             return x.decode('ascii')
@@ -17,14 +25,21 @@ def asciidammit(x):
             return x.decode('ascii', 'ignore')
     elif type(x) is unicode:
         try:
-            s = x.encode('ascii')
-            return s.decode('ascii')
+            return x.encode('ascii').decode('ascii')
         except:
-            s = x.encode('ascii', 'ignore')
-            return s.decode('ascii')
+            return x.encode('ascii', 'ignore').decode('ascii')
     else:
-        x = unicode(x)
-        return asciidammit(x)
+        return asciidammit(unicode(x))
+'''
+
+# remove non-ASCII characters from strings
+def asciidammit(s):
+    if type(s) is str:
+        return asciionly(s)
+    elif type(s) is unicode:
+        return asciionly(s.encode('ascii', 'ignore'))
+    else:
+        return asciidammit(unicode(s))
 
 def remove_punctuation(s):
     return string.translate(s, punctuation_table)

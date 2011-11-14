@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 from timeit import timeit
 import utils
 
@@ -22,6 +24,14 @@ choices = [
     None
 ]
 
+mixed_strings = [
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    "C\\'est la vie",
+    "Ça va?",
+    "Cães danados",
+    u"\xacCamarões assados",
+    u"a\xac\u1234\u20ac\U00008000"
+    ]
 
 for s in cirque_strings:
     print 'Test for string: "%s"' % s
@@ -32,5 +42,12 @@ print
 
 for s in choices:
     print 'Test for string: "%s"' % s
-    # print 'Old: %f' % round(timeit('utils.validate_stringold(\'%s\')' % s, "import utils",number=iterations*10),4)
-    print 'New: %f' % round(timeit('utils.validate_string(\'%s\')' % s, "import utils",number=iterations*10),4)
+    # print 'Old: %f' % round(timeit('utils.validate_stringold(\'%s\')' % s, "import utils",number=iterations),4)
+    print 'New: %f' % round(timeit('utils.validate_string(\'%s\')' % s, "import utils",number=iterations),4)
+
+print
+
+for s in mixed_strings:
+    print 'Test for string: "%s"' % s
+    #print 'Old: %f' % round(timeit('utils.asciidammitold(\'%s\')' % s, "import utils",number=iterations),4)
+    print 'New: %f' % round(timeit('utils.asciidammit(\'%s\')' % s, "import utils",number=iterations),4)

@@ -1,9 +1,38 @@
+# -*- coding: utf8 -*-
+
 from fuzz import *
 import process
 import utils
 
 import itertools
 import unittest
+
+class UtilsTest(unittest.TestCase):
+    def setUp(self):
+        self.s1 = "new york mets"
+        self.s1a = "new york mets"
+        self.s2 = "new YORK mets"
+        self.s3 = "the wonderful new york mets"
+        self.s4 = "new york mets vs atlanta braves"
+        self.s5 = "atlanta braves vs new york mets"
+        self.s6 = "new york mets - atlanta braves"
+        self.mixed_strings = [
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "C'est la vie",
+            "Ça va?",
+            "Cães danados",
+            u"\xacCamarões assados",
+            u"a\xac\u1234\u20ac\U00008000"
+            ]
+        
+
+    def tearDown(self):
+        pass
+
+    def test_asciidammit(self):
+        for s in self.mixed_strings:
+            print '###'
+            utils.asciidammit(s)
 
 class RatioTest(unittest.TestCase):
 
