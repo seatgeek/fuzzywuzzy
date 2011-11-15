@@ -1,42 +1,15 @@
 import string
 
-table_pattern = ',.-:'
-# Add chars whit ordinals over 127 to the table
-for i in range(128, 256):
-    table_pattern+=chr(i)
-# translation table must have the same length
-table_spaces = ' '*len(table_pattern)
-punctuation_table = string.maketrans(table_pattern, table_spaces)
-
 bad_chars=''
 for i in range(128,256):
     bad_chars+=chr(i)
-
-pro_badchars=bad_chars
-pro_table_from=string.punctuation+string.ascii_uppercase
-pro_table_to=' '*len(string.punctuation)+string.ascii_lowercase
-pro_table=string.maketrans(pro_table_from, pro_table_to)
+table_from=string.punctuation+string.ascii_uppercase
+table_to=' '*len(string.punctuation)+string.ascii_lowercase
+trans_table=string.maketrans(table_from, table_to)
 
 
 def asciionly(s):
     return s.translate(None, bad_chars)
-
-# encode as string, decode as unicode bytes
-'''
-def asciidammitold(x):
-    if type(x) is str:
-        try:
-            return x.decode('ascii')
-        except:
-            return x.decode('ascii', 'ignore')
-    elif type(x) is unicode:
-        try:
-            return x.encode('ascii').decode('ascii')
-        except:
-            return x.encode('ascii', 'ignore').decode('ascii')
-    else:
-        return asciidammit(unicode(x))
-'''
 
 # remove non-ASCII characters from strings
 def asciidammit(s):
@@ -47,9 +20,6 @@ def asciidammit(s):
     else:
         return asciidammit(unicode(s))
 
-def remove_punctuation(s):
-    return string.translate(s, punctuation_table)
-
 def validate_string(s):
     try:
         if len(s)>0:
@@ -59,15 +29,8 @@ def validate_string(s):
     except:
         return False
 
-def full_processold(s):
-    s = s.lower()
-    s = s.strip()
-    s = remove_punctuation(s)
-    x = asciidammit(s)
-    return x
-
 def full_process(s):
-    return s.translate(pro_table, bad_chars).strip()
+    return s.translate(trans_table, bad_chars).strip()
 
 
 
