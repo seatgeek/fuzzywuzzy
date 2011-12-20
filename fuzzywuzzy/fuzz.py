@@ -67,8 +67,7 @@ def partial_ratio(s1,  s2):
     #   best score === ratio("abcd", "Xbcd")
     scores = []
     for block in blocks:
-
-        long_start   = block[1] - block[0]
+        long_start   = block[1] - block[0] if (block[1] - block[0]) > 0 else 0
         long_end     = long_start + len(shorter)
         long_substr  = longer[long_start:long_end]
 

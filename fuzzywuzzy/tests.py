@@ -24,7 +24,7 @@ class UtilsTest(unittest.TestCase):
             u"\xacCamarões assados",
             u"a\xac\u1234\u20ac\U00008000"
             ]
-        
+
 
     def tearDown(self):
         pass
@@ -108,6 +108,16 @@ class RatioTest(unittest.TestCase):
     def testWRatioMisorderedMatch(self):
         # misordered full matches are scaled by .95
         self.assertEqual(WRatio(self.s4, self.s5), 95)
+
+    def testIssueSeven(self):
+        s1 = "HSINCHUANG"
+        s2 = "SINJHUAN"
+        s3 = "LSINJHUANG DISTRIC"
+        s4 = "SINJHUANG DISTRICT"
+
+        self.assertGreater(partial_ratio(s1, s2), 75)
+        self.assertGreater(partial_ratio(s1, s3), 75)
+        self.assertGreater(partial_ratio(s1, s4), 75)
 
     # test processing methods
     def testGetBestChoice1(self):
