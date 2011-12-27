@@ -183,11 +183,10 @@ def QRatio(s1,  s2):
 
 # w is for weighted
 def WRatio(s1,  s2):
-    if not utils.validate_string(s1): return 0
-    if not utils.validate_string(s2): return 0
-
     p1 = utils.full_process(s1)
     p2 = utils.full_process(s2)
+    if not utils.validate_string(p1): return 0
+    if not utils.validate_string(p2): return 0
 
     # should we look at partials?
     try_partial     = True

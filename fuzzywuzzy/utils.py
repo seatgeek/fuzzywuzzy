@@ -30,6 +30,7 @@ def validate_string(s):
         return False
 
 def full_process(s):
+    s = asciidammit(s)
     return s.translate(trans_table, bad_chars).strip()
 
 

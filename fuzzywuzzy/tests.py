@@ -22,8 +22,9 @@ class UtilsTest(unittest.TestCase):
             "Ça va?",
             "Cães danados",
             u"\xacCamarões assados",
-            u"a\xac\u1234\u20ac\U00008000"
-            ]
+            u"a\xac\u1234\u20ac\U00008000",
+            u"\u00C1"
+        ]
 
 
     def tearDown(self):
@@ -32,6 +33,16 @@ class UtilsTest(unittest.TestCase):
     def test_asciidammit(self):
         for s in self.mixed_strings:
             utils.asciidammit(s)
+
+    def test_asciionly(self):
+        for s in self.mixed_strings:
+            # ascii only only runs on strings
+            s = utils.asciidammit(s)
+            utils.asciionly(s)
+
+    def test_fullProcess(self):
+        for s in self.mixed_strings:
+            utils.full_process(s)
 
 class RatioTest(unittest.TestCase):
 
@@ -109,6 +120,12 @@ class RatioTest(unittest.TestCase):
         # misordered full matches are scaled by .95
         self.assertEqual(WRatio(self.s4, self.s5), 95)
 
+    def testWRatioUnicode(self):
+        self.assertEqual(WRatio(unicode(self.s1), unicode(self.s1a)), 100)
+
+    def testQRatioUnicode(self):
+        self.assertEqual(WRatio(unicode(self.s1), unicode(self.s1a)), 100)
+
     def testIssueSeven(self):
         s1 = "HSINCHUANG"
         s2 = "SINJHUAN"
@@ -118,6 +135,18 @@ class RatioTest(unittest.TestCase):
         self.assertGreater(partial_ratio(s1, s2), 75)
         self.assertGreater(partial_ratio(s1, s3), 75)
         self.assertGreater(partial_ratio(s1, s4), 75)
+
+    def testWRatioUnicodeString(self):
+        s1 = u"\u00C1"
+        s2 = "ABCD"
+        score = WRatio(s1, s2)
+        self.assertEqual(0, score)
+
+    def testQRatioUnicodeString(self):
+        s1 = u"\u00C1"
+        s2 = "ABCD"
+        score = QRatio(s1, s2)
+        self.assertEqual(0, score)
 
     # test processing methods
     def testGetBestChoice1(self):
