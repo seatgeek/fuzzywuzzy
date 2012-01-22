@@ -4,7 +4,7 @@ Fuzzy string matching like a boss.
 
 h2. Requirements
 
-* Python 2.4 or higher
+* Python 2.6 or higher, Python 3.1 or higher
 * difflib
 
 h2. Installation

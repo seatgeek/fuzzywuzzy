@@ -1,11 +1,13 @@
 # -*- coding: utf8 -*-
 
-from fuzz import *
-import process
-import utils
+from __future__ import absolute_import, unicode_literals
+from .fuzz import *
+from . import process
+from . import utils
 
 import itertools
 import unittest
+import sys
 
 class UtilsTest(unittest.TestCase):
     def setUp(self):
@@ -21,9 +23,9 @@ class UtilsTest(unittest.TestCase):
             "C'est la vie",
             "Ça va?",
             "Cães danados",
-            u"\xacCamarões assados",
-            u"a\xac\u1234\u20ac\U00008000",
-            u"\u00C1"
+            "\xacCamarões assados",
+            "a\xac\u1234\u20ac\U00008000",
+            "\u00C1"
         ]
 
 
@@ -120,11 +122,12 @@ class RatioTest(unittest.TestCase):
         # misordered full matches are scaled by .95
         self.assertEqual(WRatio(self.s4, self.s5), 95)
 
-    def testWRatioUnicode(self):
-        self.assertEqual(WRatio(unicode(self.s1), unicode(self.s1a)), 100)
+    if sys.version < '3':
+        def testWRatioUnicode(self):
+            self.assertEqual(WRatio(unicode(self.s1), unicode(self.s1a)), 100)
 
-    def testQRatioUnicode(self):
-        self.assertEqual(WRatio(unicode(self.s1), unicode(self.s1a)), 100)
+        def testQRatioUnicode(self):
+            self.assertEqual(WRatio(unicode(self.s1), unicode(self.s1a)), 100)
 
     def testIssueSeven(self):
         s1 = "HSINCHUANG"
@@ -137,13 +140,13 @@ class RatioTest(unittest.TestCase):
         self.assertGreater(partial_ratio(s1, s4), 75)
 
     def testWRatioUnicodeString(self):
-        s1 = u"\u00C1"
+        s1 = "\u00C1"
         s2 = "ABCD"
         score = WRatio(s1, s2)
         self.assertEqual(0, score)
 
     def testQRatioUnicodeString(self):
-        s1 = u"\u00C1"
+        s1 = "\u00C1"
         s2 = "ABCD"
         score = QRatio(s1, s2)
         self.assertEqual(0, score)

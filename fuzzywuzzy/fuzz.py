@@ -25,11 +25,13 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+from __future__ import absolute_import, unicode_literals
 import sys
 import os
 import re
 from difflib import SequenceMatcher
-import utils
+from . import utils
+
 
 REG_TOKEN = re.compile("[\w\d]+")
 
@@ -96,8 +98,8 @@ def _token_sort(s1,  s2, partial=True):
     tokens2 = REG_TOKEN.findall(s2)
 
     # sort tokens and join
-    sorted1 = u" ".join(sorted(tokens1))
-    sorted2 = u" ".join(sorted(tokens2))
+    sorted1 = " ".join(sorted(tokens1))
+    sorted2 = " ".join(sorted(tokens2))
 
     sorted1 = sorted1.strip()
     sorted2 = sorted2.strip()
@@ -132,9 +134,9 @@ def _token_set(s1,  s2, partial=True):
     diff1to2 = tokens1.difference(tokens2)
     diff2to1 = tokens2.difference(tokens1)
 
-    sorted_sect = u" ".join(sorted(intersection))
-    sorted_1to2 = u" ".join(sorted(diff1to2))
-    sorted_2to1 = u" ".join(sorted(diff2to1))
+    sorted_sect = " ".join(sorted(intersection))
+    sorted_1to2 = " ".join(sorted(diff1to2))
+    sorted_2to1 = " ".join(sorted(diff2to1))
 
     combined_1to2 = sorted_sect + " " + sorted_1to2
     combined_2to1 = sorted_sect + " " + sorted_2to1
