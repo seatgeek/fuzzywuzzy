@@ -28,8 +28,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 import sys
 import os
 import re
-from difflib import SequenceMatcher
 import utils
+
+try:
+    import Levenshtein
+    from StringMatcher import StringMatcher as SequenceMatcher
+    print "** using levenshtein"
+except:
+    from difflib import SequenceMatcher
 
 REG_TOKEN = re.compile("[\w\d]+")
 
