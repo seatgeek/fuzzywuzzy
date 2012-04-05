@@ -33,7 +33,6 @@ import utils
 try:
     import Levenshtein
     from StringMatcher import StringMatcher as SequenceMatcher
-    print "** using levenshtein"
 except:
     from difflib import SequenceMatcher
 
