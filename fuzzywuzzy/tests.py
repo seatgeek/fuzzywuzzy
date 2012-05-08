@@ -6,7 +6,10 @@ from . import process
 from . import utils
 
 import itertools
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 import sys
 
 class UtilsTest(unittest.TestCase):
