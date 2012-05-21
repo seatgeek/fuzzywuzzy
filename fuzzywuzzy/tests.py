@@ -132,9 +132,9 @@ class RatioTest(unittest.TestCase):
         s3 = "LSINJHUANG DISTRIC"
         s4 = "SINJHUANG DISTRICT"
 
-        self.assertGreater(partial_ratio(s1, s2), 75)
-        self.assertGreater(partial_ratio(s1, s3), 75)
-        self.assertGreater(partial_ratio(s1, s4), 75)
+        self.assertTrue(partial_ratio(s1, s2) > 75)
+        self.assertTrue(partial_ratio(s1, s3) > 75)
+        self.assertTrue(partial_ratio(s1, s4) > 75)
 
     def testWRatioUnicodeString(self):
         s1 = u"\u00C1"
