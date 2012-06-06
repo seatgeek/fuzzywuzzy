@@ -33,6 +33,8 @@ def full_process(s):
     s = asciidammit(s)
     return s.translate(trans_table, bad_chars).strip()
 
-
+def intr(n):
+    '''Returns a correctly rounded integer'''
+    return int(round(n))
 
 
