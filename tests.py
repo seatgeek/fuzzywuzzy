@@ -1,8 +1,8 @@
 # -*- coding: utf8 -*-
 
-from fuzz import *
-import process
-import utils
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
+from fuzzywuzzy import utils
 
 import itertools
 import unittest
@@ -75,56 +75,56 @@ class RatioTest(unittest.TestCase):
         pass
 
     def testEqual(self):
-        self.assertEqual(ratio(self.s1, self.s1a),100)
+        self.assertEqual(fuzz.ratio(self.s1, self.s1a),100)
 
     def testCaseInsensitive(self):
-        self.assertNotEqual(ratio(self.s1, self.s2),100)
-        self.assertEqual(ratio(utils.full_process(self.s1), utils.full_process(self.s2)),100)
+        self.assertNotEqual(fuzz.ratio(self.s1, self.s2),100)
+        self.assertEqual(fuzz.ratio(utils.full_process(self.s1), utils.full_process(self.s2)),100)
 
     def testPartialRatio(self):
-        self.assertEqual(partial_ratio(self.s1, self.s3),100)
+        self.assertEqual(fuzz.partial_ratio(self.s1, self.s3),100)
 
     def testTokenSortRatio(self):
-        self.assertEqual(token_sort_ratio(self.s1, self.s1a),100)
+        self.assertEqual(fuzz.token_sort_ratio(self.s1, self.s1a),100)
 
     def testPartialTokenSortRatio(self):
-        self.assertEqual(partial_token_sort_ratio(self.s1, self.s1a),100)
-        self.assertEqual(partial_token_sort_ratio(self.s4, self.s5),100)
+        self.assertEqual(fuzz.partial_token_sort_ratio(self.s1, self.s1a),100)
+        self.assertEqual(fuzz.partial_token_sort_ratio(self.s4, self.s5),100)
 
     def testTokenSetRatio(self):
-        self.assertEqual(token_set_ratio(self.s4, self.s5),100)
+        self.assertEqual(fuzz.token_set_ratio(self.s4, self.s5),100)
 
     def testPartialTokenSetRatio(self):
-        self.assertEqual(partial_token_set_ratio(self.s4, self.s5),100)
+        self.assertEqual(fuzz.token_set_ratio(self.s4, self.s5),100)
 
     def testQuickRatioEqual(self):
-        self.assertEqual(QRatio(self.s1, self.s1a), 100)
+        self.assertEqual(fuzz.QRatio(self.s1, self.s1a), 100)
 
     def testQuickRatioCaseInsensitive(self):
-        self.assertEqual(QRatio(self.s1, self.s2), 100)
+        self.assertEqual(fuzz.QRatio(self.s1, self.s2), 100)
 
     def testQuickRatioNotEqual(self):
-        self.assertNotEqual(QRatio(self.s1, self.s3), 100)
+        self.assertNotEqual(fuzz.QRatio(self.s1, self.s3), 100)
 
     def testWRatioEqual(self):
-        self.assertEqual(WRatio(self.s1, self.s1a), 100)
+        self.assertEqual(fuzz.WRatio(self.s1, self.s1a), 100)
 
     def testWRatioCaseInsensitive(self):
-        self.assertEqual(WRatio(self.s1, self.s2), 100)
+        self.assertEqual(fuzz.WRatio(self.s1, self.s2), 100)
 
     def testWRatioPartialMatch(self):
         # a partial match is scaled by .9
-        self.assertEqual(WRatio(self.s1, self.s3), 90)
+        self.assertEqual(fuzz.WRatio(self.s1, self.s3), 90)
 
     def testWRatioMisorderedMatch(self):
         # misordered full matches are scaled by .95
-        self.assertEqual(WRatio(self.s4, self.s5), 95)
+        self.assertEqual(fuzz.WRatio(self.s4, self.s5), 95)
 
     def testWRatioUnicode(self):
-        self.assertEqual(WRatio(unicode(self.s1), unicode(self.s1a)), 100)
+        self.assertEqual(fuzz.WRatio(unicode(self.s1), unicode(self.s1a)), 100)
 
     def testQRatioUnicode(self):
-        self.assertEqual(WRatio(unicode(self.s1), unicode(self.s1a)), 100)
+        self.assertEqual(fuzz.WRatio(unicode(self.s1), unicode(self.s1a)), 100)
 
     def testIssueSeven(self):
         s1 = "HSINCHUANG"
@@ -132,20 +132,20 @@ class RatioTest(unittest.TestCase):
         s3 = "LSINJHUANG DISTRIC"
         s4 = "SINJHUANG DISTRICT"
 
-        self.assertTrue(partial_ratio(s1, s2) > 75)
-        self.assertTrue(partial_ratio(s1, s3) > 75)
-        self.assertTrue(partial_ratio(s1, s4) > 75)
+        self.assertTrue(fuzz.partial_ratio(s1, s2) > 75)
+        self.assertTrue(fuzz.partial_ratio(s1, s3) > 75)
+        self.assertTrue(fuzz.partial_ratio(s1, s4) > 75)
 
     def testWRatioUnicodeString(self):
         s1 = u"\u00C1"
         s2 = "ABCD"
-        score = WRatio(s1, s2)
+        score = fuzz.WRatio(s1, s2)
         self.assertEqual(0, score)
 
     def testQRatioUnicodeString(self):
         s1 = u"\u00C1"
         s2 = "ABCD"
-        score = QRatio(s1, s2)
+        score = fuzz.QRatio(s1, s2)
         self.assertEqual(0, score)
 
     # test processing methods
@@ -218,7 +218,7 @@ class ProcessTest(unittest.TestCase):
 
         # in this hypothetical example we care about ordering, so we use quick ratio
         query = "new york mets at chicago cubs"
-        scorer = QRatio
+        scorer = fuzz.QRatio
 
         # first, as an example, the normal way would select the "more 'complete' match of choices[1]"
 
