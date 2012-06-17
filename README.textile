@@ -1,4 +1,4 @@
-!https://​pullstat.us/seatgeek/fuzzywuzzy/pull/5(Pull Request #5)!:https://github.com/seatgeek/fuzzywuzzy/pull/5
+!https://​pullstat.us/seatgeek/fuzzywuzzy/pull/5(Pull Request #5)!:https://github.com/seatgeek/fuzzywuzzy/pull/5 - Speed improvements
 
 h1. FuzzyWuzzy
 
