@@ -12,6 +12,7 @@ h2. Requirements
 h2. Requirements for running tests
 
 * unittest2 to run the tests for Python 2.6
+* unittest2py3k to run the tests for Python 3.1
 * tox to run the tests using tox.ini
 
 h2. Installation
