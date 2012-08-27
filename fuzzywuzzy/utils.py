@@ -55,6 +55,8 @@ def validate_string(s):
         return False
 
 
-
+def intr(n):
+    '''Returns a correctly rounded integer'''
+    return int(round(n))
 
 

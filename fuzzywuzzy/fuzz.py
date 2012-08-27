@@ -29,9 +29,15 @@ from __future__ import absolute_import, unicode_literals
 import sys
 import os
 import re
-from difflib import SequenceMatcher
-from . import utils
+from .utils import *
 
+if sys.version < '3':
+    try:
+        from StringMatcher import StringMatcher as SequenceMatcher
+    except:
+        from difflib import SequenceMatcher
+else:
+    from difflib import SequenceMatcher
 
 REG_TOKEN = re.compile("[\w\d]+")
 
@@ -175,20 +181,20 @@ def partial_token_set_ratio(s1,  s2):
 
 # q is for quick
 def QRatio(s1,  s2):
-    if not utils.validate_string(s1): return 0
-    if not utils.validate_string(s2): return 0
+    if not validate_string(s1): return 0
+    if not validate_string(s2): return 0
 
-    p1 = utils.full_process(s1)
-    p2 = utils.full_process(s2)
+    p1 = full_process(s1)
+    p2 = full_process(s2)
 
     return ratio(p1, p2)
 
 # w is for weighted
 def WRatio(s1,  s2):
-    p1 = utils.full_process(s1)
-    p2 = utils.full_process(s2)
-    if not utils.validate_string(p1): return 0
-    if not utils.validate_string(p2): return 0
+    p1 = full_process(s1)
+    p2 = full_process(s2)
+    if not validate_string(p1): return 0
+    if not validate_string(p2): return 0
 
     # should we look at partials?
     try_partial     = True
