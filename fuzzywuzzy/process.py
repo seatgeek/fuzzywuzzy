@@ -62,7 +62,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
         tuple = (choice, score)
         sl.append(tuple)
 
-    sl.sort(key=lambda i: -1*i[1])
+    sl.sort(key=lambda i: i[1], reverse=True)
     return sl[:limit]
 
 ##########################
