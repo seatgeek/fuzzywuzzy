@@ -27,8 +27,8 @@ choices = [
 mixed_strings = [
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     "C\\'est la vie",
-    "Ça va?",
-    "Cães danados",
+    u"Ça va?",
+    u"Cães danados",
     u"\xacCamarões assados",
     u"a\xac\u1234\u20ac\U00008000"
     ]
@@ -44,21 +44,21 @@ print
 for s in mixed_strings+cirque_strings+choices:
     print 'Test for string: "%s"' % s
     #print 'Old: %f' % round(timeit('utils.full_processold(\'%s\')' % s, "from fuzzywuzzy import utils",number=iterations),4)
-    print 'New: %f' % round(timeit('utils.full_process(\'%s\')' % s, "from fuzzywuzzy import utils",number=iterations),4)
+    print 'New: %f' % round(timeit('utils.full_process(u\'%s\')' % s, "from fuzzywuzzy import utils",number=iterations),4)
 
 ### benchmarking the core matching methods...
 
 for s in cirque_strings:
     print 'Test fuzz.ratio for string: "%s"' % s
     print '-------------------------------'
-    print 'New: %f' % round(timeit('fuzz.ratio(\'cirque du soleil\', \'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100),4)
+    print 'New: %f' % round(timeit('fuzz.ratio(\'cirque du soleil\', u\'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100),4)
 
 for s in cirque_strings:
     print 'Test fuzz.partial_ratio for string: "%s"' % s
     print '-------------------------------'
-    print 'New: %f' % round(timeit('fuzz.partial_ratio(\'cirque du soleil\', \'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100),4)
+    print 'New: %f' % round(timeit('fuzz.partial_ratio(\'cirque du soleil\', u\'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100),4)
 
 for s in cirque_strings:
     print 'Test fuzz.WRatio for string: "%s"' % s
     print '-------------------------------'
-    print 'New: %f' % round(timeit('fuzz.WRatio(\'cirque du soleil\', \'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100),4)
+    print 'New: %f' % round(timeit('fuzz.WRatio(\'cirque du soleil\', u\'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100),4)
