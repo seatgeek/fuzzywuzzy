@@ -2,6 +2,7 @@
 
 from timeit import timeit
 from fuzzywuzzy import utils
+import math
 
 iterations=100000
 
@@ -33,32 +34,38 @@ mixed_strings = [
     u"a\xac\u1234\u20ac\U00008000"
     ]
 
+def print_result_from_timeit(stmt='pass', setup='pass', number=1000000):
+    """
+    Clean function to know how much time took the execution of one statement
+    """
+    units     = ["s", "ms", "us", "ns"]
+    thousands = int(math.log(number, 1000))
+
+    print "Average took %f %s" % (round(timeit(stmt, setup, number=number),4) * (1000**thousands) / number, units[thousands])
 
 for s in choices:
-    print 'Test for string: "%s"' % s
-    # print 'Old: %f' % round(timeit('utils.validate_stringold(\'%s\')' % s, "from fuzzywuzzy import utils",number=iterations),4)
-    print 'New: %f' % round(timeit('utils.validate_string(\'%s\')' % s, "from fuzzywuzzy import utils",number=iterations),4)
+    print 'Test validate_string for: "%s"' % s
+    print_result_from_timeit('utils.validate_string(\'%s\')' % s, "from fuzzywuzzy import utils", number=iterations)
 
 print
 
 for s in mixed_strings+cirque_strings+choices:
-    print 'Test for string: "%s"' % s
-    #print 'Old: %f' % round(timeit('utils.full_processold(\'%s\')' % s, "from fuzzywuzzy import utils",number=iterations),4)
-    print 'New: %f' % round(timeit('utils.full_process(u\'%s\')' % s, "from fuzzywuzzy import utils",number=iterations),4)
+    print 'Test full_process for: "%s"' % s
+    print_result_from_timeit('utils.full_process(u\'%s\')' % s, "from fuzzywuzzy import utils",number=iterations)
 
 ### benchmarking the core matching methods...
 
 for s in cirque_strings:
     print 'Test fuzz.ratio for string: "%s"' % s
     print '-------------------------------'
-    print 'New: %f' % round(timeit('fuzz.ratio(\'cirque du soleil\', u\'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100),4)
+    print_result_from_timeit('fuzz.ratio(u\'cirque du soleil\', u\'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100)
 
 for s in cirque_strings:
     print 'Test fuzz.partial_ratio for string: "%s"' % s
     print '-------------------------------'
-    print 'New: %f' % round(timeit('fuzz.partial_ratio(\'cirque du soleil\', u\'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100),4)
+    print_result_from_timeit('fuzz.partial_ratio(u\'cirque du soleil\', u\'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100)
 
 for s in cirque_strings:
     print 'Test fuzz.WRatio for string: "%s"' % s
     print '-------------------------------'
-    print 'New: %f' % round(timeit('fuzz.WRatio(\'cirque du soleil\', u\'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100),4)
+    print_result_from_timeit('fuzz.WRatio(u\'cirque du soleil\', u\'%s\')' % s, "from fuzzywuzzy import fuzz",number=iterations/100)
