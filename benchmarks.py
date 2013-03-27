@@ -4,7 +4,7 @@ from timeit import timeit
 from fuzzywuzzy import utils
 import math
 
-iterations = 1000
+iterations = 100000
 
 cirque_strings = [
     "cirque du soleil - zarkana - las vegas",
