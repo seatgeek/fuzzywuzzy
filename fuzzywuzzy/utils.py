@@ -37,10 +37,12 @@ def validate_string(s):
 def full_process(s):
     if s is None:
         return u""
-    string_out = StringProcessor.keep_only_chars_from_categories(s, "LNZ")      # Keep only Letters Numbers and Zeparators.
-    string_out = StringProcessor.to_lower_case(string_out)                      # Force into lowercase.
-    string_out = StringProcessor.replace_separators_with_whitespace(string_out) # Convert zeparators into whitespaces.
-    string_out = StringProcessor.strip(string_out)                              # Remove leading and trailing whitespaces.
+    # Keep only Letters and Numbres (see Unicode docs).
+    string_out = StringProcessor.replace_non_lettters_non_numbers_with_whitespace(s)
+    # Force into lowercase.
+    string_out = StringProcessor.to_lower_case(string_out)
+    # Remove leading and trailing whitespaces.
+    string_out = StringProcessor.strip(string_out)
     return string_out
 
 def intr(n):

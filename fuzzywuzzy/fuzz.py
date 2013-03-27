@@ -124,11 +124,15 @@ def _token_set(s1,  s2, partial=True):
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
 
-    if not (validate_string(s1) and validate_string(s2)): return 0
+    p1 = full_process(s1)
+    p2 = full_process(s2)
+
+    if not validate_string(p1): return 0
+    if not validate_string(p2): return 0
 
     # pull tokens
-    tokens1 = set(full_process(s1).split())
-    tokens2 = set(full_process(s2).split())
+    tokens1 = set(full_process(p1).split())
+    tokens2 = set(full_process(p2).split())
 
     intersection = tokens1.intersection(tokens2)
     diff1to2 = tokens1.difference(tokens2)

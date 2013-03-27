@@ -35,7 +35,7 @@ mixed_strings = [
     ]
 
 common_setup = "from fuzzywuzzy import fuzz, utils; "
-basic_setup = "from fuzzywuzzy.string_processing import StringProcessor; StringProcessor.ensure_chars_from_categories_regex_exists('LNZ')"
+basic_setup = "from fuzzywuzzy.string_processing import StringProcessor;"
 
 def print_result_from_timeit(stmt='pass', setup='pass', number=1000000):
     """
