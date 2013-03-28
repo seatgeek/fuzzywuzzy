@@ -1,5 +1,6 @@
 from string_processing import StringProcessor
 
+# Old FuzzyWizzy code commented for archives, to be removed once changes has been notified
 # asciidammit prevents any proper unicode processing
 # and would return u"None" when fed with None.
 #
