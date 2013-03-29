@@ -128,7 +128,7 @@ class RatioTest(unittest.TestCase):
 
     def testWRatioUnicodeString(self):
         s1 = u"\u00C1"
-        s2 = "ABCD"
+        s2 = u"ABCD"
         score = fuzz.WRatio(s1, s2)
         self.assertEqual(0, score)
 
@@ -146,7 +146,7 @@ class RatioTest(unittest.TestCase):
 
     def testQRatioUnicodeString(self):
         s1 = u"\u00C1"
-        s2 = "ABCD"
+        s2 = u"ABCD"
         score = fuzz.QRatio(s1, s2)
         self.assertEqual(0, score)
 
