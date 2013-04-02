@@ -3,9 +3,20 @@
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 from fuzzywuzzy import utils
+from fuzzywuzzy.string_processing import StringProcessor
 
 import itertools
 import unittest
+import re
+
+class StringProcessingTest(unittest.TestCase):
+    def test_replace_non_lettters_non_numbers_with_whitespace(self):
+        strings = [u"new york mets - atlanta braves", u"Cães danados", u"New York //// Mets $$$", u"Ça va?"]
+        for string in strings:
+            proc_string = StringProcessor.replace_non_lettters_non_numbers_with_whitespace(string)
+            regex = re.compile(r"(?ui)[\W]+")
+            for expr in regex.finditer(proc_string):
+                self.assertEquals(expr.group(), " ")
 
 class UtilsTest(unittest.TestCase):
     def setUp(self):
