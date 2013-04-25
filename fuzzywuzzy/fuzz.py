@@ -51,7 +51,7 @@ def ratio(s1,  s2):
     if s2 is None: raise TypeError("s2 is None")
 
     m = SequenceMatcher(None, s1, s2)
-    return int(100 * m.ratio())
+    return intr(100 * m.ratio())
 
 # todo: skip duplicate indexes for a little more speed
 def partial_ratio(s1,  s2):
