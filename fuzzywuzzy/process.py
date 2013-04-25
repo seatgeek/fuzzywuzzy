@@ -24,10 +24,11 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-from fuzz import *
+from __future__ import absolute_import
+from .fuzz import *
 
 import sys, os
-import utils
+from . import utils
 
 #######################################
 # Find Best Matchs In List Of Choices #
