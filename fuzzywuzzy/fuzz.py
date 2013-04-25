@@ -132,6 +132,8 @@ def _token_set(s1,  s2, partial=True):
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
 
+    if not (validate_string(s1) and validate_string(s2)): return 0
+
     # pull tokens
     tokens1 = set(REG_TOKEN.findall(s1))
     tokens2 = set(REG_TOKEN.findall(s2))
