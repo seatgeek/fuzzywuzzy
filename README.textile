@@ -42,7 +42,7 @@ h2. Usage
 h3. SIMPLE RATIO
 
 <pre><code>> fuzz.ratio("this is a test", "this is a test!")
-  96
+  97
 </code></pre>
 
 h3. PARTIAL RATIO
@@ -54,7 +54,7 @@ h3. PARTIAL RATIO
 h3. TOKEN SORT RATIO
 
 <pre><code>> fuzz.ratio("fuzzy wuzzy was a bear", "wuzzy fuzzy was a bear")
-  90
+  91
 > fuzz.token_sort_ratio("fuzzy wuzzy was a bear", "wuzzy fuzzy was a bear")
   100
 </code></pre>
@@ -71,7 +71,7 @@ h3. PROCESS
 
 <pre><code>> choices = ["Atlanta Falcons", "New York Jets", "New York Giants", "Dallas Cowboys"]
 > process.extract("new york jets", choices, limit=2)
-  [('New York Jets', 100), ('New York Giants', 78)]
+  [('New York Jets', 100), ('New York Giants', 79)]
 > process.extractOne("cowboys", choices)
   ("Dallas Cowboys", 90)
 </code></pre>
