@@ -86,7 +86,7 @@ def partial_ratio(s1,  s2):
 #   find all alphanumeric tokens in the string
 #   sort those tokens and take ratio of resulting joined strings
 #   controls for unordered string elements
-def _token_sort(s1,  s2, partial=True, force_ascii=False):
+def _token_sort(s1,  s2, partial=True, force_ascii=True):
 
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
@@ -107,10 +107,10 @@ def _token_sort(s1,  s2, partial=True, force_ascii=False):
     else:
         return ratio(sorted1, sorted2)
 
-def token_sort_ratio(s1,  s2, force_ascii=False):
+def token_sort_ratio(s1,  s2, force_ascii=True):
     return _token_sort(s1, s2, partial=False, force_ascii=force_ascii)
 
-def partial_token_sort_ratio(s1,  s2, force_ascii=False):
+def partial_token_sort_ratio(s1,  s2, force_ascii=True):
     return _token_sort(s1, s2, partial=True, force_ascii=force_ascii)
 
 # Token Set
@@ -119,7 +119,7 @@ def partial_token_sort_ratio(s1,  s2, force_ascii=False):
 #       <sorted_intersection><sorted_remainder>
 #   take ratios of those two strings
 #   controls for unordered partial matches
-def _token_set(s1,  s2, partial=True, force_ascii=False):
+def _token_set(s1,  s2, partial=True, force_ascii=True):
 
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
@@ -157,10 +157,10 @@ def _token_set(s1,  s2, partial=True, force_ascii=False):
     ]
     return max(pairwise)
 
-def token_set_ratio(s1,  s2, force_ascii=False):
+def token_set_ratio(s1,  s2, force_ascii=True):
     return _token_set(s1, s2, partial=False, force_ascii=force_ascii)
 
-def partial_token_set_ratio(s1,  s2, force_ascii=False):
+def partial_token_set_ratio(s1,  s2, force_ascii=True):
     return _token_set(s1, s2, partial=True, force_ascii=force_ascii)
 
 # TODO: numerics
@@ -170,7 +170,7 @@ def partial_token_set_ratio(s1,  s2, force_ascii=False):
 ###################
 
 # q is for quick
-def QRatio(s1,  s2, force_ascii=False):
+def QRatio(s1,  s2, force_ascii=True):
 
     p1 = full_process(s1, force_ascii=force_ascii)
     p2 = full_process(s2, force_ascii=force_ascii)
@@ -181,7 +181,7 @@ def QRatio(s1,  s2, force_ascii=False):
     return ratio(p1, p2)
 
 # w is for weighted
-def WRatio(s1,  s2, force_ascii=False):
+def WRatio(s1,  s2, force_ascii=True):
 
     p1 = full_process(s1, force_ascii=force_ascii)
     p2 = full_process(s2, force_ascii=force_ascii)
@@ -204,14 +204,14 @@ def WRatio(s1,  s2, force_ascii=False):
     if len_ratio > 8: partial_scale = .6
 
     if try_partial:
-        partial      = partial_ratio(p1, p2)                 * partial_scale
-        ptsor        = partial_token_sort_ratio(p1, p2)      * unbase_scale * partial_scale
-        ptser        = partial_token_set_ratio(p1, p2)       * unbase_scale * partial_scale
+        partial      = partial_ratio(p1, p2) * partial_scale
+        ptsor        = partial_token_sort_ratio(p1, p2, force_ascii=force_ascii) * unbase_scale * partial_scale
+        ptser        = partial_token_set_ratio(p1, p2, force_ascii=force_ascii)  * unbase_scale * partial_scale
 
         return int(max(base, partial, ptsor, ptser))
     else:
-        tsor         = token_sort_ratio(p1, p2)              * unbase_scale
-        tser         = token_set_ratio(p1, p2)               * unbase_scale
+        tsor         = token_sort_ratio(p1, p2, force_ascii=force_ascii) * unbase_scale
+        tser         = token_set_ratio(p1, p2, force_ascii=force_ascii)  * unbase_scale
 
         return int(max(base, tsor, tser))
 

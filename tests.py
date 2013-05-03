@@ -159,13 +159,13 @@ class RatioTest(unittest.TestCase):
         # Cyrillic.
         s1 = u"\u043f\u0441\u0438\u0445\u043e\u043b\u043e\u0433"
         s2 = u"\u043f\u0441\u0438\u0445\u043e\u0442\u0435\u0440\u0430\u043f\u0435\u0432\u0442"
-        score = fuzz.WRatio(s1, s2)
+        score = fuzz.WRatio(s1, s2, force_ascii=False)
         self.assertNotEqual(0, score)
 
         # Chinese.
         s1 = u"\u6211\u4e86\u89e3\u6570\u5b66"
         s2 = u"\u6211\u5b66\u6570\u5b66"
-        score = fuzz.WRatio(s1, s2)
+        score = fuzz.WRatio(s1, s2, force_ascii=False)
         self.assertNotEqual(0, score)
 
     def testQRatioUnicodeString(self):
@@ -177,13 +177,13 @@ class RatioTest(unittest.TestCase):
         # Cyrillic.
         s1 = u"\u043f\u0441\u0438\u0445\u043e\u043b\u043e\u0433"
         s2 = u"\u043f\u0441\u0438\u0445\u043e\u0442\u0435\u0440\u0430\u043f\u0435\u0432\u0442"
-        score = fuzz.QRatio(s1, s2)
+        score = fuzz.QRatio(s1, s2, force_ascii=False)
         self.assertNotEqual(0, score)
 
         # Chinese.
         s1 = u"\u6211\u4e86\u89e3\u6570\u5b66"
         s2 = u"\u6211\u5b66\u6570\u5b66"
-        score = fuzz.QRatio(s1, s2)
+        score = fuzz.QRatio(s1, s2, force_ascii=False)
         self.assertNotEqual(0, score)
 
     def testQratioForceAscii(self):
