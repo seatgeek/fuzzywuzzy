@@ -14,9 +14,16 @@ class StringProcessingTest(unittest.TestCase):
         strings = [u"new york mets - atlanta braves", u"Cães danados", u"New York //// Mets $$$", u"Ça va?"]
         for string in strings:
             proc_string = StringProcessor.replace_non_lettters_non_numbers_with_whitespace(string)
-            regex = re.compile(r"(?ui)[\W]+")
+            regex = re.compile(r"(?ui)[\W]")
             for expr in regex.finditer(proc_string):
                 self.assertEquals(expr.group(), " ")
+
+    def test_dont_condense_whitespace(self):
+        s1 = "new york mets - atlanta braves"
+        s2 = "new york mets atlanta braves"
+        p1 = StringProcessor.replace_non_lettters_non_numbers_with_whitespace(s1)
+        p2 = StringProcessor.replace_non_lettters_non_numbers_with_whitespace(s2)
+        self.assertNotEqual(p1, p2)
 
 class UtilsTest(unittest.TestCase):
     def setUp(self):

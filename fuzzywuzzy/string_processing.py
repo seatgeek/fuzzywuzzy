@@ -14,7 +14,7 @@ class StringProcessor(object):
         """
         This function replaces any sequence of non letters and non numbers with a single white space.
         """
-        regex = re.compile(r"(?ui)[\W]+")
+        regex = re.compile(r"(?ui)\W")
         return regex.sub(u" ", a_string)
 
     @classmethod
