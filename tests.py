@@ -37,13 +37,26 @@ class UtilsTest(unittest.TestCase):
             u"\u00C1"
         ]
 
-
     def tearDown(self):
         pass
+
+    def test_asciidammit(self):
+        for s in self.mixed_strings:
+            utils.asciidammit(s)
+
+    def test_asciionly(self):
+        for s in self.mixed_strings:
+            # ascii only only runs on strings
+            s = utils.asciidammit(s)
+            utils.asciionly(s)
 
     def test_fullProcess(self):
         for s in self.mixed_strings:
             utils.full_process(s)
+
+    def test_fullProcessForceAscii(self):
+        for s in self.mixed_strings:
+            utils.full_process(s, force_ascii=True)
 
 class RatioTest(unittest.TestCase):
 
