@@ -26,7 +26,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 from fuzz import *
 
-import sys, os
 import itertools
 import utils
 
@@ -47,9 +46,9 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
     if choices is None or len(choices) == 0:
         return []
 
-    # default, turn whatever the choice is into a string
+    # default, turn whatever the choice is into a workable string
     if processor is None:
-        processor = lambda x: utils.asciidammit(x)
+        processor = lambda x: utils.full_process(x)
 
     # default: wratio
     if scorer is None:
@@ -82,7 +81,7 @@ def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, li
         return list(itertools.takewhile(lambda x: x[1] > score_cutoff, best_list))
     else:
         return []
-    
+
 ##########################
 # Find Single Best Match #
 ##########################
