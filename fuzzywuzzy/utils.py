@@ -24,6 +24,16 @@ def asciidammit(s):
     else:
         return asciidammit(unicode(s))
 
+def make_type_consistent(s1, s2):
+    if isinstance(s1, str) and isinstance(s2, str):
+        return s1, s2
+
+    elif isinstance(s1, unicode) and isinstance(s2, unicode):
+        return s1, s2
+
+    else:
+        return unicode(s1), unicode(s2)
+
 def full_process(s, force_ascii=False):
     """Process string by
         -- removing all but letters and numbers
