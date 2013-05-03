@@ -107,11 +107,11 @@ def _token_sort(s1,  s2, partial=True, force_ascii=False):
     else:
         return ratio(sorted1, sorted2)
 
-def token_sort_ratio(s1,  s2):
-    return _token_sort(s1, s2, False)
+def token_sort_ratio(s1,  s2, force_ascii=False):
+    return _token_sort(s1, s2, partial=False, force_ascii=force_ascii)
 
-def partial_token_sort_ratio(s1,  s2):
-    return _token_sort(s1, s2, True)
+def partial_token_sort_ratio(s1,  s2, force_ascii=False):
+    return _token_sort(s1, s2, partial=True, force_ascii=force_ascii)
 
 # Token Set
 #   find all alphanumeric tokens in each string...treat them as a set
@@ -157,11 +157,11 @@ def _token_set(s1,  s2, partial=True, force_ascii=False):
     ]
     return max(pairwise)
 
-def token_set_ratio(s1,  s2):
-    return _token_set(s1, s2, False)
+def token_set_ratio(s1,  s2, force_ascii=False):
+    return _token_set(s1, s2, partial=False, force_ascii=force_ascii)
 
-def partial_token_set_ratio(s1,  s2):
-    return _token_set(s1, s2, True)
+def partial_token_set_ratio(s1,  s2, force_ascii=False):
+    return _token_set(s1, s2, partial=True, force_ascii=force_ascii)
 
 # TODO: numerics
 
