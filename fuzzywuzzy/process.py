@@ -27,11 +27,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 from fuzz import *
 
 import sys, os
+import itertools
 import utils
 
-#######################################
-# Find Best Matchs In List Of Choices #
-#######################################
+########################################
+# Find Best Matches In List Of Choices #
+########################################
 
 def extract(query, choices, processor=None, scorer=None, limit=5):
 
@@ -65,6 +66,23 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
     sl.sort(key=lambda i: i[1], reverse=True)
     return sl[:limit]
 
+######################################################
+# Find Best Matches Above A Score In List Of Choices #
+######################################################
+
+def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, limit=5):
+
+    # convenience method which returns the choices with best scores
+    # optional parameter: score_cutoff.
+        # If the choice has a score of less than or equal to score_cutoff
+        # it will not be included on result list
+
+    best_list = extract(query, choices, processor, scorer, limit)
+    if len(best_list) > 0:
+        return list(itertools.takewhile(lambda x: x[1] > score_cutoff, best_list))
+    else:
+        return []
+    
 ##########################
 # Find Single Best Match #
 ##########################
@@ -73,7 +91,7 @@ def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
 
     # convenience method which returns the single best choice
     # optional parameter: score_cutoff.
-        # If the best choice has a score of less than score_cutoff
+        # If the best choice has a score of less than or equal to score_cutoff
         # we will return none (intuition: not a good enough match)
 
     best_list = extract(query, choices, processor, scorer, limit=1)
