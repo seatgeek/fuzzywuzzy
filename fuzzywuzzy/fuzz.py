@@ -86,14 +86,14 @@ def partial_ratio(s1,  s2):
 #   find all alphanumeric tokens in the string
 #   sort those tokens and take ratio of resulting joined strings
 #   controls for unordered string elements
-def _token_sort(s1,  s2, partial=True):
+def _token_sort(s1,  s2, partial=True, force_ascii=False):
 
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
 
     # pull tokens
-    tokens1 = full_process(s1).split()
-    tokens2 = full_process(s2).split()
+    tokens1 = full_process(s1, force_ascii=force_ascii).split()
+    tokens2 = full_process(s2, force_ascii=force_ascii).split()
 
     # sort tokens and join
     sorted1 = u" ".join(sorted(tokens1))
@@ -119,13 +119,13 @@ def partial_token_sort_ratio(s1,  s2):
 #       <sorted_intersection><sorted_remainder>
 #   take ratios of those two strings
 #   controls for unordered partial matches
-def _token_set(s1,  s2, partial=True):
+def _token_set(s1,  s2, partial=True, force_ascii=False):
 
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
 
-    p1 = full_process(s1)
-    p2 = full_process(s2)
+    p1 = full_process(s1, force_ascii=force_ascii)
+    p2 = full_process(s2, force_ascii=force_ascii)
 
     if not validate_string(p1): return 0
     if not validate_string(p2): return 0
@@ -157,14 +157,6 @@ def _token_set(s1,  s2, partial=True):
     ]
     return max(pairwise)
 
-    # if partial:
-    #     # partial_token_set_ratio
-    #
-    # else:
-    #     # token_set_ratio
-    #     tsr = ratio(combined_1to2, combined_2to1)
-    #     return tsr
-
 def token_set_ratio(s1,  s2):
     return _token_set(s1, s2, False)
 
@@ -178,10 +170,10 @@ def partial_token_set_ratio(s1,  s2):
 ###################
 
 # q is for quick
-def QRatio(s1,  s2):
+def QRatio(s1,  s2, force_ascii=False):
 
-    p1 = full_process(s1)
-    p2 = full_process(s2)
+    p1 = full_process(s1, force_ascii=force_ascii)
+    p2 = full_process(s2, force_ascii=force_ascii)
 
     if not validate_string(p1): return 0
     if not validate_string(p2): return 0
@@ -189,10 +181,10 @@ def QRatio(s1,  s2):
     return ratio(p1, p2)
 
 # w is for weighted
-def WRatio(s1,  s2):
+def WRatio(s1,  s2, force_ascii=False):
 
-    p1 = full_process(s1)
-    p2 = full_process(s2)
+    p1 = full_process(s1, force_ascii=force_ascii)
+    p2 = full_process(s2, force_ascii=force_ascii)
 
     if not validate_string(p1): return 0
     if not validate_string(p2): return 0

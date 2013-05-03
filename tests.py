@@ -186,6 +186,48 @@ class RatioTest(unittest.TestCase):
         score = fuzz.QRatio(s1, s2)
         self.assertNotEqual(0, score)
 
+    def testQratioForceAscii(self):
+        s1 = u"ABCD\u00C1"
+        s2 = u"ABCD"
+
+        score = fuzz.QRatio(s1, s2, force_ascii=True)
+        self.assertEqual(score, 100)
+
+        score = fuzz.QRatio(s1, s2, force_ascii=False)
+        self.assertLess(score, 100)
+
+    def testQRatioForceAscii(self):
+        s1 = u"ABCD\u00C1"
+        s2 = u"ABCD"
+
+        score = fuzz.WRatio(s1, s2, force_ascii=True)
+        self.assertEqual(score, 100)
+
+        score = fuzz.WRatio(s1, s2, force_ascii=False)
+        self.assertLess(score, 100)
+
+    def testTokenSetForceAscii(self):
+        s1 = u"ABCD\u00C1 HELP\u00C1"
+        s2 = u"ABCD HELP"
+
+        score = fuzz._token_set(s1, s2, force_ascii=True)
+        self.assertEqual(score, 100)
+
+        score = fuzz._token_set(s1, s2, force_ascii=False)
+        self.assertLess(score, 100)
+
+    def testTokenSortForceAscii(self):
+        s1 = u"ABCD\u00C1 HELP\u00C1"
+        s2 = u"ABCD HELP"
+
+        score = fuzz._token_sort(s1, s2, force_ascii=True)
+        self.assertEqual(score, 100)
+
+        score = fuzz._token_sort(s1, s2, force_ascii=False)
+        self.assertLess(score, 100)
+
+
+
     # test processing methods
     def testGetBestChoice1(self):
         query = "new york mets at atlanta braves"
