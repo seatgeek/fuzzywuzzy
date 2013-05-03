@@ -140,6 +140,10 @@ class RatioTest(unittest.TestCase):
     def testQRatioUnicode(self):
         self.assertEqual(fuzz.WRatio(unicode(self.s1), unicode(self.s1a)), 100)
 
+    def testEmptyStringsScore0(self):
+        self.assertEqual(fuzz.ratio("",""),0)
+        self.assertEqual(fuzz.partial_ratio("",""),0)
+
     def testIssueSeven(self):
         s1 = "HSINCHUANG"
         s2 = "SINJHUAN"
@@ -149,6 +153,18 @@ class RatioTest(unittest.TestCase):
         self.assertTrue(fuzz.partial_ratio(s1, s2) > 75)
         self.assertTrue(fuzz.partial_ratio(s1, s3) > 75)
         self.assertTrue(fuzz.partial_ratio(s1, s4) > 75)
+
+    def testRatioUnicodeString(self):
+        s1 = u"\u00C1"
+        s2 = "ABCD"
+        score = fuzz.ratio(s1, s2)
+        self.assertEqual(0, score)
+
+    def testPartialRatioUnicodeString(self):
+        s1 = u"\u00C1"
+        s2 = "ABCD"
+        score = fuzz.partial_ratio(s1, s2)
+        self.assertEqual(0, score)
 
     def testWRatioUnicodeString(self):
         s1 = u"\u00C1"

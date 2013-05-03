@@ -41,6 +41,9 @@ def ratio(s1,  s2):
 
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
+    s1, s2 = make_type_consistent(s1, s2)
+    if len(s1) == 0 or len(s2) == 0:
+        return 0
 
     m = SequenceMatcher(None, s1, s2)
     return intr(100 * m.ratio())
@@ -50,6 +53,9 @@ def partial_ratio(s1,  s2):
 
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
+    s1, s2 = make_type_consistent(s1, s2)
+    if len(s1) == 0 or len(s2) == 0:
+        return 0
 
     if len(s1) <= len(s2):
         shorter = s1; longer = s2;
