@@ -2,7 +2,7 @@ from string_processing import StringProcessor
 
 def validate_string(s):
     try:
-        if len(s)>0:
+        if len(s) > 0:
             return True
         else:
             return False
