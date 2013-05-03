@@ -186,6 +186,9 @@ def QRatio(s1,  s2, force_ascii=True):
 
     return ratio(p1, p2)
 
+def UQRatio(s1, s2):
+    return QRatio(s1, s2, force_ascii=False)
+
 # w is for weighted
 def WRatio(s1,  s2, force_ascii=True):
 
@@ -220,4 +223,7 @@ def WRatio(s1,  s2, force_ascii=True):
         tser         = token_set_ratio(p1, p2, force_ascii=force_ascii)  * unbase_scale
 
         return int(max(base, tsor, tser))
+
+def UWRatio(s1, s2):
+    return WRatio(s1, s2, force_ascii=False)
 
