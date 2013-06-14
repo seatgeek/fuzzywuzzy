@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-score.py
+fuzz.py
 
 Copyright (c) 2011 Adam Cohen
 
