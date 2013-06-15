@@ -37,7 +37,7 @@ except:
 ###########################
 
 def ratio(s1,  s2):
-
+    """Return a measure of the sequences' similarity between 0 and 100."""
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
     s1, s2 = make_type_consistent(s1, s2)
@@ -49,6 +49,7 @@ def ratio(s1,  s2):
 
 # todo: skip duplicate indexes for a little more speed
 def partial_ratio(s1,  s2):
+    """"Return the ratio of the most similar substring as a number between 0 and 100."""
 
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
@@ -113,9 +114,16 @@ def _token_sort(s1,  s2, partial=True, force_ascii=True):
         return ratio(sorted1, sorted2)
 
 def token_sort_ratio(s1,  s2, force_ascii=True):
+    """Return a measure of the sequences' similarity between 0 and 100
+    but sorting the token before comparing.
+    """
     return _token_sort(s1, s2, partial=False, force_ascii=force_ascii)
 
 def partial_token_sort_ratio(s1,  s2, force_ascii=True):
+    """Return the ratio of the most similar substring as a number between
+    0 and 100 but sorting the token before comparing.
+    """
+
     return _token_sort(s1, s2, partial=True, force_ascii=force_ascii)
 
 # Token Set
