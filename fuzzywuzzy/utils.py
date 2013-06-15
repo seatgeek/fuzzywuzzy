@@ -15,12 +15,12 @@ def asciionly(s):
     return s.translate(None, bad_chars)
 
 def asciidammit(s):
+    if type(s) not in (str, unicode):
+        s = unicode(s)
     if type(s) is str:
         return asciionly(s)
     elif type(s) is unicode:
         return asciionly(s.encode('ascii', 'ignore'))
-    else:
-        return asciidammit(unicode(s))
 
 def make_type_consistent(s1, s2):
     """If both objects aren't either both string or unicode instances force them to unicode"""
