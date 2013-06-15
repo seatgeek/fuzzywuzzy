@@ -60,9 +60,9 @@ def extractBests(query, choices, processor=utils.full_process, scorer=WRatio, sc
         If the choice has a score of less than or equal to score_cutoff it will not be included on result list
 
     """
-
     best_list = extract(query, choices, processor, scorer, limit)
     return list(itertools.takewhile(lambda x: x[1] > score_cutoff, best_list))
+
 
 def extractOne(query, choices, processor=utils.full_process, scorer=WRatio, score_cutoff=0):
     """Find the best match above a score in a list of choices, return a tuple containing the match and it's score
@@ -73,7 +73,6 @@ def extractOne(query, choices, processor=utils.full_process, scorer=WRatio, scor
         If the best choice has a score of less than or equal to score_cutoff we will return none (intuition: not a good enough match)
 
     """
-
     best_list = extract(query, choices, processor, scorer, limit=1)
     if len(best_list) > 0 and best_list[0][1] > score_cutoff:
         return best_list[0]
