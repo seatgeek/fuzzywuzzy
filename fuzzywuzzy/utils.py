@@ -9,9 +9,7 @@ def validate_string(s):
     except:
         return False
 
-bad_chars=''
-for i in range(128,256):
-    bad_chars+=chr(i)
+bad_chars = "".join([chr(i) for i in range(128, 256)])
 
 def asciionly(s):
     return s.translate(None, bad_chars)
