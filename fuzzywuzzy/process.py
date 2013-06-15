@@ -69,10 +69,7 @@ def extractBests(query, choices, processor=utils.full_process, scorer=WRatio, sc
     """
 
     best_list = extract(query, choices, processor, scorer, limit)
-    if len(best_list) > 0:
-        return list(itertools.takewhile(lambda x: x[1] > score_cutoff, best_list))
-    else:
-        return []
+    return list(itertools.takewhile(lambda x: x[1] > score_cutoff, best_list))
 
 def extractOne(query, choices, processor=utils.full_process, scorer=WRatio, score_cutoff=0):
     """Find the best match above a score in a list of choices, return a tuple containing the match and it's score
