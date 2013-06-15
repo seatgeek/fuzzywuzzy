@@ -1,6 +1,5 @@
 import re
 import string
-import unicodedata
 
 class StringProcessor(object):
     """
