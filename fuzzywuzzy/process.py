@@ -47,14 +47,7 @@ def extract(query, choices, processor=utils.full_process, scorer=WRatio, limit=5
     if choices is None or len(choices) == 0:
         return []
 
-    sl = list()
-
-    for choice in choices:
-        processed = processor(choice)
-        score = scorer(query, processed)
-        tuple = (choice, score)
-        sl.append(tuple)
-
+    sl = [(choice, scorer(query, processor(choice))) for choice in choices]
     sl.sort(key=lambda i: i[1], reverse=True)
     return sl[:limit]
 
