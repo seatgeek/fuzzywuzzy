@@ -29,7 +29,8 @@ from fuzz import *
 import itertools
 import utils
 
-def extract(query, choices, processor=None, scorer=None, limit=5):
+
+def extract(query, choices, processor=utils.full_process, scorer=WRatio, limit=5):
     """Find best matches in a list of choices, return a list of tuples containing the match and it's score.
 
     Arguments:
@@ -40,19 +41,11 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
         processor   -- f(OBJ_A) --> OBJ_B, where the output is an input to scorer
                         for example, "processor = lambda x: x[0]" would return the first element
                         in a collection x (of, say, strings) this would then be used in the scoring collection
-                        by default, we use utils.full_process()
+                        by default, we use utils.full_process() to turn whatever the choice is into a workable string
 
     """
     if choices is None or len(choices) == 0:
         return []
-
-    # default, turn whatever the choice is into a workable string
-    if processor is None:
-        processor = utils.full_process
-
-    # default: wratio
-    if scorer is None:
-        scorer = WRatio
 
     sl = list()
 
@@ -66,7 +59,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
     return sl[:limit]
 
 
-def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, limit=5):
+def extractBests(query, choices, processor=utils.full_process, scorer=WRatio, score_cutoff=0, limit=5):
     """Find best matches above a score in a list of choices, return a list of tuples containing the match and it's score.
 
     Convenience method which returns the choices with best scores, see extract() for full arguments list
@@ -81,7 +74,7 @@ def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, li
     else:
         return []
 
-def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
+def extractOne(query, choices, processor=utils.full_process, scorer=WRatio, score_cutoff=0):
     """Find the best match above a score in a list of choices, return a tuple containing the match and it's score
         if it's above the treshold or None.
 
