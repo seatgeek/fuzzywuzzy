@@ -25,6 +25,7 @@ def asciidammit(s):
         return asciidammit(unicode(s))
 
 def make_type_consistent(s1, s2):
+    """If both objects aren't either both string or unicode instances force them to unicode"""
     if isinstance(s1, str) and isinstance(s2, str):
         return s1, s2
 
