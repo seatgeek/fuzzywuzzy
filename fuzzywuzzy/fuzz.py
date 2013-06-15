@@ -40,7 +40,6 @@ from . import utils
 # Basic Scoring Functions #
 ###########################
 
-
 def ratio(s1, s2):
 
     if s1 is None:
@@ -48,6 +47,7 @@ def ratio(s1, s2):
     if s2 is None:
         raise TypeError("s2 is None")
     s1, s2 = utils.make_type_consistent(s1, s2)
+
     if len(s1) == 0 or len(s2) == 0:
         return 0
 
@@ -57,6 +57,8 @@ def ratio(s1, s2):
 
 # todo: skip duplicate indexes for a little more speed
 def partial_ratio(s1, s2):
+    """"Return the ratio of the most similar substring
+    as a number between 0 and 100."""
 
     if s1 is None:
         raise TypeError("s1 is None")
@@ -102,6 +104,15 @@ def partial_ratio(s1, s2):
 # Advanced Scoring Functions #
 ##############################
 
+def _process_and_sort(s, force_ascii):
+    """Return a cleaned string with token sorted."""
+    # pull tokens
+    tokens = full_process(s, force_ascii=force_ascii).split()
+
+    # sort tokens and join
+    sorted_string = u" ".join(sorted(tokens))
+    return sorted_string.strip()
+
 # Sorted Token
 #   find all alphanumeric tokens in the string
 #   sort those tokens and take ratio of resulting joined strings
@@ -113,28 +124,25 @@ def _token_sort(s1, s2, partial=True, force_ascii=True):
     if s2 is None:
         raise TypeError("s2 is None")
 
-    # pull tokens
-    tokens1 = utils.full_process(s1, force_ascii=force_ascii).split()
-    tokens2 = utils.full_process(s2, force_ascii=force_ascii).split()
-
-    # sort tokens and join
-    sorted1 = " ".join(sorted(tokens1))
-    sorted2 = " ".join(sorted(tokens2))
-
-    sorted1 = sorted1.strip()
-    sorted2 = sorted2.strip()
+    sorted1 = _process_and_sort(s1, force_ascii)
+    sorted2 = _process_and_sort(s2, force_ascii)
 
     if partial:
         return partial_ratio(sorted1, sorted2)
     else:
         return ratio(sorted1, sorted2)
 
-
 def token_sort_ratio(s1, s2, force_ascii=True):
+    """Return a measure of the sequences' similarity between 0 and 100
+    but sorting the token before comparing.
+    """
     return _token_sort(s1, s2, partial=False, force_ascii=force_ascii)
 
 
 def partial_token_sort_ratio(s1, s2, force_ascii=True):
+    """Return the ratio of the most similar substring as a number between
+    0 and 100 but sorting the token before comparing.
+    """
     return _token_sort(s1, s2, partial=True, force_ascii=force_ascii)
 
 
@@ -226,6 +234,9 @@ def UQRatio(s1, s2):
 
 # w is for weighted
 def WRatio(s1, s2, force_ascii=True):
+    """Return a measure of the sequences' similarity between 0 and 100,
+    using different algorithms.
+    """
 
     p1 = utils.full_process(s1, force_ascii=force_ascii)
     p2 = utils.full_process(s2, force_ascii=force_ascii)
@@ -267,4 +278,7 @@ def WRatio(s1, s2, force_ascii=True):
 
 
 def UWRatio(s1, s2):
+    """Return a measure of the sequences' similarity between 0 and 100,
+    using different algorithms. Same as WRatio but preserving unicode.
+    """
     return WRatio(s1, s2, force_ascii=False)

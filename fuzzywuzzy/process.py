@@ -30,7 +30,7 @@ from . import fuzz
 from . import utils
 
 
-def extract(query, choices, processor=None, scorer=None, limit=5):
+def extract(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, limit=5):
     """Find best matches in a list or dictionary of choices, return a
     list of tuples containing the match and it's score. If a dictionery
     is used, also returns the key for each match.
@@ -61,14 +61,6 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
     except TypeError:
         pass
 
-    # default, turn whatever the choice is into a workable string
-    if processor is None:
-        processor = lambda x: utils.full_process(x)
-
-    # default: wratio
-    if scorer is None:
-        scorer = fuzz.WRatio
-
     sl = list()
 
     if isinstance(choices, dict):
@@ -89,7 +81,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
     return sl[:limit]
 
 
-def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, limit=5):
+def extractBests(query, choices, processor=utils.full_process, scorer=fuzz.Wratio, score_cutoff=0, limit=5):
     """Find best matches above a score in a list of choices, return a
     list of tuples containing the match and it's score.
 
@@ -101,15 +93,11 @@ def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, li
         it will not be included on result list
 
     """
-
     best_list = extract(query, choices, processor, scorer, limit)
-    if len(best_list) > 0:
-        return list(itertools.takewhile(lambda x: x[1] >= score_cutoff, best_list))
-    else:
-        return []
+    return list(itertools.takewhile(lambda x: x[1] >= score_cutoff, best_list))
 
 
-def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
+def extractOne(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0):
     """Find the best match above a score in a list of choices, return a
     tuple containing the match and it's score if it's above the treshold
     or None.
@@ -123,13 +111,7 @@ def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
         match)
 
     """
-
     best_list = extract(query, choices, processor, scorer, limit=1)
-    if len(best_list) > 0:
-        best = best_list[0]
-        if best[1] >= score_cutoff:
-            return best
-        else:
-            return None
-    else:
-        return None
+    if len(best_list) > 0 and best_list[0][1] >= score_cutoff:
+        return best_list[0]
+    return None
