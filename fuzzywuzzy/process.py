@@ -48,7 +48,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
 
     # default, turn whatever the choice is into a workable string
     if processor is None:
-        processor = lambda x: utils.full_process(x)
+        processor = utils.full_process
 
     # default: wratio
     if scorer is None:
