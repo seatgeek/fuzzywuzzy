@@ -82,11 +82,6 @@ def extractOne(query, choices, processor=utils.full_process, scorer=WRatio, scor
     """
 
     best_list = extract(query, choices, processor, scorer, limit=1)
-    if len(best_list) > 0:
-        best = best_list[0]
-        if best[1] > score_cutoff:
-            return best
-        else:
-            return None
-    else:
-        return None
+    if len(best_list) > 0 and best_list[0][1] > score_cutoff:
+        return best_list[0]
+    return None
