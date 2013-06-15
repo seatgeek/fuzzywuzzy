@@ -17,25 +17,6 @@ class StringProcessor(object):
         """
         return cls.regex.sub(u" ", a_string)
 
-    @classmethod
-    def strip(cls, a_string):
-        """
-        This function strips leading and trailing white space.
-        """
-
-        return a_string.strip()
-
-    @classmethod
-    def to_lower_case(cls, a_string):
-        """
-        This function returns the lower-cased version of the string given.
-        """
-        return a_string.lower()
-
-    @classmethod
-    def to_upper_case(cls, a_string):
-        """
-        This function returns the upper-cased version of the string given.
-        """
-        return a_string.upper()
-
+    strip = staticmethod(string.strip)
+    to_lower_case = staticmethod(string.lower)
+    to_upper_case = staticmethod(string.upper)
