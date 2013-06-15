@@ -1,6 +1,7 @@
 import re
 import string
 
+
 class StringProcessor(object):
     """
     This class defines method to process strings in the most
@@ -9,6 +10,7 @@ class StringProcessor(object):
     """
 
     regex = re.compile(r"(?ui)\W")
+
     @classmethod
     def replace_non_lettters_non_numbers_with_whitespace(cls, a_string):
         """
