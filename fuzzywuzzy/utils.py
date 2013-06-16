@@ -1,5 +1,6 @@
 from string_processing import StringProcessor
 
+
 def validate_string(s):
     try:
         if len(s) > 0:
@@ -9,22 +10,24 @@ def validate_string(s):
     except:
         return False
 
-bad_chars=''
-for i in range(128,256):
-    bad_chars+=chr(i)
+bad_chars = "".join([chr(i) for i in range(128, 256)])
+
 
 def asciionly(s):
     return s.translate(None, bad_chars)
 
+
 def asciidammit(s):
+    if type(s) not in (str, unicode):
+        s = unicode(s)
     if type(s) is str:
         return asciionly(s)
     elif type(s) is unicode:
         return asciionly(s.encode('ascii', 'ignore'))
-    else:
-        return asciidammit(unicode(s))
+
 
 def make_type_consistent(s1, s2):
+    """If both objects aren't either both string or unicode instances force them to unicode"""
     if isinstance(s1, str) and isinstance(s2, str):
         return s1, s2
 
@@ -33,6 +36,7 @@ def make_type_consistent(s1, s2):
 
     else:
         return unicode(s1), unicode(s2)
+
 
 def full_process(s, force_ascii=False):
     """Process string by
@@ -53,6 +57,7 @@ def full_process(s, force_ascii=False):
     # Remove leading and trailing whitespaces.
     string_out = StringProcessor.strip(string_out)
     return string_out
+
 
 def intr(n):
     '''Returns a correctly rounded integer'''
