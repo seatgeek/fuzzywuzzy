@@ -10,7 +10,7 @@ def validate_string(s):
     except:
         return False
 
-bad_chars = [chr(i) for i in range(128, 256)]
+bad_chars = "".join([chr(i) for i in range(128, 256)])
 
 
 def asciionly(s):
