@@ -13,7 +13,7 @@ def validate_string(s):
     except:
         return False
 
-bad_chars=''
+bad_chars=str('') # ascii dammit!
 for i in range(128,256):
     bad_chars+=chr(i)
 if PY3:
