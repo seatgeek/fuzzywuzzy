@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from fuzzywuzzy.string_processing import StringProcessor
 import sys
-PY3 = sys.version_info.major == 3
+PY3 = sys.version_info[0] == 3
 
 def validate_string(s):
     try:
