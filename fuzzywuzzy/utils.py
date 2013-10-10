@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from fuzzywuzzy.string_processing import StringProcessor
 import sys
 PY3 = sys.version_info.major == 3
@@ -49,7 +51,7 @@ def full_process(s, force_ascii=False):
         if force_ascii == True, force convert to ascii"""
 
     if s is None:
-        return u""
+        return ""
 
     if force_ascii:
         s = asciidammit(s)
