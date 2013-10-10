@@ -9,6 +9,10 @@ import itertools
 import unittest
 import re
 
+import sys
+if sys.version_info.major == 3:
+    unicode = str
+
 class StringProcessingTest(unittest.TestCase):
     def test_replace_non_lettters_non_numbers_with_whitespace(self):
         strings = [u"new york mets - atlanta braves", u"Cães danados", u"New York //// Mets $$$", u"Ça va?"]

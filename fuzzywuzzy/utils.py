@@ -1,4 +1,6 @@
-from string_processing import StringProcessor
+from fuzzywuzzy.string_processing import StringProcessor
+import sys
+PY3 = sys.version_info.major == 3
 
 def validate_string(s):
     try:
@@ -12,9 +14,14 @@ def validate_string(s):
 bad_chars=''
 for i in range(128,256):
     bad_chars+=chr(i)
+if PY3:
+    translation_table = dict((ord(c), None) for c in bad_chars)
 
 def asciionly(s):
-    return s.translate(None, bad_chars)
+    if PY3:
+        return s.translate(translation_table)
+    else:
+        return s.translate(None, bad_chars)
 
 def asciidammit(s):
     if type(s) is str:
