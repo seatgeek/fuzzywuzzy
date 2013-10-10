@@ -11,8 +11,14 @@ import unittest
 import re
 
 import sys
-if sys.version_info.major == 3:
+if sys.version_info[0] == 3:
     unicode = str
+
+if sys.version_info[:2] == (2,6):
+    # Monkeypatch to make tests work on 2.6
+    def assertLess(first, second, msg=None):
+        assert first > second
+    unittest.TestCase.assertLess = assertLess
 
 class StringProcessingTest(unittest.TestCase):
     def test_replace_non_lettters_non_numbers_with_whitespace(self):
