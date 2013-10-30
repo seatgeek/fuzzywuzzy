@@ -104,6 +104,24 @@ class RatioTest(unittest.TestCase):
 
     def testPartialRatio(self):
         self.assertEqual(fuzz.partial_ratio(self.s1, self.s3),100)
+        a1="12345 abc 67890"
+        b1="12 abc"
+        a2="12345 abc 67890"
+        b2="abc 90"
+        self.assertEqual(fuzz.partial_ratio(a1,b1), fuzz.partial_ratio(a2,b2))
+        a1="123 456 7890"
+        b1="12 456"
+        a2="123 456 7890"
+        b2="456 90"
+        self.assertEqual(fuzz.partial_ratio(a1,b1), fuzz.partial_ratio(a2,b2))
+    
+    def testRatioExtreme(self):
+        a1="123 456 7890"
+        b1="12 456"
+        a2="123 456 7890"
+        b2="456 90"
+        fuzz.ratio
+        self.assertEqual(fuzz.ratio(a1,b1), fuzz.ratio(a2,b2))
 
     def testTokenSortRatio(self):
         self.assertEqual(fuzz.token_sort_ratio(self.s1, self.s1a),100)
