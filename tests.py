@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+from __future__ import unicode_literals
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
@@ -9,9 +10,19 @@ import itertools
 import unittest
 import re
 
+import sys
+if sys.version_info[0] == 3:
+    unicode = str
+
+if sys.version_info[:2] == (2,6):
+    # Monkeypatch to make tests work on 2.6
+    def assertLess(first, second, msg=None):
+        assert first > second
+    unittest.TestCase.assertLess = assertLess
+
 class StringProcessingTest(unittest.TestCase):
     def test_replace_non_lettters_non_numbers_with_whitespace(self):
-        strings = [u"new york mets - atlanta braves", u"Cães danados", u"New York //// Mets $$$", u"Ça va?"]
+        strings = ["new york mets - atlanta braves", "Cães danados", "New York //// Mets $$$", "Ça va?"]
         for string in strings:
             proc_string = StringProcessor.replace_non_lettters_non_numbers_with_whitespace(string)
             regex = re.compile(r"(?ui)[\W]")
@@ -35,13 +46,13 @@ class UtilsTest(unittest.TestCase):
         self.s5 = "atlanta braves vs new york mets"
         self.s6 = "new york mets - atlanta braves"
         self.mixed_strings = [
-            u"Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-            u"C'est la vie",
-            u"Ça va?",
-            u"Cães danados",
-            u"\xacCamarões assados",
-            u"a\xac\u1234\u20ac\U00008000",
-            u"\u00C1"
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            "C'est la vie",
+            "Ça va?",
+            "Cães danados",
+            "\xacCamarões assados",
+            "a\xac\u1234\u20ac\U00008000",
+            "\u00C1"
         ]
 
     def tearDown(self):
@@ -162,56 +173,56 @@ class RatioTest(unittest.TestCase):
         self.assertTrue(fuzz.partial_ratio(s1, s4) > 75)
 
     def testRatioUnicodeString(self):
-        s1 = u"\u00C1"
+        s1 = "\u00C1"
         s2 = "ABCD"
         score = fuzz.ratio(s1, s2)
         self.assertEqual(0, score)
 
     def testPartialRatioUnicodeString(self):
-        s1 = u"\u00C1"
+        s1 = "\u00C1"
         s2 = "ABCD"
         score = fuzz.partial_ratio(s1, s2)
         self.assertEqual(0, score)
 
     def testWRatioUnicodeString(self):
-        s1 = u"\u00C1"
-        s2 = u"ABCD"
+        s1 = "\u00C1"
+        s2 = "ABCD"
         score = fuzz.WRatio(s1, s2)
         self.assertEqual(0, score)
 
         # Cyrillic.
-        s1 = u"\u043f\u0441\u0438\u0445\u043e\u043b\u043e\u0433"
-        s2 = u"\u043f\u0441\u0438\u0445\u043e\u0442\u0435\u0440\u0430\u043f\u0435\u0432\u0442"
+        s1 = "\u043f\u0441\u0438\u0445\u043e\u043b\u043e\u0433"
+        s2 = "\u043f\u0441\u0438\u0445\u043e\u0442\u0435\u0440\u0430\u043f\u0435\u0432\u0442"
         score = fuzz.WRatio(s1, s2, force_ascii=False)
         self.assertNotEqual(0, score)
 
         # Chinese.
-        s1 = u"\u6211\u4e86\u89e3\u6570\u5b66"
-        s2 = u"\u6211\u5b66\u6570\u5b66"
+        s1 = "\u6211\u4e86\u89e3\u6570\u5b66"
+        s2 = "\u6211\u5b66\u6570\u5b66"
         score = fuzz.WRatio(s1, s2, force_ascii=False)
         self.assertNotEqual(0, score)
 
     def testQRatioUnicodeString(self):
-        s1 = u"\u00C1"
-        s2 = u"ABCD"
+        s1 = "\u00C1"
+        s2 = "ABCD"
         score = fuzz.QRatio(s1, s2)
         self.assertEqual(0, score)
 
         # Cyrillic.
-        s1 = u"\u043f\u0441\u0438\u0445\u043e\u043b\u043e\u0433"
-        s2 = u"\u043f\u0441\u0438\u0445\u043e\u0442\u0435\u0440\u0430\u043f\u0435\u0432\u0442"
+        s1 = "\u043f\u0441\u0438\u0445\u043e\u043b\u043e\u0433"
+        s2 = "\u043f\u0441\u0438\u0445\u043e\u0442\u0435\u0440\u0430\u043f\u0435\u0432\u0442"
         score = fuzz.QRatio(s1, s2, force_ascii=False)
         self.assertNotEqual(0, score)
 
         # Chinese.
-        s1 = u"\u6211\u4e86\u89e3\u6570\u5b66"
-        s2 = u"\u6211\u5b66\u6570\u5b66"
+        s1 = "\u6211\u4e86\u89e3\u6570\u5b66"
+        s2 = "\u6211\u5b66\u6570\u5b66"
         score = fuzz.QRatio(s1, s2, force_ascii=False)
         self.assertNotEqual(0, score)
 
     def testQratioForceAscii(self):
-        s1 = u"ABCD\u00C1"
-        s2 = u"ABCD"
+        s1 = "ABCD\u00C1"
+        s2 = "ABCD"
 
         score = fuzz.QRatio(s1, s2, force_ascii=True)
         self.assertEqual(score, 100)
@@ -220,8 +231,8 @@ class RatioTest(unittest.TestCase):
         self.assertLess(score, 100)
 
     def testQRatioForceAscii(self):
-        s1 = u"ABCD\u00C1"
-        s2 = u"ABCD"
+        s1 = "ABCD\u00C1"
+        s2 = "ABCD"
 
         score = fuzz.WRatio(s1, s2, force_ascii=True)
         self.assertEqual(score, 100)
@@ -230,8 +241,8 @@ class RatioTest(unittest.TestCase):
         self.assertLess(score, 100)
 
     def testTokenSetForceAscii(self):
-        s1 = u"ABCD\u00C1 HELP\u00C1"
-        s2 = u"ABCD HELP"
+        s1 = "ABCD\u00C1 HELP\u00C1"
+        s2 = "ABCD HELP"
 
         score = fuzz._token_set(s1, s2, force_ascii=True)
         self.assertEqual(score, 100)
@@ -240,8 +251,8 @@ class RatioTest(unittest.TestCase):
         self.assertLess(score, 100)
 
     def testTokenSortForceAscii(self):
-        s1 = u"ABCD\u00C1 HELP\u00C1"
-        s2 = u"ABCD HELP"
+        s1 = "ABCD\u00C1 HELP\u00C1"
+        s2 = "ABCD HELP"
 
         score = fuzz._token_sort(s1, s2, force_ascii=True)
         self.assertEqual(score, 100)

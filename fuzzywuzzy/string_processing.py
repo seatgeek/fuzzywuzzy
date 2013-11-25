@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import re
 import string
 import unicodedata
@@ -15,7 +17,7 @@ class StringProcessor(object):
         This function replaces any sequence of non letters and non numbers with a single white space.
         """
         regex = re.compile(r"(?ui)\W")
-        return regex.sub(u" ", a_string)
+        return regex.sub(" ", a_string)
 
     @classmethod
     def strip(cls, a_string):

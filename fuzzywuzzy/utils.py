@@ -1,4 +1,8 @@
-from string_processing import StringProcessor
+from __future__ import unicode_literals
+
+from fuzzywuzzy.string_processing import StringProcessor
+import sys
+PY3 = sys.version_info[0] == 3
 
 def validate_string(s):
     try:
@@ -9,12 +13,17 @@ def validate_string(s):
     except:
         return False
 
-bad_chars=''
+bad_chars=str('') # ascii dammit!
 for i in range(128,256):
     bad_chars+=chr(i)
+if PY3:
+    translation_table = dict((ord(c), None) for c in bad_chars)
 
 def asciionly(s):
-    return s.translate(None, bad_chars)
+    if PY3:
+        return s.translate(translation_table)
+    else:
+        return s.translate(None, bad_chars)
 
 def asciidammit(s):
     if type(s) is str:
@@ -42,7 +51,7 @@ def full_process(s, force_ascii=False):
         if force_ascii == True, force convert to ascii"""
 
     if s is None:
-        return u""
+        return ""
 
     if force_ascii:
         s = asciidammit(s)
