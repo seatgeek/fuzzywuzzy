@@ -6,7 +6,7 @@ PY3 = sys.version_info[0] == 3
 
 def validate_string(s):
     try:
-        if len(s) > 0:
+        if len(full_process(s)) > 0:
             return True
         else:
             return False

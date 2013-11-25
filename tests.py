@@ -76,6 +76,12 @@ class UtilsTest(unittest.TestCase):
         for s in self.mixed_strings:
             utils.full_process(s, force_ascii=True)
 
+    def test_validate_string(self):
+        for s in self.mixed_strings:
+            self.assertTrue(utils.validate_string(s))
+
+        self.assertFalse(utils.validate_string(' -.,:'))
+
 class RatioTest(unittest.TestCase):
 
     def setUp(self):
