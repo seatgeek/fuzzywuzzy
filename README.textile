@@ -6,6 +6,7 @@ h2. Requirements
 
 * Python 2.4 or higher
 * difflib
+* python-Levenshtein (optional, provides a 4-10x speedup in String Matching)
 
 h2. Installation
 
