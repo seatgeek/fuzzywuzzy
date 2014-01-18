@@ -2,6 +2,8 @@ h1. FuzzyWuzzy
 
 Fuzzy string matching like a boss.
 
+!https://api.travis-ci.org/seatgeek/fuzzywuzzy.png?branch=master!:https://travis-ci.org/seatgeek/fuzzywuzzy
+
 h2. Requirements
 
 * Python 2.4 or higher
