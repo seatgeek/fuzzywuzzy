@@ -1,7 +1,6 @@
 # -*- coding: utf8 -*-
 
 from timeit import timeit
-from fuzzywuzzy import utils
 import math
 
 iterations = 100000
