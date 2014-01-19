@@ -29,18 +29,25 @@ import itertools
 from . import fuzz
 from . import utils
 
+
 def extract(query, choices, processor=None, scorer=None, limit=5):
-    """Find best matches in a list of choices, return a list of tuples containing the match and it's score.
+    """Find best matches in a list of choices, return a list of tuples
+       containing the match and it's score.
 
     Arguments:
         query       -- an object representing the thing we want to find
-        choices     -- a list of objects we are attempting to extract values from
-        scorer      -- f(OBJ, QUERY) --> INT. We will return the objects with the highest score
-                        by default, we use score.WRatio() and both OBJ and QUERY should be strings
-        processor   -- f(OBJ_A) --> OBJ_B, where the output is an input to scorer
-                        for example, "processor = lambda x: x[0]" would return the first element
-                        in a collection x (of, say, strings) this would then be used in the scoring collection
-                        by default, we use utils.full_process()
+        choices     -- a list of objects we are attempting to extract
+                       values from
+        scorer      -- f(OBJ, QUERY) --> INT. We will return the objects
+                       with the highest score by default, we use
+                       score.WRatio() and both OBJ and QUERY should be
+                       strings
+        processor   -- f(OBJ_A) --> OBJ_B, where the output is an input
+                       to scorer for example, "processor = lambda x:
+                       x[0]" would return the first element in a
+                       collection x (of, say, strings) this would then
+                       be used in the scoring collection by default, we
+                       use utils.full_process()
 
     """
     if choices is None or len(choices) == 0:
@@ -67,11 +74,15 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
 
 
 def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, limit=5):
-    """Find best matches above a score in a list of choices, return a list of tuples containing the match and it's score.
+    """Find best matches above a score in a list of choices, return a
+    list of tuples containing the match and it's score.
 
-    Convenience method which returns the choices with best scores, see extract() for full arguments list
+    Convenience method which returns the choices with best scores, see
+    extract() for full arguments list
+
     Optional parameter: score_cutoff.
-        If the choice has a score of less than or equal to score_cutoff it will not be included on result list
+        If the choice has a score of less than or equal to score_cutoff
+        it will not be included on result list
 
     """
 
@@ -81,13 +92,19 @@ def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, li
     else:
         return []
 
-def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
-    """Find the best match above a score in a list of choices, return a tuple containing the match and it's score
-        if it's above the treshold or None.
 
-    Convenience method which returns the single best choice, see extract() for full arguments list
+def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
+    """Find the best match above a score in a list of choices, return a
+    tuple containing the match and it's score if it's above the treshold
+    or None.
+
+    Convenience method which returns the single best choice, see
+    extract() for full arguments list
+
     Optional parameter: score_cutoff.
-        If the best choice has a score of less than or equal to score_cutoff we will return none (intuition: not a good enough match)
+        If the best choice has a score of less than or equal to
+        score_cutoff we will return none (intuition: not a good enough
+        match)
 
     """
 
