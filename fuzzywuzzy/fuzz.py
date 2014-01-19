@@ -27,7 +27,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 from __future__ import unicode_literals
 
 import re
-from fuzzywuzzy.utils import *
+from . import utils
 
 try:
     from StringMatcher import StringMatcher as SequenceMatcher
@@ -42,19 +42,19 @@ def ratio(s1,  s2):
 
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
-    s1, s2 = make_type_consistent(s1, s2)
+    s1, s2 = utils.make_type_consistent(s1, s2)
     if len(s1) == 0 or len(s2) == 0:
         return 0
 
     m = SequenceMatcher(None, s1, s2)
-    return intr(100 * m.ratio())
+    return utils.intr(100 * m.ratio())
 
 # todo: skip duplicate indexes for a little more speed
 def partial_ratio(s1,  s2):
 
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
-    s1, s2 = make_type_consistent(s1, s2)
+    s1, s2 = utils.make_type_consistent(s1, s2)
     if len(s1) == 0 or len(s2) == 0:
         return 0
 
@@ -99,8 +99,8 @@ def _token_sort(s1,  s2, partial=True, force_ascii=True):
     if s2 is None: raise TypeError("s2 is None")
 
     # pull tokens
-    tokens1 = full_process(s1, force_ascii=force_ascii).split()
-    tokens2 = full_process(s2, force_ascii=force_ascii).split()
+    tokens1 = utils.full_process(s1, force_ascii=force_ascii).split()
+    tokens2 = utils.full_process(s2, force_ascii=force_ascii).split()
 
     # sort tokens and join
     sorted1 = " ".join(sorted(tokens1))
@@ -131,15 +131,15 @@ def _token_set(s1,  s2, partial=True, force_ascii=True):
     if s1 is None: raise TypeError("s1 is None")
     if s2 is None: raise TypeError("s2 is None")
 
-    p1 = full_process(s1, force_ascii=force_ascii)
-    p2 = full_process(s2, force_ascii=force_ascii)
+    p1 = utils.full_process(s1, force_ascii=force_ascii)
+    p2 = utils.full_process(s2, force_ascii=force_ascii)
 
-    if not validate_string(p1): return 0
-    if not validate_string(p2): return 0
+    if not utils.validate_string(p1): return 0
+    if not utils.validate_string(p2): return 0
 
     # pull tokens
-    tokens1 = set(full_process(p1).split())
-    tokens2 = set(full_process(p2).split())
+    tokens1 = set(utils.full_process(p1).split())
+    tokens2 = set(utils.full_process(p2).split())
 
     intersection = tokens1.intersection(tokens2)
     diff1to2 = tokens1.difference(tokens2)
@@ -179,11 +179,11 @@ def partial_token_set_ratio(s1,  s2, force_ascii=True):
 # q is for quick
 def QRatio(s1,  s2, force_ascii=True):
 
-    p1 = full_process(s1, force_ascii=force_ascii)
-    p2 = full_process(s2, force_ascii=force_ascii)
+    p1 = utils.full_process(s1, force_ascii=force_ascii)
+    p2 = utils.full_process(s2, force_ascii=force_ascii)
 
-    if not validate_string(p1): return 0
-    if not validate_string(p2): return 0
+    if not utils.validate_string(p1): return 0
+    if not utils.validate_string(p2): return 0
 
     return ratio(p1, p2)
 
@@ -193,11 +193,11 @@ def UQRatio(s1, s2):
 # w is for weighted
 def WRatio(s1,  s2, force_ascii=True):
 
-    p1 = full_process(s1, force_ascii=force_ascii)
-    p2 = full_process(s2, force_ascii=force_ascii)
+    p1 = utils.full_process(s1, force_ascii=force_ascii)
+    p2 = utils.full_process(s2, force_ascii=force_ascii)
 
-    if not validate_string(p1): return 0
-    if not validate_string(p2): return 0
+    if not utils.validate_string(p1): return 0
+    if not utils.validate_string(p2): return 0
 
     # should we look at partials?
     try_partial     = True
