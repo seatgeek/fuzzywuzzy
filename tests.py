@@ -6,7 +6,6 @@ from fuzzywuzzy import process
 from fuzzywuzzy import utils
 from fuzzywuzzy.string_processing import StringProcessor
 
-import itertools
 import unittest
 import re
 
