@@ -38,10 +38,13 @@ from . import utils
 # Basic Scoring Functions #
 ###########################
 
-def ratio(s1,  s2):
 
-    if s1 is None: raise TypeError("s1 is None")
-    if s2 is None: raise TypeError("s2 is None")
+def ratio(s1, s2):
+
+    if s1 is None:
+        raise TypeError("s1 is None")
+    if s2 is None:
+        raise TypeError("s2 is None")
     s1, s2 = utils.make_type_consistent(s1, s2)
     if len(s1) == 0 or len(s2) == 0:
         return 0
@@ -49,19 +52,24 @@ def ratio(s1,  s2):
     m = SequenceMatcher(None, s1, s2)
     return utils.intr(100 * m.ratio())
 
+
 # todo: skip duplicate indexes for a little more speed
 def partial_ratio(s1,  s2):
 
-    if s1 is None: raise TypeError("s1 is None")
-    if s2 is None: raise TypeError("s2 is None")
+    if s1 is None:
+        raise TypeError("s1 is None")
+    if s2 is None:
+        raise TypeError("s2 is None")
     s1, s2 = utils.make_type_consistent(s1, s2)
     if len(s1) == 0 or len(s2) == 0:
         return 0
 
     if len(s1) <= len(s2):
-        shorter = s1; longer = s2;
+        shorter = s1
+        longer = s2
     else:
-        shorter = s2; longer = s1
+        shorter = s2
+        longer = s1
 
     m = SequenceMatcher(None, shorter, longer)
     blocks = m.get_matching_blocks()
@@ -74,16 +82,19 @@ def partial_ratio(s1,  s2):
     #   best score === ratio("abcd", "Xbcd")
     scores = []
     for block in blocks:
-        long_start   = block[1] - block[0] if (block[1] - block[0]) > 0 else 0
-        long_end     = long_start + len(shorter)
-        long_substr  = longer[long_start:long_end]
+        long_start = block[1] - block[0] if (block[1] - block[0]) > 0 else 0
+        long_end = long_start + len(shorter)
+        long_substr = longer[long_start:long_end]
 
         m2 = SequenceMatcher(None, shorter, long_substr)
         r = m2.ratio()
-        if r > .995: return 100
-        else: scores.append(r)
+        if r > .995:
+            return 100
+        else:
+            scores.append(r)
 
     return int(100 * max(scores))
+
 
 ##############################
 # Advanced Scoring Functions #
@@ -95,8 +106,10 @@ def partial_ratio(s1,  s2):
 #   controls for unordered string elements
 def _token_sort(s1,  s2, partial=True, force_ascii=True):
 
-    if s1 is None: raise TypeError("s1 is None")
-    if s2 is None: raise TypeError("s2 is None")
+    if s1 is None:
+        raise TypeError("s1 is None")
+    if s2 is None:
+        raise TypeError("s2 is None")
 
     # pull tokens
     tokens1 = utils.full_process(s1, force_ascii=force_ascii).split()
@@ -114,11 +127,14 @@ def _token_sort(s1,  s2, partial=True, force_ascii=True):
     else:
         return ratio(sorted1, sorted2)
 
-def token_sort_ratio(s1,  s2, force_ascii=True):
+
+def token_sort_ratio(s1, s2, force_ascii=True):
     return _token_sort(s1, s2, partial=False, force_ascii=force_ascii)
 
-def partial_token_sort_ratio(s1,  s2, force_ascii=True):
+
+def partial_token_sort_ratio(s1, s2, force_ascii=True):
     return _token_sort(s1, s2, partial=True, force_ascii=force_ascii)
+
 
 # Token Set
 #   find all alphanumeric tokens in each string...treat them as a set
@@ -126,16 +142,20 @@ def partial_token_sort_ratio(s1,  s2, force_ascii=True):
 #       <sorted_intersection><sorted_remainder>
 #   take ratios of those two strings
 #   controls for unordered partial matches
-def _token_set(s1,  s2, partial=True, force_ascii=True):
+def _token_set(s1, s2, partial=True, force_ascii=True):
 
-    if s1 is None: raise TypeError("s1 is None")
-    if s2 is None: raise TypeError("s2 is None")
+    if s1 is None:
+        raise TypeError("s1 is None")
+    if s2 is None:
+        raise TypeError("s2 is None")
 
     p1 = utils.full_process(s1, force_ascii=force_ascii)
     p2 = utils.full_process(s2, force_ascii=force_ascii)
 
-    if not utils.validate_string(p1): return 0
-    if not utils.validate_string(p2): return 0
+    if not utils.validate_string(p1):
+        return 0
+    if not utils.validate_string(p2):
+        return 0
 
     # pull tokens
     tokens1 = set(utils.full_process(p1).split())
@@ -164,11 +184,14 @@ def _token_set(s1,  s2, partial=True, force_ascii=True):
     ]
     return max(pairwise)
 
-def token_set_ratio(s1,  s2, force_ascii=True):
+
+def token_set_ratio(s1, s2, force_ascii=True):
     return _token_set(s1, s2, partial=False, force_ascii=force_ascii)
 
-def partial_token_set_ratio(s1,  s2, force_ascii=True):
+
+def partial_token_set_ratio(s1, s2, force_ascii=True):
     return _token_set(s1, s2, partial=True, force_ascii=force_ascii)
+
 
 # TODO: numerics
 
@@ -177,54 +200,64 @@ def partial_token_set_ratio(s1,  s2, force_ascii=True):
 ###################
 
 # q is for quick
-def QRatio(s1,  s2, force_ascii=True):
+def QRatio(s1, s2, force_ascii=True):
 
     p1 = utils.full_process(s1, force_ascii=force_ascii)
     p2 = utils.full_process(s2, force_ascii=force_ascii)
 
-    if not utils.validate_string(p1): return 0
-    if not utils.validate_string(p2): return 0
+    if not utils.validate_string(p1):
+        return 0
+    if not utils.validate_string(p2):
+        return 0
 
     return ratio(p1, p2)
+
 
 def UQRatio(s1, s2):
     return QRatio(s1, s2, force_ascii=False)
 
+
 # w is for weighted
-def WRatio(s1,  s2, force_ascii=True):
+def WRatio(s1, s2, force_ascii=True):
 
     p1 = utils.full_process(s1, force_ascii=force_ascii)
     p2 = utils.full_process(s2, force_ascii=force_ascii)
 
-    if not utils.validate_string(p1): return 0
-    if not utils.validate_string(p2): return 0
+    if not utils.validate_string(p1):
+        return 0
+    if not utils.validate_string(p2):
+        return 0
 
     # should we look at partials?
-    try_partial     = True
-    unbase_scale    = .95
-    partial_scale   = .90
+    try_partial = True
+    unbase_scale = .95
+    partial_scale = .90
 
     base = ratio(p1, p2)
-    len_ratio = float(max(len(p1),len(p2)))/min(len(p1),len(p2))
+    len_ratio = float(max(len(p1), len(p2))) / min(len(p1), len(p2))
 
     # if strings are similar length, don't use partials
-    if len_ratio < 1.5: try_partial = False
+    if len_ratio < 1.5:
+        try_partial = False
 
     # if one string is much much shorter than the other
-    if len_ratio > 8: partial_scale = .6
+    if len_ratio > 8:
+        partial_scale = .6
 
     if try_partial:
-        partial      = partial_ratio(p1, p2) * partial_scale
-        ptsor        = partial_token_sort_ratio(p1, p2, force_ascii=force_ascii) * unbase_scale * partial_scale
-        ptser        = partial_token_set_ratio(p1, p2, force_ascii=force_ascii)  * unbase_scale * partial_scale
+        partial = partial_ratio(p1, p2) * partial_scale
+        ptsor = partial_token_sort_ratio(p1, p2, force_ascii=force_ascii) \
+            * unbase_scale * partial_scale
+        ptser = partial_token_set_ratio(p1, p2, force_ascii=force_ascii) \
+            * unbase_scale * partial_scale
 
         return int(max(base, partial, ptsor, ptser))
     else:
-        tsor         = token_sort_ratio(p1, p2, force_ascii=force_ascii) * unbase_scale
-        tser         = token_set_ratio(p1, p2, force_ascii=force_ascii)  * unbase_scale
+        tsor = token_sort_ratio(p1, p2, force_ascii=force_ascii) * unbase_scale
+        tser = token_set_ratio(p1, p2, force_ascii=force_ascii) * unbase_scale
 
         return int(max(base, tsor, tser))
 
+
 def UWRatio(s1, s2):
     return WRatio(s1, s2, force_ascii=False)
-
