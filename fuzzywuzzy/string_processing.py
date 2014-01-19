@@ -12,7 +12,8 @@ class StringProcessor(object):
     @classmethod
     def replace_non_lettters_non_numbers_with_whitespace(cls, a_string):
         """
-        This function replaces any sequence of non letters and non numbers with a single white space.
+        This function replaces any sequence of non letters and non
+        numbers with a single white space.
         """
         regex = re.compile(r"(?ui)\W")
         return regex.sub(" ", a_string)
@@ -38,4 +39,3 @@ class StringProcessor(object):
         This function returns the upper-cased version of the string given.
         """
         return a_string.upper()
-
