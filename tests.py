@@ -1,16 +1,14 @@
 # -*- coding: utf8 -*-
 from __future__ import unicode_literals
+import unittest
+import re
+import sys
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 from fuzzywuzzy import utils
 from fuzzywuzzy.string_processing import StringProcessor
 
-import itertools
-import unittest
-import re
-
-import sys
 if sys.version_info[0] == 3:
     unicode = str
 

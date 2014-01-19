@@ -1,8 +1,6 @@
 from __future__ import unicode_literals
-
 import re
-import string
-import unicodedata
+
 
 class StringProcessor(object):
     """

@@ -24,10 +24,10 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-from fuzzywuzzy.fuzz import *
-
 import itertools
-import fuzzywuzzy.utils as utils
+
+from . import fuzz
+from . import utils
 
 def extract(query, choices, processor=None, scorer=None, limit=5):
     """Find best matches in a list of choices, return a list of tuples containing the match and it's score.
@@ -52,7 +52,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
 
     # default: wratio
     if scorer is None:
-        scorer = WRatio
+        scorer = fuzz.WRatio
 
     sl = list()
 
