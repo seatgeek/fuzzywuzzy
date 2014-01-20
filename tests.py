@@ -12,15 +12,17 @@ from fuzzywuzzy.string_processing import StringProcessor
 if sys.version_info[0] == 3:
     unicode = str
 
-if sys.version_info[:2] == (2,6):
+if sys.version_info[:2] == (2, 6):
     # Monkeypatch to make tests work on 2.6
     def assertLess(first, second, msg=None):
         assert first > second
     unittest.TestCase.assertLess = assertLess
 
+
 class StringProcessingTest(unittest.TestCase):
     def test_replace_non_lettters_non_numbers_with_whitespace(self):
-        strings = ["new york mets - atlanta braves", "Cães danados", "New York //// Mets $$$", "Ça va?"]
+        strings = ["new york mets - atlanta braves", "Cães danados",
+                   "New York //// Mets $$$", "Ça va?"]
         for string in strings:
             proc_string = StringProcessor.replace_non_lettters_non_numbers_with_whitespace(string)
             regex = re.compile(r"(?ui)[\W]")
@@ -33,6 +35,7 @@ class StringProcessingTest(unittest.TestCase):
         p1 = StringProcessor.replace_non_lettters_non_numbers_with_whitespace(s1)
         p2 = StringProcessor.replace_non_lettters_non_numbers_with_whitespace(s2)
         self.assertNotEqual(p1, p2)
+
 
 class UtilsTest(unittest.TestCase):
     def setUp(self):
@@ -74,6 +77,7 @@ class UtilsTest(unittest.TestCase):
         for s in self.mixed_strings:
             utils.full_process(s, force_ascii=True)
 
+
 class RatioTest(unittest.TestCase):
 
     def setUp(self):
@@ -105,27 +109,27 @@ class RatioTest(unittest.TestCase):
         pass
 
     def testEqual(self):
-        self.assertEqual(fuzz.ratio(self.s1, self.s1a),100)
+        self.assertEqual(fuzz.ratio(self.s1, self.s1a), 100)
 
     def testCaseInsensitive(self):
-        self.assertNotEqual(fuzz.ratio(self.s1, self.s2),100)
-        self.assertEqual(fuzz.ratio(utils.full_process(self.s1), utils.full_process(self.s2)),100)
+        self.assertNotEqual(fuzz.ratio(self.s1, self.s2), 100)
+        self.assertEqual(fuzz.ratio(utils.full_process(self.s1), utils.full_process(self.s2)), 100)
 
     def testPartialRatio(self):
-        self.assertEqual(fuzz.partial_ratio(self.s1, self.s3),100)
+        self.assertEqual(fuzz.partial_ratio(self.s1, self.s3), 100)
 
     def testTokenSortRatio(self):
-        self.assertEqual(fuzz.token_sort_ratio(self.s1, self.s1a),100)
+        self.assertEqual(fuzz.token_sort_ratio(self.s1, self.s1a), 100)
 
     def testPartialTokenSortRatio(self):
-        self.assertEqual(fuzz.partial_token_sort_ratio(self.s1, self.s1a),100)
-        self.assertEqual(fuzz.partial_token_sort_ratio(self.s4, self.s5),100)
+        self.assertEqual(fuzz.partial_token_sort_ratio(self.s1, self.s1a), 100)
+        self.assertEqual(fuzz.partial_token_sort_ratio(self.s4, self.s5), 100)
 
     def testTokenSetRatio(self):
-        self.assertEqual(fuzz.token_set_ratio(self.s4, self.s5),100)
+        self.assertEqual(fuzz.token_set_ratio(self.s4, self.s5), 100)
 
     def testPartialTokenSetRatio(self):
-        self.assertEqual(fuzz.token_set_ratio(self.s4, self.s5),100)
+        self.assertEqual(fuzz.token_set_ratio(self.s4, self.s5), 100)
 
     def testQuickRatioEqual(self):
         self.assertEqual(fuzz.QRatio(self.s1, self.s1a), 100)
@@ -157,8 +161,8 @@ class RatioTest(unittest.TestCase):
         self.assertEqual(fuzz.WRatio(unicode(self.s1), unicode(self.s1a)), 100)
 
     def testEmptyStringsScore0(self):
-        self.assertEqual(fuzz.ratio("",""),0)
-        self.assertEqual(fuzz.partial_ratio("",""),0)
+        self.assertEqual(fuzz.ratio("", ""), 0)
+        self.assertEqual(fuzz.partial_ratio("", ""), 0)
 
     def testIssueSeven(self):
         s1 = "HSINCHUANG"
@@ -258,8 +262,6 @@ class RatioTest(unittest.TestCase):
         score = fuzz._token_sort(s1, s2, force_ascii=False)
         self.assertLess(score, 100)
 
-
-
     # test processing methods
     def testGetBestChoice1(self):
         query = "new york mets at atlanta braves"
@@ -280,6 +282,7 @@ class RatioTest(unittest.TestCase):
         query = "chicago cubs vs new york mets"
         best = process.extractOne(query, self.baseball_strings)
         self.assertEqual(best[0], self.baseball_strings[0])
+
 
 class ProcessTest(unittest.TestCase):
 
@@ -332,7 +335,8 @@ class ProcessTest(unittest.TestCase):
         query = "new york mets at chicago cubs"
         scorer = fuzz.QRatio
 
-        # first, as an example, the normal way would select the "more 'complete' match of choices[1]"
+        # first, as an example, the normal way would select the "more
+        # 'complete' match of choices[1]"
 
         best = process.extractOne(query, choices)
         self.assertEqual(best[0], choices[1])
