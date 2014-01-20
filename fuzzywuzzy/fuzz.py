@@ -54,7 +54,7 @@ def ratio(s1, s2):
 
 
 # todo: skip duplicate indexes for a little more speed
-def partial_ratio(s1,  s2):
+def partial_ratio(s1, s2):
 
     if s1 is None:
         raise TypeError("s1 is None")
@@ -104,7 +104,7 @@ def partial_ratio(s1,  s2):
 #   find all alphanumeric tokens in the string
 #   sort those tokens and take ratio of resulting joined strings
 #   controls for unordered string elements
-def _token_sort(s1,  s2, partial=True, force_ascii=True):
+def _token_sort(s1, s2, partial=True, force_ascii=True):
 
     if s1 is None:
         raise TypeError("s1 is None")
