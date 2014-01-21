@@ -4,6 +4,6 @@ python:
   - 2.7
   - 3.3
 script:
-  - python tests.py
+  - python test_fuzzywuzzy.py
 notifications:
   on_success: always
