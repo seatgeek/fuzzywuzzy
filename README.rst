@@ -36,9 +36,8 @@ Manual
 ~~~~~~
 
 1. Download: http://github.com/seatgeek/fuzzywuzzy/zipball/master
-
--  Unzip the resulting file
--  Run ``python setup.py install`` in the resulting folder
+2. Unzip the resulting file
+3. Run ``python setup.py install`` in the resulting folder
 
 Usage
 -----
