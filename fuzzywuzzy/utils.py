@@ -63,7 +63,7 @@ def full_process(s, force_ascii=False):
     if force_ascii:
         s = asciidammit(s)
     # Keep only Letters and Numbres (see Unicode docs).
-    string_out = StringProcessor.replace_non_lettters_non_numbers_with_whitespace(s)
+    string_out = StringProcessor.replace_non_letters_non_numbers_with_whitespace(s)
     # Force into lowercase.
     string_out = StringProcessor.to_lower_case(string_out)
     # Remove leading and trailing whitespaces.
