@@ -10,7 +10,7 @@ class StringProcessor(object):
     """
 
     @classmethod
-    def replace_non_lettters_non_numbers_with_whitespace(cls, a_string):
+    def replace_non_letters_non_numbers_with_whitespace(cls, a_string):
         """
         This function replaces any sequence of non letters and non
         numbers with a single white space.
