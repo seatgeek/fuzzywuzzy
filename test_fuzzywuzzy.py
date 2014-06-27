@@ -331,6 +331,13 @@ class ProcessTest(unittest.TestCase):
             "new york yankees vs boston red sox"
         ]
 
+        choices_dict = {
+            1: "new york mets vs chicago cubs",
+            2: "chicago cubs vs chicago white sox",
+            3: "philladelphia phillies vs atlanta braves",
+            4: "braves vs mets"
+        }
+
         # in this hypothetical example we care about ordering, so we use quick ratio
         query = "new york mets at chicago cubs"
         scorer = fuzz.QRatio
@@ -345,6 +352,9 @@ class ProcessTest(unittest.TestCase):
 
         best = process.extractOne(query, choices, scorer=scorer)
         self.assertEqual(best[0], choices[0])
+
+        best = process.extractOne(query, choices_dict)
+        self.assertEqual(best[0], choices_dict[1])
 
     def testWithCutoff(self):
         choices = [
