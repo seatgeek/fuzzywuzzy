@@ -31,13 +31,15 @@ from . import utils
 
 
 def extract(query, choices, processor=None, scorer=None, limit=5):
-    """Find best matches in a list of choices, return a list of tuples
-       containing the match and it's score.
+    """Find best matches in a list or dictionary of choices, return a
+    list of tuples containing the match and it's score. If a dictionery
+    is used, also returns the key for each match.
 
     Arguments:
         query       -- an object representing the thing we want to find
-        choices     -- a list of objects we are attempting to extract
-                       values from
+        choices     -- a list or dictionary of objects we are attempting
+                       to extract values from. The dictionary should
+                       consist of {key: str} pairs.
         scorer      -- f(OBJ, QUERY) --> INT. We will return the objects
                        with the highest score by default, we use
                        score.WRatio() and both OBJ and QUERY should be
@@ -63,11 +65,19 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
 
     sl = list()
 
-    for choice in choices:
-        processed = processor(choice)
-        score = scorer(query, processed)
-        tuple = (choice, score)
-        sl.append(tuple)
+    if isinstance(choices, dict):
+        for key, choice in choices.items():
+            processed = processor(choice)
+            score = scorer(query, processed)
+            tuple = (choice, score, key)
+            sl.append(tuple)
+
+    elif isinstance(choices, list):
+        for choice in choices:
+            processed = processor(choice)
+            score = scorer(query, processed)
+            tuple = (choice, score)
+            sl.append(tuple)
 
     sl.sort(key=lambda i: i[1], reverse=True)
     return sl[:limit]
