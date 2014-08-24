@@ -1,1 +1,1 @@
-include README.textile test_fuzzywuzzy.py LICENSE requirements.txt
+include README.rst test_fuzzywuzzy.py LICENSE requirements.txt

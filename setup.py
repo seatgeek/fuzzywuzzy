@@ -1,8 +1,9 @@
 from distutils.core import setup
 
 setup(name='fuzzywuzzy',
-      version='0.3.0',
+      version='0.3.1',
       description='Fuzzy string matching in python',
+      long_description=open('README.rst').read(),
       author='Adam Cohen',
       author_email='adam@seatgeek.com',
       url='https://github.com/seatgeek/fuzzywuzzy/',
