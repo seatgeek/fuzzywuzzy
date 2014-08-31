@@ -72,7 +72,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
             tuple = (choice, score, key)
             sl.append(tuple)
 
-    elif isinstance(choices, list):
+    else:
         for choice in choices:
             processed = processor(choice)
             score = scorer(query, processed)
