@@ -55,6 +55,7 @@ def extract(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, li
     if choices is None:
         return []
 
+    # Catch generators without lengths
     try:
         if len(choices) == 0:
             return []
