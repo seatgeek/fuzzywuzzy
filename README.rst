@@ -1,3 +1,6 @@
+.. |Build Status| image:: https://api.travis-ci.org/seatgeek/fuzzywuzzy.png?branch=master
+   :target: https:travis-ci.org/seatgeek/fuzzywuzzy
+
 FuzzyWuzzy
 ==========
 
@@ -14,17 +17,27 @@ Requirements
    Matching)
 
 Installation
-------------
+============
 
-With ``pip``
-~~~~~~~~
+Using PIP via PyPI
 
 .. code:: bash
 
-    pip install fuzzywuzzy
+    pip install fuzzywuzzy==0.3.1
 
-With ``git``
-~~~~~~~~~~~~~
+Using PIP via Github
+
+.. code:: bash
+
+    pip install git+git://github.com/seatgeek/fuzzywuzzy.git@0.3.1#egg=fuzzywuzzy
+
+Adding to your ``requirements.txt`` file (run ``pip install -r requirements.txt`` afterwards)
+
+.. code:: bash
+
+    git+ssh://git@github.com/seatgeek/fuzzywuzzy.git@0.3.1#egg=fuzzywuzzy
+    
+Manually via GIT::
 
 .. code:: bash
 
@@ -32,12 +45,6 @@ With ``git``
     cd fuzzywuzzy
     python setup.py install
 
-Manual
-~~~~~~
-
-1. Download: http://github.com/seatgeek/fuzzywuzzy/zipball/master
-2. Unzip the resulting file
-3. Run ``python setup.py install`` in the resulting folder
 
 Usage
 -----
@@ -93,32 +100,3 @@ Process
         [('New York Jets', 100), ('New York Giants', 78)]
     >>> process.extractOne("cowboys", choices)
         ("Dallas Cowboys", 90)
-
-License
--------
-
-::
-
-    Copyright © 2014 SeatGeek, Inc.
-
-     Permission is hereby granted, free of charge, to any person obtaining
-     a copy of this software and associated documentation files (the
-     “Software”), to deal in the Software without restriction, including
-     without limitation the rights to use, copy, modify, merge, publish,
-     distribute, sublicense, and/or sell copies of the Software, and to
-     permit persons to whom the Software is furnished to do so, subject to
-     the following conditions:
-
-     The above copyright notice and this permission notice shall be
-     included in all copies or substantial portions of the Software.
-
-     THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
-     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-     LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-     OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-     WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-.. |Build Status| image:: https://api.travis-ci.org/seatgeek/fuzzywuzzy.png?branch=master
-   :target: https:travis-ci.org/seatgeek/fuzzywuzzy
