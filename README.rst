@@ -34,7 +34,7 @@ Adding to your ``requirements.txt`` file (run ``pip install -r requirements.txt`
 
     git+ssh://git@github.com/seatgeek/fuzzywuzzy.git@0.3.1#egg=fuzzywuzzy
     
-Manually via GIT::
+Manually via GIT
 
 .. code:: bash
 
