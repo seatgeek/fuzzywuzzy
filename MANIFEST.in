@@ -1,1 +1,3 @@
-include README.rst test_fuzzywuzzy.py LICENSE requirements.txt
+include *.txt
+include *.rst
+include test_fuzzywuzzy.py
