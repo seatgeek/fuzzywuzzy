@@ -1,15 +1,12 @@
-.. |Build Status| image:: https://api.travis-ci.org/seatgeek/fuzzywuzzy.png?branch=master
-   :target: https:travis-ci.org/seatgeek/fuzzywuzzy
+|Build Status|
 
 FuzzyWuzzy
 ==========
 
 Fuzzy string matching like a boss.
 
-|Build Status|
-
 Requirements
-------------
+============
 
 -  Python 2.4 or higher
 -  difflib
@@ -47,7 +44,7 @@ Manually via GIT::
 
 
 Usage
------
+=====
 
 .. code:: python
 
@@ -100,3 +97,6 @@ Process
         [('New York Jets', 100), ('New York Giants', 78)]
     >>> process.extractOne("cowboys", choices)
         ("Dallas Cowboys", 90)
+
+.. |Build Status| image:: https://api.travis-ci.org/seatgeek/fuzzywuzzy.png?branch=master
+   :target: https:travis-ci.org/seatgeek/fuzzywuzzy
