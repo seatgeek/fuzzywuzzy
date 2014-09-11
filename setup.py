@@ -5,6 +5,7 @@
 
 # This file is part of fuzzywuzzy.
 
+from fuzzywuzzy import __version__
 import os
 
 try:
@@ -18,7 +19,7 @@ def open_file(fname):
 
 setup(
     name='fuzzywuzzy',
-    version=0.3.1,
+    version=__version__,
     author='Adam Cohen',
     author_email='adam@seatgeek.com',
     packages=['fuzzywuzzy'],
