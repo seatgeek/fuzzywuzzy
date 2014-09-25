@@ -32,7 +32,7 @@ from . import utils
 
 def extract(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, limit=5):
     """Find best matches in a list or dictionary of choices, return a
-    list of tuples containing the match and it's score. If a dictionery
+    list of tuples containing the match and its score. If a dictionery
     is used, also returns the key for each match.
 
     Arguments:
@@ -81,9 +81,9 @@ def extract(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, li
     return sl[:limit]
 
 
-def extractBests(query, choices, processor=utils.full_process, scorer=fuzz.Wratio, score_cutoff=0, limit=5):
+def extractBests(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0, limit=5):
     """Find best matches above a score in a list of choices, return a
-    list of tuples containing the match and it's score.
+    list of tuples containing the match and its score.
 
     Convenience method which returns the choices with best scores, see
     extract() for full arguments list
@@ -99,7 +99,7 @@ def extractBests(query, choices, processor=utils.full_process, scorer=fuzz.Wrati
 
 def extractOne(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0):
     """Find the best match above a score in a list of choices, return a
-    tuple containing the match and it's score if it's above the treshold
+    tuple containing the match and its score if it's above the threshold
     or None.
 
     Convenience method which returns the single best choice, see

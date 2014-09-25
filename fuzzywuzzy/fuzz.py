@@ -107,7 +107,7 @@ def partial_ratio(s1, s2):
 def _process_and_sort(s, force_ascii):
     """Return a cleaned string with token sorted."""
     # pull tokens
-    tokens = full_process(s, force_ascii=force_ascii).split()
+    tokens = utils.full_process(s, force_ascii=force_ascii).split()
 
     # sort tokens and join
     sorted_string = u" ".join(sorted(tokens))
@@ -146,13 +146,13 @@ def partial_token_sort_ratio(s1, s2, force_ascii=True):
     return _token_sort(s1, s2, partial=True, force_ascii=force_ascii)
 
 
-# Token Set
-#   find all alphanumeric tokens in each string...treat them as a set
-#   construct two strings of the form
-#       <sorted_intersection><sorted_remainder>
-#   take ratios of those two strings
-#   controls for unordered partial matches
 def _token_set(s1, s2, partial=True, force_ascii=True):
+    """Find all alphanumeric tokens in each string...
+        - treat them as a set
+        - construct two strings of the form:
+            <sorted_intersection><sorted_remainder>
+        - take ratios of those two strings
+        - controls for unordered partial matches"""
 
     if s1 is None:
         raise TypeError("s1 is None")

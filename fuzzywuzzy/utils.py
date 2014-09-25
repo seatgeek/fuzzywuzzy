@@ -10,14 +10,11 @@ PY3 = sys.version_info[0] == 3
 
 def validate_string(s):
     try:
-        if len(s) > 0:
-            return True
-        else:
-            return False
-    except:
+        return len(s) > 0
+    except TypeError:
         return False
 
-bad_chars = "".join([chr(i) for i in range(128, 256)])  # ascii dammit!
+bad_chars = str("").join([chr(i) for i in range(128, 256)])  # ascii dammit!
 if PY3:
     translation_table = dict((ord(c), None) for c in bad_chars)
 

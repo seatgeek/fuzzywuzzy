@@ -1,6 +1,10 @@
 from __future__ import unicode_literals
 import re
 import string
+import sys
+
+
+PY3 = sys.version_info[0] == 3
 
 
 class StringProcessor(object):
@@ -20,6 +24,11 @@ class StringProcessor(object):
         """
         return cls.regex.sub(u" ", a_string)
 
-    strip = staticmethod(string.strip)
-    to_lower_case = staticmethod(string.lower)
-    to_upper_case = staticmethod(string.upper)
+    if PY3:
+        strip = staticmethod(str.strip)
+        to_lower_case = staticmethod(str.lower)
+        to_upper_case = staticmethod(str.upper)
+    else:
+        strip = staticmethod(string.strip)
+        to_lower_case = staticmethod(string.lower)
+        to_upper_case = staticmethod(string.upper)
