@@ -52,8 +52,14 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
                        use utils.full_process()
 
     """
-    if choices is None or len(choices) == 0:
+    if choices is None:
         return []
+
+    try:
+        if len(choices) == 0:
+            return []
+    except TypeError:
+        pass
 
     # default, turn whatever the choice is into a workable string
     if processor is None:
@@ -72,7 +78,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
             tuple = (choice, score, key)
             sl.append(tuple)
 
-    elif isinstance(choices, list):
+    else:
         for choice in choices:
             processed = processor(choice)
             score = scorer(query, processed)
