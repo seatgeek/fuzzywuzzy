@@ -1,8 +1,24 @@
 Changelog
 =========
 
+0.3.3 (2014-10-22)
+------------------
+
+- Update release script to make it more generic. [Jose Diaz-Gonzalez]
+
+- Merge pull request #60 from ojomio/master. [Jose Diaz-Gonzalez]
+
+  Fixed issue #59 - "partial" parameter for `_token_set()` is now
+  honored
+
+- Merge pull request #54 from jlowin/patch-1. [Jose Diaz-Gonzalez]
+
+  Remove explicit check for lists
+
 0.3.2 (2014-09-12)
 ------------------
+
+- Release version 0.3.2. [Jose Diaz-Gonzalez]
 
 - Make release command an executable. [Jose Diaz-Gonzalez]
 
