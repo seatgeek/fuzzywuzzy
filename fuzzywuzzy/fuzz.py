@@ -177,10 +177,15 @@ def _token_set(s1, s2, partial=True, force_ascii=True):
     combined_1to2 = combined_1to2.strip()
     combined_2to1 = combined_2to1.strip()
 
+    if partial:
+        ratio_func = partial_ratio
+    else:
+        ratio_func = ratio
+
     pairwise = [
-        ratio(sorted_sect, combined_1to2),
-        ratio(sorted_sect, combined_2to1),
-        ratio(combined_1to2, combined_2to1)
+        ratio_func(sorted_sect, combined_1to2),
+        ratio_func(sorted_sect, combined_2to1),
+        ratio_func(combined_1to2, combined_2to1)
     ]
     return max(pairwise)
 

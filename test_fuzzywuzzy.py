@@ -88,6 +88,7 @@ class RatioTest(unittest.TestCase):
         self.s4 = "new york mets vs atlanta braves"
         self.s5 = "atlanta braves vs new york mets"
         self.s6 = "new york mets - atlanta braves"
+        self.s7 = 'new york city mets - atlanta braves'
 
         self.cirque_strings = [
             "cirque du soleil - zarkana - las vegas",
@@ -129,7 +130,7 @@ class RatioTest(unittest.TestCase):
         self.assertEqual(fuzz.token_set_ratio(self.s4, self.s5), 100)
 
     def testPartialTokenSetRatio(self):
-        self.assertEqual(fuzz.token_set_ratio(self.s4, self.s5), 100)
+        self.assertEqual(fuzz.partial_token_set_ratio(self.s4, self.s7), 100)
 
     def testQuickRatioEqual(self):
         self.assertEqual(fuzz.QRatio(self.s1, self.s1a), 100)
