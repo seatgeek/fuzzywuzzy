@@ -25,10 +25,12 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 from __future__ import unicode_literals
+import warnings
 
 try:
-    from StringMatcher import StringMatcher as SequenceMatcher
-except:
+    from .StringMatcher import StringMatcher as SequenceMatcher
+except ImportError:
+    warnings.warn('Using slow pure-python SequenceMatcher')
     from difflib import SequenceMatcher
 
 from . import utils
