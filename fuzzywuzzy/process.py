@@ -104,7 +104,7 @@ def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, li
 
     best_list = extract(query, choices, processor, scorer, limit)
     if len(best_list) > 0:
-        return list(itertools.takewhile(lambda x: x[1] > score_cutoff, best_list))
+        return list(itertools.takewhile(lambda x: x[1] >= score_cutoff, best_list))
     else:
         return []
 
@@ -127,7 +127,7 @@ def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
     best_list = extract(query, choices, processor, scorer, limit=1)
     if len(best_list) > 0:
         best = best_list[0]
-        if best[1] > score_cutoff:
+        if best[1] >= score_cutoff:
             return best
         else:
             return None
