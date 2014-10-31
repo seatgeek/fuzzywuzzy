@@ -379,6 +379,21 @@ class ProcessTest(unittest.TestCase):
         #best = process.extractOne(query, choices)
         #self.assertIsNotNone(best)
 
+    def testWithCutoff2(self):
+        choices = [
+            "new york mets vs chicago cubs",
+            "chicago cubs at new york mets",
+            "atlanta braves vs pittsbugh pirates",
+            "new york yankees vs boston red sox"
+        ]
+
+        query = "new york mets vs chicago cubs"
+        # Only find 100-score cases
+        res = process.extractOne(query, choices, score_cutoff=100)
+        self.assertTrue(res is not None)
+        best_match, score = res
+        self.assertTrue(best_match is choices[0])
+
     def testEmptyStrings(self):
         choices = [
             "",
