@@ -1,8 +1,21 @@
 Changelog
 =========
 
+0.4.0 (2014-10-31)
+------------------
+
+- Merge pull request #64 from ojomio/master. [Jose Diaz-Gonzalez]
+
+  In extarctBests() and extractOne() use '>=' instead of '>'
+
+- Merge pull request #62 from ojomio/master. [Jose Diaz-Gonzalez]
+
+  Fixed python3 issue with SequenceMatcher import
+
 0.3.3 (2014-10-22)
 ------------------
+
+- Release version 0.3.3. [Jose Diaz-Gonzalez]
 
 - Update release script to make it more generic. [Jose Diaz-Gonzalez]
 

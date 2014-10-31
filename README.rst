@@ -26,13 +26,13 @@ Using PIP via Github
 
 .. code:: bash
 
-    pip install git+git://github.com/seatgeek/fuzzywuzzy.git@0.3.3#egg=fuzzywuzzy
+    pip install git+git://github.com/seatgeek/fuzzywuzzy.git@0.4.0#egg=fuzzywuzzy
 
 Adding to your ``requirements.txt`` file (run ``pip install -r requirements.txt`` afterwards)
 
 .. code:: bash
 
-    git+ssh://git@github.com/seatgeek/fuzzywuzzy.git@0.3.3#egg=fuzzywuzzy
+    git+ssh://git@github.com/seatgeek/fuzzywuzzy.git@0.4.0#egg=fuzzywuzzy
     
 Manually via GIT
 
