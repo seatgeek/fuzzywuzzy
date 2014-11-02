@@ -30,7 +30,7 @@ from . import fuzz
 from . import utils
 
 
-def extract(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, limit=5):
+def extract(query, choices, processor=None, scorer=None, limit=5):
     """Find best matches in a list or dictionary of choices, return a
     list of tuples containing the match and its score. If a dictionery
     is used, also returns the key for each match.
@@ -62,6 +62,14 @@ def extract(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, li
     except TypeError:
         pass
 
+    # default, turn whatever the choice is into a workable string
+    if not processor:
+        processor = utils.full_process
+
+    # default: wratio
+    if not scorer:
+        scorer = fuzz.WRatio
+
     sl = list()
 
     if isinstance(choices, dict):
@@ -82,7 +90,7 @@ def extract(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, li
     return sl[:limit]
 
 
-def extractBests(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0, limit=5):
+def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, limit=5):
     """Find best matches above a score in a list of choices, return a
     list of tuples containing the match and its score.
 
@@ -98,7 +106,7 @@ def extractBests(query, choices, processor=utils.full_process, scorer=fuzz.WRati
     return list(itertools.takewhile(lambda x: x[1] >= score_cutoff, best_list))
 
 
-def extractOne(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0):
+def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
     """Find the best match above a score in a list of choices, return a
     tuple containing the match and its score if it's above the threshold
     or None.
