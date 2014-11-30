@@ -77,7 +77,6 @@ class UtilsTest(unittest.TestCase):
         for s in self.mixed_strings:
             utils.full_process(s, force_ascii=True)
 
-
 class RatioTest(unittest.TestCase):
 
     def setUp(self):
@@ -421,6 +420,32 @@ class ProcessTest(unittest.TestCase):
 
         best = process.extractOne(query, choices)
         self.assertEqual(best[0], choices[1])
+
+    def test_list_like_extract(self):
+        """We should be able to use a list-like object for choices."""
+        def generate_choices():
+            choices = ['a', 'Bb', 'CcC']
+            for choice in choices:
+                yield choice
+        search = 'aaa'
+        result = [(value, confidence) for value, confidence in
+                  process.extract(search, generate_choices())]
+        self.assertTrue(len(result) > 0)
+
+    def test_dict_like_extract(self):
+        """We should be able to use a dict-like object for choices, not only a
+        dict, and still get dict-like output.
+        """
+        try:
+            from UserDict import UserDict
+        except ImportError:
+            from collections import UserDict
+        choices = UserDict({'aa': 'bb', 'a1': None})
+        search = 'aaa'
+        result = process.extract(search, choices)
+        self.assertTrue(len(result) > 0)
+        for value, confidence, key in result:
+            self.assertTrue(value in choices.values())
 
 
 if __name__ == '__main__':
