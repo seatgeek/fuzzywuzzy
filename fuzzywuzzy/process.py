@@ -31,27 +31,52 @@ from . import utils
 
 
 def extract(query, choices, processor=None, scorer=None, limit=5):
-    """Find best matches in a list or dictionary of choices, return a
+    """Select the best match in a list or dictionary of choices.
+
+    Find best matches in a list or dictionary of choices, return a
     list of tuples containing the match and it's score. If a dictionery
     is used, also returns the key for each match.
 
     Arguments:
-        query       -- an object representing the thing we want to find
-        choices     -- a list or dictionary of objects we are attempting
-                       to extract values from. The dictionary should
-                       consist of {key: str} pairs.
-        scorer      -- f(OBJ, QUERY) --> INT. We will return the objects
-                       with the highest score by default, we use
-                       score.WRatio() and both OBJ and QUERY should be
-                       strings
-        processor   -- f(OBJ_A) --> OBJ_B, where the output is an input
-                       to scorer for example, "processor = lambda x:
-                       x[0]" would return the first element in a
-                       collection x (of, say, strings) this would then
-                       be used in the scoring collection by default, we
-                       use utils.full_process()
+        query: An object representing the thing we want to find.
+        choices: An iterable or dictionary-like object containing choices
+            to be matched against the query. Dictionary arguments of
+            {key: value} pairs will attempt to match the query against
+            each value.
+        processor: Optional function of the form f(a) -> b, where a is an
+            individual choice and b is the choice to be used in matching.
 
+            This can be used to match against, say, the first element of
+            a list:
+
+            lambda x: x[0]
+
+            Defaults to fuzzywuzzy.utils.full_process().
+        scorer: Optional function for scoring matches between the query and
+            an individual processed choice. This should be a function
+            of the form f(query, choice) -> int.
+
+            By default, fuzz.WRatio() is used and expects both query and
+            choice to be strings.
+        limit: Optional maximum for the number of elements returned. Defaults
+            to 5.
+
+    Returns:
+        List of tuples containing the match and its score.
+
+        If a list is used for choices, then the result will be 2-tuples.
+        If a dictionery is used, then the result will be 3-tuples containing
+        he key for each match.
+
+        For example, searching for 'bird' in the dictionary
+
+        {'bard': 'train', 'dog': 'man'}
+
+        may return
+
+        [('train', 22, 'bard'), ('man', 0, 'dog')]
     """
+
     if choices is None:
         return []
 
@@ -90,16 +115,23 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
 
 
 def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, limit=5):
-    """Find best matches above a score in a list of choices, return a
-    list of tuples containing the match and it's score.
+    """Get a list of the best matches to a collection of choices.
 
-    Convenience method which returns the choices with best scores, see
-    extract() for full arguments list
+    Convenience function for getting the choices with best scores.
 
-    Optional parameter: score_cutoff.
-        If the choice has a score of less than or equal to score_cutoff
-        it will not be included on result list
+    Args:
+        query: A string to match against
+        choices: A list or dictionary of choices, suitable for use with
+            extract().
+        processor: Optional function for transforming choices before matching.
+            See extract().
+        scorer: Scoring function for extract().
+        score_cutoff: Optional argument for score threshold. No matches with
+            a score less than this number will be returned. Defaults to 0.
+        limit: Optional maximum for the number of elements returned. Defaults
+            to 5.
 
+    Returns: A a list of (match, score) tuples.
     """
 
     best_list = extract(query, choices, processor, scorer, limit)
@@ -110,18 +142,25 @@ def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, li
 
 
 def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
-    """Find the best match above a score in a list of choices, return a
-    tuple containing the match and it's score if it's above the treshold
-    or None.
+    """Find the single best match above a score in a list of choices.
 
-    Convenience method which returns the single best choice, see
-    extract() for full arguments list
+    This is a convenience method which returns the single best choice.
+    See extract() for the full arguments list.
 
-    Optional parameter: score_cutoff.
-        If the best choice has a score of less than or equal to
-        score_cutoff we will return none (intuition: not a good enough
-        match)
+    Args:
+        query: A string to match against
+        choices: A list or dictionary of choices, suitable for use with
+            extract().
+        processor: Optional function for transforming choices before matching.
+            See extract().
+        scorer: Scoring function for extract().
+        score_cutoff: Optional argument for score threshold. If the best
+            match is found, but it is not greater than this number, then
+            return None anyway ("not a good enough match").  Defaults to 0.
 
+    Returns:
+        A tuple containing a single match and its score, if a match
+        was found that was above score_cutoff. Otherwise, returns None.
     """
 
     best_list = extract(query, choices, processor, scorer, limit=1)
