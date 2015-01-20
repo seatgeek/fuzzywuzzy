@@ -7,18 +7,14 @@ from fuzzywuzzy.string_processing import StringProcessor
 PY3 = sys.version_info[0] == 3
 
 
+
 def validate_string(s):
     try:
-        if len(s) > 0:
-            return True
-        else:
-            return False
-    except:
+        return len(s) > 0
+    except TypeError:
         return False
 
-bad_chars = str('')  # ascii dammit!
-for i in range(128, 256):
-    bad_chars += chr(i)
+bad_chars = str("").join([chr(i) for i in range(128, 256)])  # ascii dammit!
 if PY3:
     translation_table = dict((ord(c), None) for c in bad_chars)
 
@@ -40,6 +36,7 @@ def asciidammit(s):
 
 
 def make_type_consistent(s1, s2):
+    """If both objects aren't either both string or unicode instances force them to unicode"""
     if isinstance(s1, str) and isinstance(s2, str):
         return s1, s2
 

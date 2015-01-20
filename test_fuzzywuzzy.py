@@ -27,7 +27,7 @@ class StringProcessingTest(unittest.TestCase):
             proc_string = StringProcessor.replace_non_letters_non_numbers_with_whitespace(string)
             regex = re.compile(r"(?ui)[\W]")
             for expr in regex.finditer(proc_string):
-                self.assertEquals(expr.group(), " ")
+                self.assertEqual(expr.group(), " ")
 
     def test_dont_condense_whitespace(self):
         s1 = "new york mets - atlanta braves"
