@@ -1,37 +1,85 @@
 Changelog
 =========
 
+0.5.0 (2015-02-04)
+------------------
+
+- FIX: 0.4.0 is released, no need to specify 0.3.1 in README. [Josh
+  Warner (Mac)]
+
+- Fixed a small typo. [Rostislav Semenov]
+
+- Reset `processor` and `scorer` defaults to None with argument
+  checking. [foxxyz]
+
+- Catch generators without lengths. [Jeremiah Lowin]
+
+- Fixed python3 issue and deprecated assertion method. [foxxyz]
+
+- Fixed some docstrings, typos, python3 string method compatibility,
+  some errors that crept in during rebase. [foxxyz]
+
+- [mod] The lamdba in extract is not needed. [Olivier Le Thanh Duong]
+
+  [mod] Pass directly the defaults functions in the args
+
+  [mod] itertools.takewhile() can handle empty list just fine no need to test for it
+
+  [mod] Shorten extractOne by removing double if
+
+  [mod] Use a list comprehention in extract()
+
+  [mod] Autopep8 on process.py
+
+  [doc] Document make_type_consistent
+
+  [mod] bad_chars shortened
+
+  [enh] Move regex compilation outside the method, otherwhise we don't get the benefit from it
+
+  [mod] Don't need all the blah just to redefine method from string module
+
+  [mod] Remove unused import
+
+  [mod] Autopep8 on string_processing.py
+
+  [mod] Rewrote asciidammit without recursion to make it more readable
+
+  [mod] Autopep8 on utils.py
+
+  [mod] Remove unused import
+
+  [doc] Add some doc to fuzz.py
+
+  [mod] Move the code to sort string in a separate function
+
+  [doc] Docstrings for WRatio, UWRatio
+
+
+- Add note on which package to install. Closes #67. [Jose Diaz-Gonzalez]
+
 0.4.0 (2014-10-31)
 ------------------
 
-- Merge pull request #64 from ojomio/master. [Jose Diaz-Gonzalez]
+- In extarctBests() and extractOne() use '>=' instead of '>' [Юрий
+  Пайков]
 
-  In extarctBests() and extractOne() use '>=' instead of '>'
-
-- Merge pull request #62 from ojomio/master. [Jose Diaz-Gonzalez]
-
-  Fixed python3 issue with SequenceMatcher import
+- Fixed python3 issue with SequenceMatcher import. [Юрий Пайков]
 
 0.3.3 (2014-10-22)
 ------------------
 
-- Release version 0.3.3. [Jose Diaz-Gonzalez]
+- Fixed issue #59 - "partial" parameter for `_token_set()` is now
+  honored. [Юрий Пайков]
 
-- Update release script to make it more generic. [Jose Diaz-Gonzalez]
+- Catch generators without lengths. [Jeremiah Lowin]
 
-- Merge pull request #60 from ojomio/master. [Jose Diaz-Gonzalez]
+- Remove explicit check for lists. [Jeremiah Lowin]
 
-  Fixed issue #59 - "partial" parameter for `_token_set()` is now
-  honored
-
-- Merge pull request #54 from jlowin/patch-1. [Jose Diaz-Gonzalez]
-
-  Remove explicit check for lists
+  The logic in `process.extract()` should support any Python sequence/iterable. The explicit check for lists is unnecessary and limiting (for example, it forces conversion of generators and other iterable classes to lists).
 
 0.3.2 (2014-09-12)
 ------------------
-
-- Release version 0.3.2. [Jose Diaz-Gonzalez]
 
 - Make release command an executable. [Jose Diaz-Gonzalez]
 
@@ -43,97 +91,115 @@ Changelog
 
 - Minor formatting. [Jose Diaz-Gonzalez]
 
-- Update readme with proper installation notes. [Jose Diaz-Gonzalez]
-
 - Use __version__ from fuzzywuzzy package. [Jose Diaz-Gonzalez]
 
 - Set __version__ constant in __init__.py. [Jose Diaz-Gonzalez]
 
-- Update setup.py. [Jose Diaz-Gonzalez]
-
 - Rename LICENSE to LICENSE.txt. [Jose Diaz-Gonzalez]
-
-- Update packaging a bit. [Jose Diaz-Gonzalez]
 
 0.3.0 (2014-08-24)
 ------------------
 
-- Release 0.3.0. [Jose Diaz-Gonzalez]
+- Test dict input to extractOne() [jamesnunn]
 
-- Merge pull request #52 from jamesnunn/master. [Jose Diaz-Gonzalez]
+- Remove whitespace. [jamesnunn]
 
-  Choices data can now be input as dictionary or list
+- Choices parameter for extract() accepts both dict and list objects.
+  [jamesnunn]
 
-- Merge pull request #51 from frewsxcv/patch-1. [Jose Diaz-Gonzalez]
+- Enable automated testing with Python 3.4. [Corey Farwell]
 
-  Enable automated testing with Python 3.4
+- Fixed typo: lettters -> letters. [Tal Einat]
 
-- Merge pull request #50 from taleinat/master. [Jose Diaz-Gonzalez]
+- Fixing LICENSE and README's license info. [Dallas Gutauckis]
 
-  fixed typo: lettters -> letters
+- Proper ordered list. [Jeff Paine]
 
-- Merge pull request #49 from dallasgutauckis/license_fixes. [Jose Diaz-
-  Gonzalez]
+- Convert README to rst. [Jeff Paine]
 
-  Fixing LICENSE and README's license info
+- Add requirements.txt per discussion in #44. [Jeff Paine]
 
-- Merge pull request #48 from JeffPaine/rst. [Jose Diaz-Gonzalez]
+- Add LICENSE TO MANIFEST.in. [Jeff Paine]
 
-  Convert README to rst
+- Rename tests.py to more common test_fuzzywuzzy.py. [Jeff Paine]
 
-- Merge pull request #44 from JeffPaine/reqs. [Jose Diaz-Gonzalez]
+- Add proper MANIFEST template. [Jeff Paine]
 
-  Add proper requirements.txt file
+- Remove MANIFEST file Not meant to be kept in version control. [Jeff
+  Paine]
 
-- Merge pull request #45 from JeffPaine/patch-1. [Jose Diaz-Gonzalez]
+- Remove unused file. [Jeff Paine]
 
-  Add LICENSE TO MANIFEST.in
+- Pep8. [Jeff Paine]
 
-- Merge pull request #43 from JeffPaine/tests_rename. [Zack Kitzmiller]
+- Pep8 formatting. [Jeff Paine]
 
-  Rename tests.py to more common format
+- Pep8 formatting. [Jeff Paine]
 
-- Merge pull request #42 from JeffPaine/manifest. [Jose Diaz-Gonzalez]
+- Pep8 indentations. [Jeff Paine]
 
-  Proper MANIFEST
+- Pep8 cleanup. [Jeff Paine]
 
-- Merge pull request #41 from JeffPaine/cleanup. [Jose Diaz-Gonzalez]
+- Pep8. [Jeff Paine]
 
-  Remove unused file
+- Pep8 cleanup. [Jeff Paine]
 
-- Merge pull request #39 from JeffPaine/pep8. [Zack Kitzmiller]
+- Pep8 cleanup. [Jeff Paine]
 
-  Make codebase pep8 compliant
+- Pep8 import style. [Jeff Paine]
 
-- Merge pull request #38 from JeffPaine/patch-1. [Zack Kitzmiller]
+- Pep8 import ordering. [Jeff Paine]
 
-  Clean up imports
+- Pep8 import ordering. [Jeff Paine]
 
-- Merge pull request #37 from JeffPaine/patch-1. [Jose Diaz-Gonzalez]
+- Remove unused module. [Jeff Paine]
 
-  Add Travis CI badge
+- Pep8 import ordering. [Jeff Paine]
 
-- Merge pull request #36 from JeffPaine/patch-1. [Jose Diaz-Gonzalez]
+- Remove unused module. [Jeff Paine]
 
-  List supported python versions, bump minor
+- Pep8 import ordering. [Jeff Paine]
+
+- Remove unused imports. [Jeff Paine]
+
+- Remove unused module. [Jeff Paine]
+
+- Remove import * where present. [Jeff Paine]
+
+- Avoid import * [Jeff Paine]
+
+- Add Travis CI badge. [Jeff Paine]
+
+- Remove python 2.4, 2.5 from Travis (not supported) [Jeff Paine]
+
+- Add python 2.4 and 2.5 to Travis. [Jeff Paine]
+
+- Add all supported python versions to travis. [Jeff Paine]
+
+- Bump minor version number. [Jeff Paine]
+
+- Add classifiers for python versions. [Jeff Paine]
 
 - Added note about python-Levenshtein speedup. Closes #34. [Jose Diaz-
   Gonzalez]
 
-- Merge pull request #33 from grigi/master. [Adam Cohen]
+- Fixed tests on 2.6. [Grigi]
 
-  Python 3 compatibility
+- Fixed py2.6. [Grigi]
 
-- Merge pull request #32 from futoase/support-travis-ci. [Jose Diaz-
-  Gonzalez]
+- Force bad_chars to ascii. [Grigi]
 
-  Created: Added .travis.yml.
+- Since importing unicode_literals, u decorator not required on strings
+  from py2.6 and up. [Grigi]
 
-- Merge pull request #27 from olethanh/docstrings. [Jose Diaz-Gonzalez]
+- Py3 support without 2to3. [Grigi]
 
-  [enh] Add docstrings to process.py
+- Created: Added .travis.yml. [futoase]
 
-- Update comment. [Zack Kitzmiller]
+- [enh] Add docstrings to process.py. [Olivier Le Thanh Duong]
+
+  Turn the existings comments into docstrings so they can be seen via introspection
+
 
 - Don't condense multiple punctuation characters to a single whitespace.
   this is a behavioral change. [Adam Cohen]
@@ -144,28 +210,83 @@ Changelog
 
 - Unicode/string comparison bug. [Adam Cohen]
 
-- Merge pull request #23 from seatgeek/pr/20. [Adam Cohen]
+- To maintain backwards compatibility, default is to force_ascii as
+  before. [Adam Cohen]
 
-  Pull Request #20 Augmented With force_ascii parameter
+- Fix merge conflict. [Adam Cohen]
 
-- Merge pull request #14 from fjsj/master. [Adam Cohen]
+- New process function: extractBests. [Flávio Juvenal]
 
-  Find best matches above a score
+- More readable reverse sorting. [Flávio Juvenal]
 
-- Merge pull request #13 from
-  fjsj/d73be5b2ab8c94862f38bf8fa5c080b3b7b4e7aa. [Adam Cohen]
+- Further honoring of force_ascii. [Adam Cohen]
 
-  More readable reverse sorting
+- Indentation fix. [Adam Cohen]
 
-- Merge pull request #18 from yolesaber/master. [Adam Cohen]
+- Handle force_ascii in fuzz methods. [Adam Cohen]
 
-  Fixed return value of _token_set when given an empty string
+- Add back relevant tests. [Adam Cohen]
+
+- Utility method to make things consistent. [Adam Cohen]
+
+- Re-commit asciidammit and add a parameter to full_process to determine
+  behavior. [Adam Cohen]
+
+- Added a test for non letters/digits replacements. [Tristan Launay]
+
+- ENG-741 fixed benchmark line length. [Laurent Erignoux]
+
+- Fixed Unicode flag for tests. [Tristan Launay]
+
+- ENG-741 commented code removed not erased for review from creator.
+  [Laurent Erignoux]
+
+- ENG-741 cut long lines in fuzzy wizzy benchmark. [Laurent Erignoux]
+
+- Re-upped the limit on benchmark, now that performance is not an issue
+  anymore. [Tristan Launay]
+
+- Fixed comment. [Tristan Launay]
+
+- Simplified processing of strings with built-in regex code in python.
+  Also fixed empty string detection in token_sort_ratio. [Tristan
+  Launay]
+
+- Proper benchmark display. Introduce methods to explicitly do all the
+  unicode preprocessing *before* using fuzz lib. [Tristan Launay]
+
+- ENG-741: having a true benchmark, to see when we improve stuff.
+  [Benjamin Combourieu]
+
+- Unicode support in benchmark.py. [Benjamin Combourieu]
+
+- Added file for processing strings. [Tristan Launay]
+
+- Uniform treatment of strings in Unicode. Non-ASCII chars are now
+  considered in strings, which allows for matches in Cyrillic, Chinese,
+  Greek, etc. [Tristan Launay]
+
+- Fixed bug in _token_set. [Michael Edward]
 
 - Removed reference to PR. [Jose Diaz-Gonzalez]
 
-- Merge pull request #11 from medecau/master. [Adam Cohen]
+- Sadist build and virtualenv dirs are not part of the project. [Pedro
+  Rodrigues]
 
-  Issue 10 and refactoring
+- Fixes https://github.com/seatgeek/fuzzywuzzy/issues/10 and correctly
+  points to README.textile. [Pedro Rodrigues]
+
+- Info on the pull request. [Pedro Rodrigues]
+
+- Pullstat.us button. [Pedro Rodrigues]
+
+- Fuzzywuzzy really needs better benchmarks. [Pedro Rodrigues]
+
+- Moved tests and benchmarks out of the package. [Pedro Rodrigues]
+
+- Report better ratio()s redundant import try. [Pedro Rodrigues]
+
+- AssertGreater did not exist in python 2.4. [Pedro Rodrigues]
 
 - Remove debug output. [Adam Cohen]
 
@@ -182,13 +303,30 @@ Changelog
 
 - Adding some real-life event data for benchmarking. [Adam Cohen]
 
-- Merge pull request #5 from medecau/master. [Adam Cohen]
+- Cleaned up utils.py. [Pedro Rodrigues]
 
-  Speed improvements
+- Optimized speed for full_process() [Pedro Rodrigues]
 
-- Merge pull request #4 from umbrae/patch-1. [Jose Diaz-Gonzalez]
+- Speed improvements to asciidammit. [Pedro Rodrigues]
 
-  Just adding some simple install instructions for pip.
+- Removed old versions of validate_string() and remove_ponctuation()
+  kept from previous commits. [Pedro Rodrigues]
+
+- Issue #6 from github updated license headers to match MIT license.
+  [Pedro Rodrigues]
+
+- Clean up. [Pedro Rodrigues]
+
+- Changes to utils.validate_string() and benchmarks. [Pedro Rodrigues]
+
+- Some benchmarks to test the changes made to remove_punctuation. [Pedro
+  Rodrigues]
+
+- Faster remove_punctuation. [Pedro Rodrigues]
+
+- AssertIsNone did not exist in Python 2.4. [Pedro Rodrigues]
+
+- Just adding some simple install instructions for pip. [Chris Dary]
 
 - Check for null/empty strings in QRatio and WRatio. Add tests. Closes
   #3. [Adam Cohen]
@@ -200,8 +338,6 @@ Changelog
 - README. [Adam Cohen]
 
 - Slight change to README. [Adam Cohen]
-
-- Updated readme. [Jose Diaz-Gonzalez]
 
 - Some readme. [Adam Cohen]
 
