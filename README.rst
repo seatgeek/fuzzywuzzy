@@ -20,7 +20,7 @@ Using PIP via PyPI
 
 .. code:: bash
 
-    pip install fuzzywuzzy==0.3.1
+    pip install fuzzywuzzy
 
 Using PIP via Github
 
