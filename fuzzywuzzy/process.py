@@ -95,21 +95,20 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
     if not scorer:
         scorer = fuzz.WRatio
 
-    sl = list()
+    sl = []
 
-    if isinstance(choices, dict):
+    try:
+        # See if choices is a dictionary-like object.
         for key, choice in choices.items():
             processed = processor(choice)
             score = scorer(query, processed)
-            tuple = (choice, score, key)
-            sl.append(tuple)
-
-    else:
+            sl.append((choice, score, key))
+    except AttributeError:
+        # It's a list; just iterate over it.
         for choice in choices:
             processed = processor(choice)
             score = scorer(query, processed)
-            tuple = (choice, score)
-            sl.append(tuple)
+            sl.append((choice, score))
 
     sl.sort(key=lambda i: i[1], reverse=True)
     return sl[:limit]
