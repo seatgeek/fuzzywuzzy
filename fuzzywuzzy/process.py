@@ -162,3 +162,60 @@ def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
     if len(best_list) > 0 and best_list[0][1] >= score_cutoff:
         return best_list[0]
     return None
+
+def dedupe (contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
+    """This convenience function takes a list of strings containing duplicates and uses fuzzy matching to identify 
+    and remove duplicates. Specifically, it uses the process.extract to identify duplicates that 
+    score greater than a user defined threshold. Then, it looks for the longest item in the duplicate list
+    since we assume this item contains the most entity information and returns that. It breaks string 
+    length ties on an alphabetical sort.
+    
+    Note: as the threshold DECREASES the number of duplicates that are found INCREASES. This means that the 
+        returned deduplicated list will likely be shorter. Raise the threshold for fuzzy_dedupe to be less 
+        sensitive.
+    
+    Args:
+        contains_dupes: A list of strings that we would like to dedupe.
+        threshold: the numerical value (0,100) point at which we expect to find duplicates. 
+            Defaults to 70 out of 100
+        scorer: Optional function for scoring matches between the query and
+            an individual processed choice. This should be a function
+            of the form f(query, choice) -> int.
+            By default, fuzz.token_set_ratio() is used and expects both query and
+            choice to be strings.
+
+    Returns:
+        A deduplicated list. For example:
+
+            In: contains_dupes = ['Frodo Baggin', 'Frodo Baggins', 'F. Baggins', 'Samwise G.', 'Gandalf', 'Bilbo Baggins']
+            In: fuzzy_dedupe(contains_dupes)
+            Out: ['Frodo Baggins', 'Samwise G.', 'Bilbo Baggins', 'Gandalf']
+        """
+
+    extractor = []
+    
+    # iterate over items in *contains_dupes*
+    for item in contains_dupes:
+        # return all duplicate matches found
+        matches = process.extract(item, contains_dupes, limit=None, scorer=scorer)
+        # filter matches based on the threshold 
+        filtered = [x for x in matches if x[1] > threshold]
+        # if there is only 1 item in *filtered*, no duplicates were found so append to *extracted*
+        if len(filtered) == 1:
+            extractor.append(filtered[0][0])
+
+        else:
+            # alpha sort
+            filtered = sorted(filtered, key = lambda(x): x[0])
+            # length sort
+            filter_sort = sorted(filtered, key = lambda(x): len(x[0]), reverse=True)
+            # take first item as our 'canonical example'
+            extractor.append(filter_sort[0][0])
+
+    # uniquify *extractor* list
+    keys = {}
+    for e in extractor:
+        keys[e] = 1
+    extractor = keys.keys()
+ 
+    return extractor
