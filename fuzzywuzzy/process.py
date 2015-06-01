@@ -206,9 +206,9 @@ def dedupe (contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
 
         else:
             # alpha sort
-            filtered = sorted(filtered, key = lambda(x): x[0])
+            filtered = sorted(filtered, key = lambda x: x[0])
             # length sort
-            filter_sort = sorted(filtered, key = lambda(x): len(x[0]), reverse=True)
+            filter_sort = sorted(filtered, key = lambda x: len(x[0]), reverse=True)
             # take first item as our 'canonical example'
             extractor.append(filter_sort[0][0])
 
