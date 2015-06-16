@@ -447,6 +447,25 @@ class ProcessTest(unittest.TestCase):
         for value, confidence, key in result:
             self.assertTrue(value in choices.values())
 
+    def test_dedupe(self):
+        """We should be able to use a list-like object for contains_dupes
+        """
+        ## Test 1
+        contains_dupes = ['Frodo Baggins', 'Tom Sawyer', 'Bilbo Baggin', 'Samuel L. Jackson', 'F. Baggins', 'Frody Baggins', 'Bilbo Baggins']
+
+        result = process.dedupe(contains_dupes)
+        self.assertTrue(len(result) < len(contains_dupes))
+
+
+        ## Test 2
+        contains_dupes = ['Tom', 'Dick', 'Harry']
+        
+        # we should end up with the same list since no duplicates are contained in the list (e.g. original list is returned)
+        deduped_list = ['Tom','Dick','Harry']
+
+        result = process.dedupe(contains_dupes)
+        self.assertEqual(result, deduped_list)
+
 
 if __name__ == '__main__':
     unittest.main()         # run all tests
