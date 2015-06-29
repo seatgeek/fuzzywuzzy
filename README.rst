@@ -100,3 +100,9 @@ Process
 
 .. |Build Status| image:: https://api.travis-ci.org/seatgeek/fuzzywuzzy.png?branch=master
    :target: https:travis-ci.org/seatgeek/fuzzywuzzy
+
+Known Ports
+============
+Some people are porting FizzyWuzzy to other languages. Here is one port we know about:
+
+-  Java: https://github.com/WantedTechnologies/xpresso/wiki/Approximate-string-comparison-and-pattern-matching-in-Java
