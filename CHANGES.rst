@@ -1,6 +1,55 @@
 Changelog
 =========
 
+0.6.0 (2015-07-20)
+------------------
+
+- Added link to a java port. [Andriy Burkov]
+
+- Patched "name 'unicode' is not defined" python3. [Carlos Garay]
+
+  https://github.com/seatgeek/fuzzywuzzy/issues/80
+
+- Make process.extract accept {dict, list}-like choices. [Nathan
+  Typanski]
+
+  Previously, process.extract expected lists or dictionaries, and tested
+  this with isinstance() calls. In keeping with the spirit of Python (duck
+  typing and all that), this change enables one to use extract() on any
+  dict-like object for dict-like results, or any list-like object for
+  list-like results.
+
+  So now we can (and, indeed, I've added tests for these uses) call
+  extract() on things like:
+
+  - a generator of strings ("any iterable")
+  - a UserDict
+  - custom user-made classes that "look like" dicts
+    (or, really, anything with a .items() method that behaves like a dict)
+  - plain old lists and dicts
+
+  The behavior is exactly the same for previous use cases of
+  lists-and-dicts.
+
+  This change goes along nicely with PR #68, since those docs suggest
+  dict-like behavior is valid, and this change makes that true.
+
+
+- Merge conflict. [Adam Cohen]
+
+- Improve docs for fuzzywuzzy.process. [Nathan Typanski]
+
+  The documentation for this module was dated and sometimes inaccurate.
+  This overhauls the docs to accurately describe the current module,
+  including detailing optional arguments that were not previously
+  explained - e.g., limit argument to extract().
+
+  This change follows the Google Python Style Guide, which may be found
+  at:
+
+  <https://google-styleguide.googlecode.com/svn/trunk/pyguide.html?showone=Comments#Comments>
+
+
 0.5.0 (2015-02-04)
 ------------------
 
