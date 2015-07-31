@@ -158,7 +158,7 @@ def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0, forc
         A tuple containing a single match and its score, if a match
         was found that was above score_cutoff. Otherwise, returns None.
     """
-    best_list = extract(query, choices, processor, scorer, limit=1, force_ascii)
+    best_list = extract(query, choices, processor, scorer, limit=1, force_ascii=force_ascii)
     if len(best_list) > 0 and best_list[0][1] >= score_cutoff:
         return best_list[0]
     return None
@@ -197,7 +197,7 @@ def dedupe (contains_dupes, threshold=70, scorer=fuzz.token_set_ratio, force_asc
     # iterate over items in *contains_dupes*
     for item in contains_dupes:
         # return all duplicate matches found
-        matches = extract(item, contains_dupes, limit=None, scorer=scorer, force_ascii)
+        matches = extract(item, contains_dupes, limit=None, scorer=scorer, force_ascii=force_ascii)
         # filter matches based on the threshold 
         filtered = [x for x in matches if x[1] > threshold]
         # if there is only 1 item in *filtered*, no duplicates were found so append to *extracted*
