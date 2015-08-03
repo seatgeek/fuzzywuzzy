@@ -22,7 +22,10 @@ if PY3:
 
 def asciionly(s):
     if PY3:
-        return s.translate(translation_table)
+        for z in s:
+            if 128 <= ord(z):
+                s.replace(z, '')
+        return s
     else:
         return s.translate(None, bad_chars)
 
