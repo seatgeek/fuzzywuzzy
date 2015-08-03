@@ -30,7 +30,7 @@ from . import fuzz
 from . import utils
 
 
-def extract(query, choices, processor=None, scorer=None, limit=5):
+def extract(query, choices, processor=None, scorer=None, limit=5, force_ascii=True):
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
@@ -101,20 +101,20 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
         # See if choices is a dictionary-like object.
         for key, choice in choices.items():
             processed = processor(choice)
-            score = scorer(query, processed)
+            score = scorer(query, processed, force_ascii)
             sl.append((choice, score, key))
     except AttributeError:
         # It's a list; just iterate over it.
         for choice in choices:
             processed = processor(choice)
-            score = scorer(query, processed)
+            score = scorer(query, processed, force_ascii)
             sl.append((choice, score))
 
     sl.sort(key=lambda i: i[1], reverse=True)
     return sl[:limit]
 
 
-def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, limit=5):
+def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, limit=5, force_ascii=True):
     """Get a list of the best matches to a collection of choices.
 
     Convenience function for getting the choices with best scores.
@@ -133,11 +133,11 @@ def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, li
 
     Returns: A a list of (match, score) tuples.
     """
-    best_list = extract(query, choices, processor, scorer, limit)
+    best_list = extract(query, choices, processor, scorer, limit, force_ascii)
     return list(itertools.takewhile(lambda x: x[1] >= score_cutoff, best_list))
 
 
-def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
+def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0, force_ascii=True):
     """Find the single best match above a score in a list of choices.
 
     This is a convenience method which returns the single best choice.
@@ -158,12 +158,12 @@ def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
         A tuple containing a single match and its score, if a match
         was found that was above score_cutoff. Otherwise, returns None.
     """
-    best_list = extract(query, choices, processor, scorer, limit=1)
+    best_list = extract(query, choices, processor, scorer, limit=1, force_ascii=force_ascii)
     if len(best_list) > 0 and best_list[0][1] >= score_cutoff:
         return best_list[0]
     return None
 
-def dedupe (contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
+def dedupe (contains_dupes, threshold=70, scorer=fuzz.token_set_ratio, force_ascii=True):
     """This convenience function takes a list of strings containing duplicates and uses fuzzy matching to identify 
     and remove duplicates. Specifically, it uses the process.extract to identify duplicates that 
     score greater than a user defined threshold. Then, it looks for the longest item in the duplicate list
@@ -197,7 +197,7 @@ def dedupe (contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
     # iterate over items in *contains_dupes*
     for item in contains_dupes:
         # return all duplicate matches found
-        matches = extract(item, contains_dupes, limit=None, scorer=scorer)
+        matches = extract(item, contains_dupes, limit=None, scorer=scorer, force_ascii=force_ascii)
         # filter matches based on the threshold 
         filtered = [x for x in matches if x[1] > threshold]
         # if there is only 1 item in *filtered*, no duplicates were found so append to *extracted*

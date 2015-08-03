@@ -310,6 +310,9 @@ class ProcessTest(unittest.TestCase):
             "philladelphia phillies vs atlanta braves",
             "braves vs mets",
         ]
+        
+        self.unicode_choices = [u'\u82f9\u679c', u'\u6a59\u5b50', 'Apple', 'Orange']
+        self.unicode_query = u'\u5c0f\u82f9\u679c'
 
     def testWithProcessor(self):
         events = [
@@ -406,6 +409,14 @@ class ProcessTest(unittest.TestCase):
 
         best = process.extractOne(query, choices)
         self.assertEqual(best[0], choices[1])
+
+    def testUnicodeFoundWithForceAsciiFalse(self):
+        best = process.extract(self.unicode_query, self.unicode_choices, force_ascii=False)
+        self.assertTrue(best[0][1] > 50, str(best[0][1]))
+        
+    def testUnicodeNotFoundWithForceAsciiTrue(self):
+        best = process.extract(self.unicode_query, self.unicode_choices, force_ascii=True)
+        self.assertTrue(best[0][1] == 0, str(best[0][1]))
 
     def testNullStrings(self):
         choices = [
