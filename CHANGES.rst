@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.6.1 (2015-08-07)
+------------------
+
+- Minor whitespace changes for PEP8. [Jose Diaz-Gonzalez]
+
 0.6.0 (2015-07-20)
 ------------------
 
