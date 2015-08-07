@@ -10,6 +10,7 @@ ported from python-Levenshtein
 from Levenshtein import *
 from warnings import warn
 
+
 class StringMatcher:
     """A SequenceMatcher-like class built on the top of Levenshtein"""
 

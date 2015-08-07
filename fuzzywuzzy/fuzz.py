@@ -113,6 +113,7 @@ def _process_and_sort(s, force_ascii):
     sorted_string = u" ".join(sorted(tokens))
     return sorted_string.strip()
 
+
 # Sorted Token
 #   find all alphanumeric tokens in the string
 #   sort those tokens and take ratio of resulting joined strings
@@ -131,6 +132,7 @@ def _token_sort(s1, s2, partial=True, force_ascii=True):
         return partial_ratio(sorted1, sorted2)
     else:
         return ratio(sorted1, sorted2)
+
 
 def token_sort_ratio(s1, s2, force_ascii=True):
     """Return a measure of the sequences' similarity between 0 and 100

@@ -7,7 +7,6 @@ from fuzzywuzzy.string_processing import StringProcessor
 PY3 = sys.version_info[0] == 3
 
 
-
 def validate_string(s):
     try:
         return len(s) > 0

@@ -77,6 +77,7 @@ class UtilsTest(unittest.TestCase):
         for s in self.mixed_strings:
             utils.full_process(s, force_ascii=True)
 
+
 class RatioTest(unittest.TestCase):
 
     def setUp(self):
@@ -371,12 +372,12 @@ class ProcessTest(unittest.TestCase):
 
         best = process.extractOne(query, choices, score_cutoff=50)
         self.assertTrue(best is None)
-        #self.assertIsNone(best) # unittest.TestCase did not have assertIsNone until Python 2.7
+        # self.assertIsNone(best) # unittest.TestCase did not have assertIsNone until Python 2.7
 
         # however if we had no cutoff, something would get returned
 
-        #best = process.extractOne(query, choices)
-        #self.assertIsNotNone(best)
+        # best = process.extractOne(query, choices)
+        # self.assertIsNotNone(best)
 
     def testWithCutoff2(self):
         choices = [
@@ -450,18 +451,17 @@ class ProcessTest(unittest.TestCase):
     def test_dedupe(self):
         """We should be able to use a list-like object for contains_dupes
         """
-        ## Test 1
+        # Test 1
         contains_dupes = ['Frodo Baggins', 'Tom Sawyer', 'Bilbo Baggin', 'Samuel L. Jackson', 'F. Baggins', 'Frody Baggins', 'Bilbo Baggins']
 
         result = process.dedupe(contains_dupes)
         self.assertTrue(len(result) < len(contains_dupes))
 
-
-        ## Test 2
+        # Test 2
         contains_dupes = ['Tom', 'Dick', 'Harry']
-        
+
         # we should end up with the same list since no duplicates are contained in the list (e.g. original list is returned)
-        deduped_list = ['Tom','Dick','Harry']
+        deduped_list = ['Tom', 'Dick', 'Harry']
 
         result = process.dedupe(contains_dupes)
         self.assertEqual(result, deduped_list)

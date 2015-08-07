@@ -60,7 +60,7 @@ for s in mixed_strings + cirque_strings + choices:
     print_result_from_timeit('utils.full_process(u\'%s\')' % s,
                              common_setup + basic_setup, number=iterations)
 
-### benchmarking the core matching methods...
+# benchmarking the core matching methods...
 
 for s in cirque_strings:
     print 'Test fuzz.ratio for string: "%s"' % s
