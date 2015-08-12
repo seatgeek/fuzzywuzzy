@@ -414,10 +414,6 @@ class ProcessTest(unittest.TestCase):
         best = process.extract(self.unicode_query, self.unicode_choices, force_ascii=False)
         self.assertTrue(best[0][1] > 50, str(best[0][1]))
         
-    def testUnicodeNotFoundWithForceAsciiTrue(self):
-        best = process.extract(self.unicode_query, self.unicode_choices, force_ascii=True)
-        self.assertTrue(best[0][1] == 0, str(best[0][1]))
-
     def testNullStrings(self):
         choices = [
             None,
