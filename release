@@ -16,6 +16,11 @@ CYAN="\033[0;36m"     # cyan
 # ensure wheel is available
 pip install wheel > /dev/null
 
+command -v rst-lint > /dev/null || {
+    echo -e "${RED}WARNING: Missing rst-lint binary, please run: pip install restructuredtext_lint${COLOR_OFF}\n"
+    exit 1
+}
+
 if [[ "$@" != "major" ]] && [[ "$@" != "minor" ]] && [[ "$@" != "patch" ]]; then
     echo -e "${RED}WARNING: Invalid release type, must specify 'major', 'minor', or 'patch'${COLOR_OFF}\n"
     exit 1
