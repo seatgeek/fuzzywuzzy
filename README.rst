@@ -103,6 +103,6 @@ Process
 
 Known Ports
 ============
-Some people are porting FizzyWuzzy to other languages. Here is one port we know about:
+Some people are porting FuzzyWuzzy to other languages. Here is one port we know about:
 
 -  Java: https://github.com/WantedTechnologies/xpresso/wiki/Approximate-string-comparison-and-pattern-matching-in-Java
