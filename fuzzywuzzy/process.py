@@ -34,7 +34,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
-    list of tuples containing the match and it's score. If a dictionery
+    list of tuples containing the match and it's score. If a dictionary
     is used, also returns the key for each match.
 
     Arguments:
@@ -65,7 +65,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
         List of tuples containing the match and its score.
 
         If a list is used for choices, then the result will be 2-tuples.
-        If a dictionery is used, then the result will be 3-tuples containing
+        If a dictionary is used, then the result will be 3-tuples containing
         he key for each match.
 
         For example, searching for 'bird' in the dictionary
