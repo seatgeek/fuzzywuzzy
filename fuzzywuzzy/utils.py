@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 import sys
+import functools
 
 from fuzzywuzzy.string_processing import StringProcessor
 
@@ -12,6 +13,24 @@ def validate_string(s):
         return len(s) > 0
     except TypeError:
         return False
+
+def check_for_none(func):
+    @functools.wraps(func)
+    def decorator(*args, **kwargs):
+        if args[0] is None:
+            raise TypeError("s1 is None")
+        if args[1] is None:
+            raise TypeError("s2 is None")
+        return func(*args, **kwargs)
+    return decorator
+
+def check_empty_string(func):
+    @functools.wraps(func)
+    def decorator(*args, **kwargs):
+        if len(args[0]) == 0 or len(args[1]) == 0:
+            return 0
+        return  func(*args, **kwargs)
+    return decorator
 
 bad_chars = str("").join([chr(i) for i in range(128, 256)])  # ascii dammit!
 if PY3:
