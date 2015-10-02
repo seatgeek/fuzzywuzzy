@@ -1,6 +1,26 @@
 Changelog
 =========
 
+0.7.0 (2015-10-02)
+------------------
+
+- Use portable syntax for catching exception on tests. [Luis Madrigal]
+
+- [Fix] test against correct variable. [Luis Madrigal]
+
+- Add unit tests for validator decorators. [Luis Madrigal]
+
+- Move validators to decorator functions. [Luis Madrigal]
+
+  This allows easier composition and IMO makes the functions more readable
+
+
+- Fix typo: dictionery -> dictionary. [shale]
+
+- FizzyWuzzy -> FuzzyWuzzy typo correction. [shale]
+
+- Add check for gitchangelog. [Jose Diaz-Gonzalez]
+
 0.6.2 (2015-09-03)
 ------------------
 
