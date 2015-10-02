@@ -284,6 +284,40 @@ class RatioTest(unittest.TestCase):
         best = process.extractOne(query, self.baseball_strings)
         self.assertEqual(best[0], self.baseball_strings[0])
 
+class ValidatorTest(unittest.TestCase):
+    def setUp(self):
+        self.testFunc = lambda *args, **kwargs: (args, kwargs)
+
+    def testCheckForNone(self):
+        invalid_input = [
+            (None, None),
+            ('Some', None),
+            (None, 'Some')
+        ]
+        decorated_func = utils.check_for_none(self.testFunc)
+        for i in invalid_input:
+            self.assertRaises(TypeError, decorated_func, *i)
+
+        try:
+            valid_input = ['Some', 'Some']
+            decorated_func(*valid_input)
+        except ValueError, e:
+            self.fail('check_for_none matched non-None input', valid_input, e)
+
+    def testCheckEmptyString(self):
+        invalid_input = [
+            ('', ''),
+            ('Some', ''),
+            ('', 'Some')
+        ]
+        decorated_func = utils.check_empty_string(self.testFunc)
+        for i in invalid_input:
+            self.assertEqual(decorated_func(*i), 0)
+
+        valid_input = ('Some', 'Some')
+        actual = decorated_func(*i)
+        self.assertNotEqual(actual, 0)
+
 
 class ProcessTest(unittest.TestCase):
 
