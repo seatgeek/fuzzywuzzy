@@ -301,7 +301,7 @@ class ValidatorTest(unittest.TestCase):
         try:
             valid_input = ['Some', 'Some']
             decorated_func(*valid_input)
-        except ValueError, e:
+        except ValueError as e:
             self.fail('check_for_none matched non-None input', valid_input, e)
 
     def testCheckEmptyString(self):
