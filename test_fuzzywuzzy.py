@@ -315,7 +315,7 @@ class ValidatorTest(unittest.TestCase):
             self.assertEqual(decorated_func(*i), 0)
 
         valid_input = ('Some', 'Some')
-        actual = decorated_func(*i)
+        actual = decorated_func(*valid_input)
         self.assertNotEqual(actual, 0)
 
 
