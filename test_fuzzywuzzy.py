@@ -263,27 +263,6 @@ class RatioTest(unittest.TestCase):
         score = fuzz._token_sort(s1, s2, force_ascii=False)
         self.assertLess(score, 100)
 
-    # test processing methods
-    def testGetBestChoice1(self):
-        query = "new york mets at atlanta braves"
-        best = process.extractOne(query, self.baseball_strings)
-        self.assertEqual(best[0], "braves vs mets")
-
-    def testGetBestChoice2(self):
-        query = "philadelphia phillies at atlanta braves"
-        best = process.extractOne(query, self.baseball_strings)
-        self.assertEqual(best[0], self.baseball_strings[2])
-
-    def testGetBestChoice3(self):
-        query = "atlanta braves at philadelphia phillies"
-        best = process.extractOne(query, self.baseball_strings)
-        self.assertEqual(best[0], self.baseball_strings[2])
-
-    def testGetBestChoice4(self):
-        query = "chicago cubs vs new york mets"
-        best = process.extractOne(query, self.baseball_strings)
-        self.assertEqual(best[0], self.baseball_strings[0])
-
 class ValidatorTest(unittest.TestCase):
     def setUp(self):
         self.testFunc = lambda *args, **kwargs: (args, kwargs)
@@ -345,6 +324,27 @@ class ProcessTest(unittest.TestCase):
             "philladelphia phillies vs atlanta braves",
             "braves vs mets",
         ]
+
+    def testGetBestChoice1(self):
+        query = "new york mets at atlanta braves"
+        best = process.extractOne(query, self.baseball_strings)
+        self.assertEqual(best[0], "braves vs mets")
+
+    def testGetBestChoice2(self):
+        query = "philadelphia phillies at atlanta braves"
+        best = process.extractOne(query, self.baseball_strings)
+        self.assertEqual(best[0], self.baseball_strings[2])
+
+    def testGetBestChoice3(self):
+        query = "atlanta braves at philadelphia phillies"
+        best = process.extractOne(query, self.baseball_strings)
+        self.assertEqual(best[0], self.baseball_strings[2])
+
+    def testGetBestChoice4(self):
+        query = "chicago cubs vs new york mets"
+        best = process.extractOne(query, self.baseball_strings)
+        self.assertEqual(best[0], self.baseball_strings[0])
+
 
     def testWithProcessor(self):
         events = [
