@@ -263,6 +263,7 @@ class RatioTest(unittest.TestCase):
         score = fuzz._token_sort(s1, s2, force_ascii=False)
         self.assertLess(score, 100)
 
+
 class ValidatorTest(unittest.TestCase):
     def setUp(self):
         self.testFunc = lambda *args, **kwargs: (args, kwargs)
@@ -345,7 +346,6 @@ class ProcessTest(unittest.TestCase):
         best = process.extractOne(query, self.baseball_strings)
         self.assertEqual(best[0], self.baseball_strings[0])
 
-
     def testWithProcessor(self):
         events = [
             ["chicago cubs vs new york mets", "CitiField", "2011-05-11", "8pm"],
@@ -353,9 +353,8 @@ class ProcessTest(unittest.TestCase):
             ["atlanta braves vs pittsburgh pirates", "PNC Park", "2011-05-11", "8pm"],
         ]
         query = "new york mets vs chicago cubs"
-        processor = lambda event: event[0]
 
-        best = process.extractOne(query, events, processor=processor)
+        best = process.extractOne(query, events, processor=lambda event: event[0])
         self.assertEqual(best[0], events[0])
 
     def testWithScorer(self):
