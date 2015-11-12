@@ -86,7 +86,7 @@ def partial_ratio(s1, s2):
         else:
             scores.append(r)
 
-    return int(100 * max(scores))
+    return utils.intr(100 * max(scores))
 
 
 ##############################
@@ -130,6 +130,7 @@ def partial_token_sort_ratio(s1, s2, force_ascii=True):
     0 and 100 but sorting the token before comparing.
     """
     return _token_sort(s1, s2, partial=True, force_ascii=force_ascii)
+
 
 @utils.check_for_none
 def _token_set(s1, s2, partial=True, force_ascii=True):
@@ -250,12 +251,12 @@ def WRatio(s1, s2, force_ascii=True):
         ptser = partial_token_set_ratio(p1, p2, force_ascii=force_ascii) \
             * unbase_scale * partial_scale
 
-        return int(max(base, partial, ptsor, ptser))
+        return utils.intr(max(base, partial, ptsor, ptser))
     else:
         tsor = token_sort_ratio(p1, p2, force_ascii=force_ascii) * unbase_scale
         tser = token_set_ratio(p1, p2, force_ascii=force_ascii) * unbase_scale
 
-        return int(max(base, tsor, tser))
+        return utils.intr(max(base, tsor, tser))
 
 
 def UWRatio(s1, s2):
