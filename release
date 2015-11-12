@@ -37,6 +37,12 @@ if [ ! $? -eq 0 ]; then
     echo -e "${RED}WARNING: You have PEP 8 violations in your code. Please fix them.${COLOR_OFF}"
     exit 1
 fi
+
+python test_fuzzywuzzy.py &> /dev/null  # run the tests
+if [ ! $? -eq 0 ]; then
+    echo -e "${RED}WARNING: The tests are failing.${COLOR_OFF}"
+    exit 1
+fi
 set -e;
 
 if [[ "$@" != "major" ]] && [[ "$@" != "minor" ]] && [[ "$@" != "patch" ]]; then
