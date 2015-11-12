@@ -26,18 +26,7 @@ command -v rst-lint > /dev/null || {
     exit 1
 }
 
-command -v pep8 > /dev/null || {
-    echo -e "${RED}WARNING: Missing pep8 command, please run: pip install pep8${COLOR_OFF}\n"
-    exit 1
-}
-
 set +e;
-pep8 --ignore=E501 &> /dev/null  # ignore long lines ONLY
-if [ ! $? -eq 0 ]; then
-    echo -e "${RED}WARNING: You have PEP 8 violations in your code. Please fix them.${COLOR_OFF}"
-    exit 1
-fi
-
 python test_fuzzywuzzy.py &> /dev/null  # run the tests
 if [ ! $? -eq 0 ]; then
     echo -e "${RED}WARNING: The tests are failing.${COLOR_OFF}"
