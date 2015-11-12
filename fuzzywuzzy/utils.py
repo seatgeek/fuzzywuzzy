@@ -14,6 +14,7 @@ def validate_string(s):
     except TypeError:
         return False
 
+
 def check_for_none(func):
     @functools.wraps(func)
     def decorator(*args, **kwargs):
@@ -24,12 +25,13 @@ def check_for_none(func):
         return func(*args, **kwargs)
     return decorator
 
+
 def check_empty_string(func):
     @functools.wraps(func)
     def decorator(*args, **kwargs):
         if len(args[0]) == 0 or len(args[1]) == 0:
             return 0
-        return  func(*args, **kwargs)
+        return func(*args, **kwargs)
     return decorator
 
 bad_chars = str("").join([chr(i) for i in range(128, 256)])  # ascii dammit!
