@@ -26,6 +26,14 @@ command -v rst-lint > /dev/null || {
     exit 1
 }
 
+set +e;
+python test_fuzzywuzzy.py &> /dev/null  # run the tests
+if [ ! $? -eq 0 ]; then
+    echo -e "${RED}WARNING: The tests are failing.${COLOR_OFF}"
+    exit 1
+fi
+set -e;
+
 if [[ "$@" != "major" ]] && [[ "$@" != "minor" ]] && [[ "$@" != "patch" ]]; then
     echo -e "${RED}WARNING: Invalid release type, must specify 'major', 'minor', or 'patch'${COLOR_OFF}\n"
     exit 1

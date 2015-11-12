@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import unittest
 import re
 import sys
+import pep8
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
@@ -263,6 +264,7 @@ class RatioTest(unittest.TestCase):
         score = fuzz._token_sort(s1, s2, force_ascii=False)
         self.assertLess(score, 100)
 
+
 class ValidatorTest(unittest.TestCase):
     def setUp(self):
         self.testFunc = lambda *args, **kwargs: (args, kwargs)
@@ -345,7 +347,6 @@ class ProcessTest(unittest.TestCase):
         best = process.extractOne(query, self.baseball_strings)
         self.assertEqual(best[0], self.baseball_strings[0])
 
-
     def testWithProcessor(self):
         events = [
             ["chicago cubs vs new york mets", "CitiField", "2011-05-11", "8pm"],
@@ -353,9 +354,8 @@ class ProcessTest(unittest.TestCase):
             ["atlanta braves vs pittsburgh pirates", "PNC Park", "2011-05-11", "8pm"],
         ]
         query = "new york mets vs chicago cubs"
-        processor = lambda event: event[0]
 
-        best = process.extractOne(query, events, processor=processor)
+        best = process.extractOne(query, events, processor=lambda event: event[0])
         self.assertEqual(best[0], events[0])
 
     def testWithScorer(self):
@@ -500,6 +500,14 @@ class ProcessTest(unittest.TestCase):
         result = process.dedupe(contains_dupes)
         self.assertEqual(result, deduped_list)
 
+
+class TestCodeFormat(unittest.TestCase):
+    def test_pep8_conformance(self):
+        pep8style = pep8.StyleGuide(quiet=True)
+        pep8style.options.ignore = pep8style.options.ignore + tuple(['E501'])
+        pep8style.input_dir('fuzzywuzzy')
+        result = pep8style.check_files()
+        self.assertEqual(result.total_errors, 0, "PEP8 POLICE - WOOOOOWOOOOOOOOOO")
 
 if __name__ == '__main__':
     unittest.main()         # run all tests
