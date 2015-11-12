@@ -2,8 +2,15 @@
 
 from timeit import timeit
 import math
+import csv
 
 iterations = 100000
+
+
+reader = csv.DictReader(open('data/titledata.csv'), delimiter='|')
+titles = [i['custom_title'] for i in reader]
+title_blob = '\n'.join(titles)
+
 
 cirque_strings = [
     "cirque du soleil - zarkana - las vegas",
@@ -79,3 +86,21 @@ for s in cirque_strings:
     print '-------------------------------'
     print_result_from_timeit('fuzz.WRatio(u\'cirque du soleil\', u\'%s\')' % s,
                              common_setup + basic_setup, number=iterations / 100)
+
+
+# let me show you something
+
+s = 'New York Yankees'
+
+test = 'import functools\n'
+test += 'title_blob = """%s"""\n' % title_blob
+test += 'title_blob = title_blob.strip()\n'
+test += 'titles = title_blob.split("\\n")\n'
+
+print 'Real world ratio(): "%s"' % s
+print '-------------------------------'
+test += 'prepared_ratio = functools.partial(fuzz.ratio, "%s")\n' % s
+test += 'titles.sort(key=prepared_ratio)\n'
+print_result_from_timeit(test,
+                         common_setup + basic_setup,
+                         number=100)
