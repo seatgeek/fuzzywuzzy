@@ -49,7 +49,6 @@ def ratio(s1, s2):
     return utils.intr(100 * m.ratio())
 
 
-# todo: skip duplicate indexes for a little more speed
 @utils.check_for_none
 @utils.check_empty_string
 def partial_ratio(s1, s2):
@@ -189,8 +188,6 @@ def token_set_ratio(s1, s2, force_ascii=True):
 def partial_token_set_ratio(s1, s2, force_ascii=True):
     return _token_set(s1, s2, partial=True, force_ascii=force_ascii)
 
-
-# TODO: numerics
 
 ###################
 # Combination API #
