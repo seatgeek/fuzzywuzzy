@@ -1,6 +1,48 @@
 Changelog
 =========
 
+0.8.0 (2015-11-16)
+------------------
+
+- Refer to Levenshtein distance in readme. Closes #88. [Jose Diaz-
+  Gonzalez]
+
+- Added install step for travis to have pep8 available. [Pedro
+  Rodrigues]
+
+- Added a pep8 test. The way I add the error 501 to the ignore tuple is
+  probably wrong but from the docs and source code of pep8 I could not
+  find any other way. [Pedro Rodrigues]
+
+  I also went ahead and removed the pep8 call from the release file.
+
+
+- Added python 3.5, pypy, and ypyp3 to the travis config file. [Pedro
+  Rodrigues]
+
+- Added another step to the release file to run the tests before
+  releasing. [Pedro Rodrigues]
+
+- Fixed a few pep8 errors Added a verification step in the release
+  automation file. This step should probably be somewhere at git level.
+  [Pedro Rodrigues]
+
+- Pep8. [Pedro Rodrigues]
+
+- Leaving TODOs in the code was never a good idea. [Pedro Rodrigues]
+
+- Changed return values to be rounded integers. [Pedro Rodrigues]
+
+- Added a test with the recovered data file. [Pedro Rodrigues]
+
+- Recovered titledata.csv. [Pedro Rodrigues]
+
+- Move extract test methods into the process test. [Shale Craig]
+
+  Somehow, they ended up in the `RatioTest`, despite asserting that the
+  `ProcessTest` works.
+
+
 0.7.0 (2015-10-02)
 ------------------
 
