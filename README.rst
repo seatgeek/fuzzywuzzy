@@ -3,7 +3,7 @@
 FuzzyWuzzy
 ==========
 
-Fuzzy string matching like a boss. It uses [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) to help calculate differences between sequences in a simple to use package.
+Fuzzy string matching like a boss. It uses `Levenshtein Distance <https://en.wikipedia.org/wiki/Levenshtein_distance>`_ to help calculate differences between sequences in a simple to use package.
 
 Requirements
 ============
