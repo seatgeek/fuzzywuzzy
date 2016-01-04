@@ -3,8 +3,9 @@ import re
 import string
 import sys
 
-
 PY3 = sys.version_info[0] == 3
+if PY3:
+    string = str
 
 
 class StringProcessor(object):
@@ -22,13 +23,8 @@ class StringProcessor(object):
         This function replaces any sequence of non letters and non
         numbers with a single white space.
         """
-        return cls.regex.sub(u" ", a_string)
+        return cls.regex.sub(" ", a_string)
 
-    if PY3:
-        strip = staticmethod(str.strip)
-        to_lower_case = staticmethod(str.lower)
-        to_upper_case = staticmethod(str.upper)
-    else:
-        strip = staticmethod(string.strip)
-        to_lower_case = staticmethod(string.lower)
-        to_upper_case = staticmethod(string.upper)
+    strip = staticmethod(string.strip)
+    to_lower_case = staticmethod(string.lower)
+    to_upper_case = staticmethod(string.upper)
