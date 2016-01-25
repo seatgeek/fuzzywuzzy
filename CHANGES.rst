@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.8.1 (2016-01-25)
+------------------
+
+- Minor release changes. [Jose Diaz-Gonzalez]
+
+- Clean up wiki link in readme. [Ewan Oglethorpe]
+
 0.8.0 (2015-11-16)
 ------------------
 
