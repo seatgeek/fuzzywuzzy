@@ -16,6 +16,9 @@ CYAN="\033[0;36m"     # cyan
 # ensure wheel is available
 pip install wheel > /dev/null
 
+# ensure Pygment is available
+pip install Pygments > /dev/null
+
 command -v gitchangelog >/dev/null 2>&1 || {
     echo -e "${RED}WARNING: Missing gitchangelog binary, please run: pip install gitchangelog==2.2.0${COLOR_OFF}\n"
     exit 1
@@ -90,10 +93,12 @@ replace_with="__version__ = '$next_version'"
 echo -e "${YELLOW}--->${COLOR_OFF} Updating ${INIT_PACKAGE_NAME}/__init__.py"
 sed "s/$find_this/$replace_with/" ${INIT_PACKAGE_NAME}/__init__.py > $TMPFILE && mv $TMPFILE ${INIT_PACKAGE_NAME}/__init__.py
 
+echo -e "${YELLOW}--->${COLOR_OFF} Updating README.rst"
 find_this="${PACKAGE_NAME}.git@$current_version"
 replace_with="${PACKAGE_NAME}.git@$next_version"
-
-echo -e "${YELLOW}--->${COLOR_OFF} Updating README.rst"
+sed "s/$find_this/$replace_with/" README.rst > $TMPFILE && mv $TMPFILE README.rst
+find_this="${PACKAGE_NAME}==$current_version"
+replace_with="${PACKAGE_NAME}==$next_version"
 sed "s/$find_this/$replace_with/" README.rst > $TMPFILE && mv $TMPFILE README.rst
 
 if [ -f docs/conf.py ]; then
@@ -102,7 +107,7 @@ if [ -f docs/conf.py ]; then
     replace_with="version = '${next_version}'"
     sed "s/$find_this/$replace_with/" docs/conf.py > $TMPFILE && mv $TMPFILE docs/conf.py
 
-    find_this="version = '${current_version}'"
+    find_this="release = '${current_version}'"
     replace_with="release = '${next_version}'"
     sed "s/$find_this/$replace_with/" docs/conf.py > $TMPFILE && mv $TMPFILE docs/conf.py
 fi
