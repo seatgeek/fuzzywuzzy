@@ -25,12 +25,14 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 from __future__ import unicode_literals
+import platform
 import warnings
 
 try:
     from .StringMatcher import StringMatcher as SequenceMatcher
 except ImportError:
-    warnings.warn('Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning')
+    if platform.python_implementation() != "PyPy":
+        warnings.warn('Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning')
     from difflib import SequenceMatcher
 
 from . import utils
