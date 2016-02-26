@@ -135,6 +135,9 @@ if [[ "$PUBLIC" == "true" ]]; then
     cp README.rst README
     python setup.py sdist bdist_wheel upload > /dev/null
     rm README
+else
+    echo -e "${YELLOW}--->${COLOR_OFF} Creating local python dist and wheel for manual release"
+    python setup.py sdist bdist_wheel > /dev/null
 fi
 
-echo -e "\n${CYAN}RELEASED VERSION ${next_version}!${COLOR_OFF}\n"
+echo -e "\n${CYAN}RELEASED VERSION ${next_version}${COLOR_OFF}\n"
