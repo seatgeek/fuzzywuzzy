@@ -54,6 +54,7 @@ set -e;
 
 echo -e "${YELLOW}--->${COLOR_OFF} Updating local copy"
 git pull -q origin master
+git fetch --tags > /dev/null
 
 echo -e "${YELLOW}--->${COLOR_OFF} Retrieving release versions"
 
