@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.8.2 (2016-02-26)
+------------------
+
+- Remove the warning for "slow" sequence matcher on PyPy. [Julian
+  Berman]
+
+  where it's preferable to use the pure-python implementation.
+
 0.8.1 (2016-01-25)
 ------------------
 
