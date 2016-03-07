@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.9.0 (2016-03-07)
+------------------
+
+- Pull down all keys when updating local copy. [Jose Diaz-Gonzalez]
+
 0.8.2 (2016-02-26)
 ------------------
 
