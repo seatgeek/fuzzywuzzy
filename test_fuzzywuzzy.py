@@ -277,13 +277,11 @@ class ValidatorTest(unittest.TestCase):
         ]
         decorated_func = utils.check_for_none(self.testFunc)
         for i in invalid_input:
-            self.assertRaises(TypeError, decorated_func, *i)
+            self.assertEqual(decorated_func(*i), 0)
 
-        try:
-            valid_input = ['Some', 'Some']
-            decorated_func(*valid_input)
-        except ValueError as e:
-            self.fail('check_for_none matched non-None input', valid_input, e)
+        valid_input = ('Some', 'Some')
+        actual = decorated_func(*valid_input)
+        self.assertNotEqual(actual, 0)
 
     def testCheckEmptyString(self):
         invalid_input = [

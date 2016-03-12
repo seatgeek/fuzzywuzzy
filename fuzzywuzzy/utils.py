@@ -18,10 +18,8 @@ def validate_string(s):
 def check_for_none(func):
     @functools.wraps(func)
     def decorator(*args, **kwargs):
-        if args[0] is None:
-            raise TypeError("s1 is None")
-        if args[1] is None:
-            raise TypeError("s2 is None")
+        if args[0] is None or args[1] is None:
+            return 0
         return func(*args, **kwargs)
     return decorator
 
