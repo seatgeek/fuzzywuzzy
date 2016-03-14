@@ -261,3 +261,35 @@ def UWRatio(s1, s2):
     using different algorithms. Same as WRatio but preserving unicode.
     """
     return WRatio(s1, s2, force_ascii=False)
+
+
+#################################
+# Scoring based on Ascii Values #
+#################################
+
+def AsciiCode(s1):
+    #sums the Ascii values of characters of string
+    code = 0;
+    for i in xrange(len(s1)):
+        code += ord(s1[i]);
+    return code;
+    
+def AsciiCodeSequence(s1):
+    #sums the Ascii values of characters of string 
+    #also takes into account the position of character
+    code = 0;
+    for i in xrange(len(s1)):
+        code += (i+1)*ord(s1[i]);
+    return code;
+
+def AsciiRatio(s1, s2):
+    #similarity ratio based on Ascii values of characters in string
+    code1 = AsciiCode(s1);
+    code2 = AsciiCode(s2);
+    return 100 - (100*abs(code1-code2) / (code1+code2));
+
+def AsciiSequenceRatio(s1, s2):
+    #similarity ratio which takes into account position of characters 
+    code1 = AsciiCodeSequence(s1);
+    code2 = AsciiCodeSequence(s2);
+    return 100 - (100*abs(code1-code2) / (code1+code2));
