@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.10.0 (2016-03-13)
+-------------------
+
+- Handle None inputs same as empty string (Issue #94) [Nick Miller]
+
 0.9.0 (2016-03-07)
 ------------------
 
