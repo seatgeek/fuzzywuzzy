@@ -5,6 +5,7 @@ StringMatcher.py
 
 ported from python-Levenshtein
 [https://github.com/miohtama/python-Levenshtein]
+License available here: https://github.com/miohtama/python-Levenshtein/blob/master/COPYING
 """
 
 from Levenshtein import *
