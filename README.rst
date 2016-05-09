@@ -57,7 +57,7 @@ Simple Ratio
 .. code:: python
 
     >>> fuzz.ratio("this is a test", "this is a test!")
-        96
+        97
 
 Partial Ratio
 ~~~~~~~~~~~~~
@@ -73,7 +73,7 @@ Token Sort Ratio
 .. code:: python
 
     >>> fuzz.ratio("fuzzy wuzzy was a bear", "wuzzy fuzzy was a bear")
-        90
+        91
     >>> fuzz.token_sort_ratio("fuzzy wuzzy was a bear", "wuzzy fuzzy was a bear")
         100
 
@@ -103,6 +103,7 @@ Process
 
 Known Ports
 ============
+
 Some people are porting FuzzyWuzzy to other languages. Here is one port we know about:
 
 -  Java: https://github.com/WantedTechnologies/xpresso/wiki/Approximate-string-comparison-and-pattern-matching-in-Java
