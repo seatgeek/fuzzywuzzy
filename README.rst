@@ -3,7 +3,7 @@
 FuzzyWuzzy
 ==========
 
-Fuzzy string matching like a boss. It uses `Levenshtein Distance <https://en.wikipedia.org/wiki/Levenshtein_distance>`_ to help calculate differences between sequences in a simple to use package.
+Fuzzy string matching like a boss. It uses `Levenshtein Distance <https://en.wikipedia.org/wiki/Levenshtein_distance>`_ to calculate the differences between sequences in a simple-to-use package.
 
 Requirements
 ============
@@ -104,6 +104,6 @@ Process
 Known Ports
 ============
 
-Some people are porting FuzzyWuzzy to other languages. Here is one port we know about:
+FuzzyWuzzy is being ported to other languages too! Here is one port we know about:
 
 -  Java: https://github.com/WantedTechnologies/xpresso/wiki/Approximate-string-comparison-and-pattern-matching-in-Java
