@@ -24,13 +24,13 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-import itertools
 
 from . import fuzz
 from . import utils
+import heapq
 
 
-def extractWithoutOrder(query, choices, processor=None, scorer=None):
+def extractWithoutOrder(query, choices, processor=None, scorer=None, score_cutoff=0):
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
@@ -58,6 +58,8 @@ def extractWithoutOrder(query, choices, processor=None, scorer=None):
 
             By default, fuzz.WRatio() is used and expects both query and
             choice to be strings.
+        score_cutoff: Optional argument for score threshold. No matches with
+            a score less than this number will be returned. Defaults to 0.
 
     Returns:
         Generator of tuples containing the match and its score.
@@ -74,6 +76,8 @@ def extractWithoutOrder(query, choices, processor=None, scorer=None):
 
         ('train', 22, 'bard'), ('man', 0, 'dog')
     """
+    def no_process(x):
+        return x
 
     if choices is None:
         raise StopIteration
@@ -85,26 +89,31 @@ def extractWithoutOrder(query, choices, processor=None, scorer=None):
     except TypeError:
         pass
 
-    # default, turn whatever the choice is into a workable string
-    if not processor:
-        processor = utils.full_process
-
     # default: wratio
     if not scorer:
         scorer = fuzz.WRatio
+        # fuzz.WRatio already process string so no need extra step
+        if not processor:
+            processor = no_process
+
+    # default, turn whatever the choice is into a workable string
+    if not processor:
+        processor = utils.full_process
 
     try:
         # See if choices is a dictionary-like object.
         for key, choice in choices.items():
             processed = processor(choice)
             score = scorer(query, processed)
-            yield (choice, score, key)
+            if score >= score_cutoff:
+                yield (choice, score, key)
     except AttributeError:
         # It's a list; just iterate over it.
         for choice in choices:
             processed = processor(choice)
             score = scorer(query, processed)
-            yield (choice, score)
+            if score >= score_cutoff:
+                yield (choice, score)
 
 
 def extract(query, choices, processor=None, scorer=None, limit=5):
@@ -132,7 +141,6 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
         scorer: Optional function for scoring matches between the query and
             an individual processed choice. This should be a function
             of the form f(query, choice) -> int.
-
             By default, fuzz.WRatio() is used and expects both query and
             choice to be strings.
         limit: Optional maximum for the number of elements returned. Defaults
@@ -153,10 +161,9 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
 
         [('train', 22, 'bard'), ('man', 0, 'dog')]
     """
-
     sl = extractWithoutOrder(query, choices, processor, scorer)
-    res = utils.partial_sort(sl, key=lambda i: i[1], limit=limit, reverse=True)
-    return [el for el in res]
+    return heapq.nlargest(limit, sl, key=lambda i: i[1]) if limit is not None else \
+        sorted(sl, key=lambda i: i[1], reverse=True)
 
 
 def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, limit=5):
@@ -179,9 +186,9 @@ def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, li
     Returns: A a list of (match, score) tuples.
     """
 
-    best_list = (el for el in extractWithoutOrder(query, choices, processor, scorer) if el[1] >= score_cutoff)
-    res = utils.partial_sort(best_list, limit=limit, key=lambda i: i[1], reverse=True)
-    return [el for el in res]
+    best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
+    return heapq.nlargest(limit, best_list, key=lambda i: i[1]) if limit is not None else \
+        sorted(best_list, key=lambda i: i[1], reverse=True)
 
 
 def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
@@ -205,8 +212,11 @@ def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
         A tuple containing a single match and its score, if a match
         was found that was above score_cutoff. Otherwise, returns None.
     """
-    best_list = extractBests(query, choices, processor, scorer, score_cutoff=score_cutoff, limit=1)
-    return best_list[0] if len(best_list) > 0 else None
+    best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
+    try:
+        return max(best_list, key=lambda i: i[1])
+    except ValueError:
+        return None
 
 
 def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):

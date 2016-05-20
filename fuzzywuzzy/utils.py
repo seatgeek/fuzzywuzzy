@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 import sys
 import functools
-import heapq
 
 from fuzzywuzzy.string_processing import StringProcessor
 
@@ -104,30 +103,3 @@ class RankedToken:
 
     def __lt__(self, other):
         return self.rank < other.rank
-
-
-def partial_sort(collection, key, limit, reverse=False):
-    """Utility to sort the first n elements of a collection.
-    Provide a better performance than sorting the entire collection
-    and choosing the first elements n.
-
-    Arguments:
-        collection: collection from where first elements should be extract.
-        key: A callable key selector .
-        limit: number of elements to return.
-        reverse: if true the last elements will be returned.
-
-    Returns:
-        Generator for the first ordered elements
-    """
-    h = []
-    for item in collection:
-        rank = key(item) if not reverse else -key(item)
-        heapq.heappush(h, RankedToken(rank, item))
-    if limit is None:
-        limit = len(h)
-    try:
-        for index in range(0, limit):
-            yield heapq.heappop(h).item
-    except IndexError:
-        pass
