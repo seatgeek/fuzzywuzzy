@@ -90,16 +90,3 @@ def full_process(s, force_ascii=False):
 def intr(n):
     '''Returns a correctly rounded integer'''
     return int(round(n))
-
-
-@functools.total_ordering
-class RankedToken:
-    def __init__(self, rank, item):
-        self.rank = rank
-        self.item = item
-
-    def __eq__(self, other):
-        return self.item == other.item
-
-    def __lt__(self, other):
-        return self.rank < other.rank
