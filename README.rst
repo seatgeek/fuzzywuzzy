@@ -11,7 +11,7 @@ Requirements
 
 -  Python 2.4 or higher
 -  difflib
--  `python-Levenshtein <https://github.com/ztane/python-Levenshtein/>` (optional, provides a 4-10x speedup in String
+-  `python-Levenshtein <https://github.com/ztane/python-Levenshtein/>`_ (optional, provides a 4-10x speedup in String
    Matching)
 
 Installation
