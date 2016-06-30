@@ -1,7 +1,24 @@
 Changelog
 =========
 
-0.10.0 (2016-03-13)
+0.11.0 (2016-06-30)
+-------------------
+
+- Clean-up. [desmaisons_david]
+
+- Improving performance. [desmaisons_david]
+
+- Performance Improvement. [desmaisons_david]
+
+- Fix link to Levenshtein. [Brian J. McGuirk]
+
+- Fix readme links. [Brian J. McGuirk]
+
+- Add license to StringMatcher.py. [Jose Diaz-Gonzalez]
+
+  Closes #113
+
+0.10.0 (2016-03-14)
 -------------------
 
 - Handle None inputs same as empty string (Issue #94) [Nick Miller]
