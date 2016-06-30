@@ -219,7 +219,7 @@ def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
         return None
 
 
-def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
+def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio, return_dupes=False):
     """This convenience function takes a list of strings containing duplicates and uses fuzzy matching to identify
     and remove duplicates. Specifically, it uses the process.extract to identify duplicates that
     score greater than a user defined threshold. Then, it looks for the longest item in the duplicate list
@@ -239,6 +239,8 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
             of the form f(query, choice) -> int.
             By default, fuzz.token_set_ratio() is used and expects both query and
             choice to be strings.
+        return_dupes: bool, indicates whether to return an additional dictionary 
+            indicating the values removed and for which value they were matched.
 
     Returns:
         A deduplicated list. For example:
@@ -251,6 +253,7 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
     extractor = []
 
     # iterate over items in *contains_dupes*
+    dupe_mapping = {}
     for item in contains_dupes:
         # return all duplicate matches found
         matches = extract(item, contains_dupes, limit=None, scorer=scorer)
@@ -267,6 +270,10 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
             filter_sort = sorted(filtered, key=lambda x: len(x[0]), reverse=True)
             # take first item as our 'canonical example'
             extractor.append(filter_sort[0][0])
+            if filter_sort[0][0] in dupe_mapping:
+                dupe_mapping[filter_sort[0][0]].extend([f[0] for f in filter_sort])
+            else:
+                dupe_mapping[filter_sort[0][0]] = [f[0] for f in filter_sort]
 
     # uniquify *extractor* list
     keys = {}
@@ -276,7 +283,15 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
 
     # check that extractor differs from contain_dupes (e.g. duplicates were found)
     # if not, then return the original list
+
     if len(extractor) == len(contains_dupes):
-        return contains_dupes
+        return_values = contains_dupes
     else:
-        return extractor
+        return_values = extractor
+
+    if return_dupes:
+        for key in dupe_mapping.keys():
+            dupe_mapping[key] = sorted(list(set(dupe_mapping[key])))
+        return return_values, dupe_mapping
+    else:
+        return return_values
