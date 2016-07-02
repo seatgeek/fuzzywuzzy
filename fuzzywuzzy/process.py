@@ -252,7 +252,7 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio, return_dup
             Out: ['Frodo Baggins', 'Samwise G.', 'Bilbo Baggins', 'Gandalf']
         """
 
-    extractor = set()
+    extractor = []
 
     # iterate over items in *contains_dupes*
     dupe_mapping = {}
@@ -265,7 +265,7 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio, return_dup
         # if there is only 1 item in *filtered*, no duplicates were found so
         # append to *extracted*
         if len(filtered) == 1:
-            extractor.add(filtered[0][0])
+            dupe_mapping[filtered[0][0]] = filtered[0][0]
         else:
             # alpha sort
             filtered = sorted(filtered, key=lambda x: x[0])
@@ -273,17 +273,9 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio, return_dup
             filter_sort = sorted(
                 filtered, key=lambda x: len(x[0]), reverse=True)
             # take first item as our 'canonical example'
-            example = filter_sort[0][0]
-            extractor.add(example)
-            if return_dupes:
-                if item in dupe_mapping:
-                    dupe_mapping[item].append(example)
-                else:
-                    dupe_mapping[item] = [example]
+            dupe_mapping[item] = filter_sort[0][0]
 
     if return_dupes:
-        for key in dupe_mapping.keys():
-            dupe_mapping[key] = sorted(list(set(dupe_mapping[key])))
-        return list(extractor), dupe_mapping
+        return set(dupe_mapping.values()), dupe_mapping
     else:
-        return list(extractor)
+        return set(dupe_mapping.values())

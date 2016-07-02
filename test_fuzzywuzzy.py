@@ -496,7 +496,7 @@ class ProcessTest(unittest.TestCase):
         deduped_list = ['Tom', 'Dick', 'Harry']
 
         result = process.dedupe(contains_dupes)
-        self.assertEqual(result, deduped_list)
+        self.assertEqual(sorted(result), sorted(deduped_list))
 
     def test_dedupe_returns(self):
         """
@@ -511,11 +511,13 @@ class ProcessTest(unittest.TestCase):
         self.assertTrue(len(result) < len(contains_dupes))
 
         # Check mapping
-        correct_mapping = {'Bilbo Baggin': ['Bilbo Baggins'],
-         'Bilbo Baggins': ['Bilbo Baggins'],
-         'F. Baggins': ['Bilbo Baggins'],
-         'Frodo Baggins': ['Frodo Baggins'],
-         'Frody Baggins': ['Frodo Baggins']}
+        correct_mapping = {'Bilbo Baggin': 'Bilbo Baggins',
+                             'Bilbo Baggins': 'Bilbo Baggins',
+                             'F. Baggins': 'Bilbo Baggins',
+                             'Frodo Baggins': 'Frodo Baggins',
+                             'Frody Baggins': 'Frodo Baggins',
+                             'Samuel L. Jackson': 'Samuel L. Jackson',
+                             'Tom Sawyer': 'Tom Sawyer'}
         self.assertEqual(sorted(correct_mapping.keys()), sorted(mapping.keys()))
         for key in mapping.keys():
             self.assertTrue(key in correct_mapping)
