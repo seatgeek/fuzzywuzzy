@@ -186,7 +186,8 @@ def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, li
     Returns: A a list of (match, score) tuples.
     """
 
-    best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
+    best_list = extractWithoutOrder(
+        query, choices, processor, scorer, score_cutoff)
     return heapq.nlargest(limit, best_list, key=lambda i: i[1]) if limit is not None else \
         sorted(best_list, key=lambda i: i[1], reverse=True)
 
@@ -212,7 +213,8 @@ def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
         A tuple containing a single match and its score, if a match
         was found that was above score_cutoff. Otherwise, returns None.
     """
-    best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
+    best_list = extractWithoutOrder(
+        query, choices, processor, scorer, score_cutoff)
     try:
         return max(best_list, key=lambda i: i[1])
     except ValueError:
@@ -239,7 +241,7 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio, return_dup
             of the form f(query, choice) -> int.
             By default, fuzz.token_set_ratio() is used and expects both query and
             choice to be strings.
-        return_dupes: bool, indicates whether to return an additional dictionary 
+        return_dupes: bool, indicates whether to return an additional dictionarya
             indicating the values removed and for which value they were matched.
 
     Returns:
@@ -250,48 +252,38 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio, return_dup
             Out: ['Frodo Baggins', 'Samwise G.', 'Bilbo Baggins', 'Gandalf']
         """
 
-    extractor = []
+    extractor = set()
 
     # iterate over items in *contains_dupes*
     dupe_mapping = {}
-    for item in contains_dupes:
+    for item in set(contains_dupes):
         # return all duplicate matches found
         matches = extract(item, contains_dupes, limit=None, scorer=scorer)
         # filter matches based on the threshold
         filtered = [x for x in matches if x[1] > threshold]
-        # if there is only 1 item in *filtered*, no duplicates were found so append to *extracted*
-        if len(filtered) == 1:
-            extractor.append(filtered[0][0])
 
+        # if there is only 1 item in *filtered*, no duplicates were found so
+        # append to *extracted*
+        if len(filtered) == 1:
+            extractor.add(filtered[0][0])
         else:
             # alpha sort
             filtered = sorted(filtered, key=lambda x: x[0])
             # length sort
-            filter_sort = sorted(filtered, key=lambda x: len(x[0]), reverse=True)
+            filter_sort = sorted(
+                filtered, key=lambda x: len(x[0]), reverse=True)
             # take first item as our 'canonical example'
-            extractor.append(filter_sort[0][0])
-            if filter_sort[0][0] in dupe_mapping:
-                dupe_mapping[filter_sort[0][0]].extend([f[0] for f in filter_sort])
-            else:
-                dupe_mapping[filter_sort[0][0]] = [f[0] for f in filter_sort]
-
-    # uniquify *extractor* list
-    keys = {}
-    for e in extractor:
-        keys[e] = 1
-    extractor = keys.keys()
-
-    # check that extractor differs from contain_dupes (e.g. duplicates were found)
-    # if not, then return the original list
-
-    if len(extractor) == len(contains_dupes):
-        return_values = contains_dupes
-    else:
-        return_values = extractor
+            example = filter_sort[0][0]
+            extractor.add(example)
+            if return_dupes:
+                if item in dupe_mapping:
+                    dupe_mapping[item].append(example)
+                else:
+                    dupe_mapping[item] = [example]
 
     if return_dupes:
         for key in dupe_mapping.keys():
             dupe_mapping[key] = sorted(list(set(dupe_mapping[key])))
-        return return_values, dupe_mapping
+        return list(extractor), dupe_mapping
     else:
-        return return_values
+        return list(extractor)
