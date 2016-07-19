@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import unittest
 import re
 import sys
-import pep8
+import pycodestyle
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
@@ -501,7 +501,7 @@ class ProcessTest(unittest.TestCase):
 
 class TestCodeFormat(unittest.TestCase):
     def test_pep8_conformance(self):
-        pep8style = pep8.StyleGuide(quiet=True)
+        pep8style = pycodestyle.StyleGuide(quiet=True)
         pep8style.options.ignore = pep8style.options.ignore + tuple(['E501'])
         pep8style.input_dir('fuzzywuzzy')
         result = pep8style.check_files()

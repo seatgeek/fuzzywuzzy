@@ -25,3 +25,6 @@ doc/_build
 
 # Generated man page
 doc/aws_hostname.1
+
+# tox
+.tox

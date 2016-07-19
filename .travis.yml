@@ -8,8 +8,8 @@ python:
   - pypy
   - pypy3
 install:
-  - pip install pep8
+  - pip install pytest pycodestyle
 script:
-  - python test_fuzzywuzzy.py
+  - py.test
 notifications:
   on_success: always
