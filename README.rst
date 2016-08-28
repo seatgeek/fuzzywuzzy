@@ -99,6 +99,15 @@ Process
     >>> process.extractOne("cowboys", choices)
         ("Dallas Cowboys", 90)
 
+You can also pass additional parameters to ``extractOne`` method to make it use a specific scorer. A typical use case is to match file paths:
+
+.. code:: python
+  
+    >>> process.extractOne("System of a down - Hypnotize - Heroin", songs)
+        ('/music/library/good/System of a Down/2005 - Hypnotize/01 - Attack.mp3', 86)
+    >>> process.extractOne("System of a down - Hypnotize - Heroin", songs, scorer=fuzz.token_sort_ratio)
+        ("/music/library/good/System of a Down/2005 - Hypnotize/10 - She's Like Heroin.mp3", 61)
+
 .. |Build Status| image:: https://api.travis-ci.org/seatgeek/fuzzywuzzy.png?branch=master
    :target: https:travis-ci.org/seatgeek/fuzzywuzzy
 
