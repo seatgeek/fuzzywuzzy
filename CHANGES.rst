@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.12.0 (2016-09-14)
+-------------------
+
+- Declare support for universal wheels. [Thomas Grainger]
+
+- Clarify that license is GPLv2. [Gareth Tan]
+
 0.11.1 (2016-07-27)
 -------------------
 
