@@ -146,9 +146,7 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
     p1 = utils.full_process(s1, force_ascii=force_ascii) if full_process else s1
     p2 = utils.full_process(s2, force_ascii=force_ascii) if full_process else s2
 
-    if not utils.validate_string(p1):
-        return 0
-    if not utils.validate_string(p2):
+    if not (utils.validate_string(p1) and utils.validate_string(p2)):
         return 0
 
     # pull tokens
@@ -159,17 +157,13 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
     diff1to2 = tokens1.difference(tokens2)
     diff2to1 = tokens2.difference(tokens1)
 
-    sorted_sect = " ".join(sorted(intersection))
-    sorted_1to2 = " ".join(sorted(diff1to2))
-    sorted_2to1 = " ".join(sorted(diff2to1))
+    # sort, join, and strip
+    sorted_sect = (" ".join(sorted(intersection))).strip()
+    combined_1to2 = (" ".join([sorted_sect, sorted(diff1to2)])).strip()
+    combined_2to1 = (" ".join([sorted_sect, sorted(diff2to1)])).strip()
 
-    combined_1to2 = sorted_sect + " " + sorted_1to2
-    combined_2to1 = sorted_sect + " " + sorted_2to1
-
-    # strip
-    sorted_sect = sorted_sect.strip()
-    combined_1to2 = combined_1to2.strip()
-    combined_2to1 = combined_2to1.strip()
+     # = " ".join([sorted_sect, sorted_1to2])
+     # = " ".join([sorted_sect, sorted_2to1])
 
     if partial:
         ratio_func = partial_ratio
@@ -202,9 +196,7 @@ def QRatio(s1, s2, force_ascii=True):
     p1 = utils.full_process(s1, force_ascii=force_ascii)
     p2 = utils.full_process(s2, force_ascii=force_ascii)
 
-    if not utils.validate_string(p1):
-        return 0
-    if not utils.validate_string(p2):
+    if not (utils.validate_string(p1) and utils.validate_string(p2)):
         return 0
 
     return ratio(p1, p2)
@@ -223,9 +215,7 @@ def WRatio(s1, s2, force_ascii=True):
     p1 = utils.full_process(s1, force_ascii=force_ascii)
     p2 = utils.full_process(s2, force_ascii=force_ascii)
 
-    if not utils.validate_string(p1):
-        return 0
-    if not utils.validate_string(p2):
+    if not (utils.validate_string(p1) and utils.validate_string(p2)):
         return 0
 
     # should we look at partials?
