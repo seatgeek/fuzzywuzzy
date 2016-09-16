@@ -159,11 +159,8 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
 
     # sort, join, and strip
     sorted_sect = (" ".join(sorted(intersection))).strip()
-    combined_1to2 = (" ".join([sorted_sect, sorted(diff1to2)])).strip()
-    combined_2to1 = (" ".join([sorted_sect, sorted(diff2to1)])).strip()
-
-     # = " ".join([sorted_sect, sorted_1to2])
-     # = " ".join([sorted_sect, sorted_2to1])
+    combined_1to2 = (" ".join([sorted_sect, " ".join(sorted(diff1to2)])]).strip()
+    combined_2to1 = (" ".join([sorted_sect, " ".join(sorted(diff2to1)])]).strip()
 
     if partial:
         ratio_func = partial_ratio
