@@ -161,7 +161,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
 
         [('train', 22, 'bard'), ('man', 0, 'dog')]
     """
-    sl = extractWithoutOrder(query, choices, processor, scorer)
+    sl = extractWithoutOrder(query.lower(), choices, processor, scorer)
     return heapq.nlargest(limit, sl, key=lambda i: i[1]) if limit is not None else \
         sorted(sl, key=lambda i: i[1], reverse=True)
 
