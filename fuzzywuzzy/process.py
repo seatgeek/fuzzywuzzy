@@ -100,18 +100,21 @@ def extractWithoutOrder(query, choices, processor=None, scorer=None, score_cutof
     if not processor:
         processor = utils.full_process
 
+    # Run the processor on the input query.
+    processed_query = processor(query)
+
     try:
         # See if choices is a dictionary-like object.
         for key, choice in choices.items():
             processed = processor(choice)
-            score = scorer(query, processed)
+            score = scorer(processed_query, processed)
             if score >= score_cutoff:
                 yield (choice, score, key)
     except AttributeError:
         # It's a list; just iterate over it.
         for choice in choices:
             processed = processor(choice)
-            score = scorer(query, processed)
+            score = scorer(processed_query, processed)
             if score >= score_cutoff:
                 yield (choice, score)
 

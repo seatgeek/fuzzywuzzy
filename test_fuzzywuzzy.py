@@ -498,6 +498,16 @@ class ProcessTest(unittest.TestCase):
         result = process.dedupe(contains_dupes)
         self.assertEqual(result, deduped_list)
 
+    def test_simplematch(self):
+        basic_string = 'a, b'
+        match_strings = ['a, b']
+
+        result = process.extractOne(basic_string, match_strings, scorer=fuzz.ratio)
+        part_result = process.extractOne(basic_string, match_strings, scorer=fuzz.partial_ratio)
+
+        self.assertEqual(result, ('a, b', 100))
+        self.assertEqual(part_result, ('a, b', 100))
+
 
 class TestCodeFormat(unittest.TestCase):
     def test_pep8_conformance(self):
