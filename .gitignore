@@ -28,3 +28,6 @@ doc/aws_hostname.1
 
 # tox
 .tox
+
+# hypothesis
+.hypothesis/
