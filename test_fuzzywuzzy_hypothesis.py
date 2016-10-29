@@ -1,59 +1,66 @@
-import unittest
 from hypothesis import given, assume, settings
 import hypothesis.strategies as st
+import pytest
+from itertools import product
+from functools import partial
 
 from fuzzywuzzy import fuzz, process, utils
 
 
-class ProcessHypothesisTests(unittest.TestCase):
+def scorers_processors():
+    scorers = [fuzz.ratio,
+               fuzz.partial_ratio]
+    processors = [lambda x: x,
+                  partial(utils.full_process, force_ascii=False),
+                  partial(utils.full_process, force_ascii=True)]
+    splist = list(product(scorers, processors))
+    splist.extend(
+        [(fuzz.WRatio, partial(utils.full_process, force_ascii=True)),
+         (fuzz.QRatio, partial(utils.full_process, force_ascii=True)),
+         (fuzz.UWRatio, partial(utils.full_process, force_ascii=False)),
+         (fuzz.UQRatio, partial(utils.full_process, force_ascii=False))]
+    )
 
-    @given(st.data())
-    @settings(max_examples=100)
-    def test_random_strings_processed(self, data):
-        # Draw a list of random strings
-        strings = data.draw(
-            st.lists(st.text(min_size=10, max_size=100),
-                     min_size=1, max_size=50))
-        # Draw a random integer for the index in that list
-        choiceidx = data.draw(st.integers(min_value=0, max_value=(len(strings) - 1)))
-        choice = strings[choiceidx]
+    return splist
 
-        # Check full process doesn't make our choice the empty string
-        assume(utils.full_process(choice) != '')
 
-        result = process.extractOne(choice, strings, scorer=fuzz.ratio, processor=utils.full_process)
+@pytest.mark.parametrize('scorer,processor',
+                         scorers_processors())
+@given(data=st.data())
+@settings(max_examples=100)
+def test_random_strings_identical(scorer, processor, data):
+    """
+    Test that in a random set of identical strings, perfect matches
+    :param scorer:
+    :param processor:
+    :param data:
+    :return:
+    """
+    # Draw a list of random strings
+    strings = data.draw(
+        st.lists(st.text(min_size=10, max_size=100),
+                 min_size=1, max_size=50))
+    # Draw a random integer for the index in that list
+    choiceidx = data.draw(st.integers(min_value=0, max_value=(len(strings) - 1)))
+    choice = strings[choiceidx]
 
-        # Check we get a result
-        self.assertIsNotNone(result)
+    if scorer in [fuzz.WRatio, fuzz.QRatio]:
+        processor = partial(utils.full_process, force_ascii=True)
+    elif scorer in [fuzz.UWRatio, fuzz.UQRatio]:
+        processor = partial(utils.full_process, force_ascii=False)
 
-        # Check the result is a perfect match according to fuzz.ratio
-        self.assertEqual(result[1], 100)
+    # Check process doesn't make our choice the empty string
+    assume(processor(choice) != '')
 
-        # Assert the results are equal after processing
-        self.assertEqual(utils.full_process(choice),
-                         utils.full_process(result[0]))
+    result = process.extractBests(choice,
+                                  strings,
+                                  scorer=scorer,
+                                  processor=processor,
+                                  score_cutoff=100,
+                                  limit=None)
 
-    @given(st.data())
-    @settings(max_examples=100)
-    def test_random_strings_unprocessed(self, data):
-        # Draw a list of random strings
-        strings = data.draw(
-            st.lists(st.text(min_size=10, max_size=100),
-                     min_size=1, max_size=50))
-        # Draw a random integer for the index in that list
-        choiceidx = data.draw(st.integers(min_value=0, max_value=(len(strings) - 1)))
-        choice = strings[choiceidx]
+    # Check we get a result
+    assert result != []
 
-        result = process.extractOne(choice, strings,
-                                    scorer=fuzz.ratio,
-                                    processor=lambda x: x)
-
-        # Check we get a result
-        self.assertIsNotNone(result)
-
-        # Check the result is a perfect match according to fuzz.ratio
-        self.assertEqual(result[1], 100)
-
-        # Assert the results are equal after processing
-        self.assertEqual(choice,
-                         result[0])
+    # Check the result is in the list
+    assert (choice, 100) in result
