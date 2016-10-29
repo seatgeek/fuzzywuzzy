@@ -30,7 +30,7 @@ from . import utils
 import heapq
 
 
-def extractWithoutOrder(query, choices, processor=None, scorer=None, score_cutoff=0):
+def extractWithoutOrder(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0):
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
@@ -76,29 +76,24 @@ def extractWithoutOrder(query, choices, processor=None, scorer=None, score_cutof
 
         ('train', 22, 'bard'), ('man', 0, 'dog')
     """
+    # Catch generators without lengths
     def no_process(x):
         return x
 
-    if choices is None:
-        raise StopIteration
-
-    # Catch generators without lengths
     try:
-        if len(choices) == 0:
+        if choices is None or len(choices) == 0:
             raise StopIteration
     except TypeError:
         pass
 
-    # default: wratio
-    if not scorer:
-        scorer = fuzz.WRatio
-        # fuzz.WRatio already process string so no need extra step
-        if not processor:
-            processor = no_process
+    # If the scorer performs full_ratio with force ascii don't run full_process twice
+    if scorer in [fuzz.WRatio, fuzz.QRatio] and processor == utils.full_process:
+        processor = no_process
 
-    # default, turn whatever the choice is into a workable string
-    if not processor:
-        processor = utils.full_process
+    # If the processor was removed by setting it to None
+    # perfom a noop as it still needs to be a function
+    if processor is None:
+        processor = no_process
 
     # Run the processor on the input query.
     processed_query = processor(query)
@@ -119,7 +114,7 @@ def extractWithoutOrder(query, choices, processor=None, scorer=None, score_cutof
                 yield (choice, score)
 
 
-def extract(query, choices, processor=None, scorer=None, limit=5):
+def extract(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, limit=5):
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
@@ -169,7 +164,7 @@ def extract(query, choices, processor=None, scorer=None, limit=5):
         sorted(sl, key=lambda i: i[1], reverse=True)
 
 
-def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, limit=5):
+def extractBests(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0, limit=5):
     """Get a list of the best matches to a collection of choices.
 
     Convenience function for getting the choices with best scores.
@@ -194,7 +189,7 @@ def extractBests(query, choices, processor=None, scorer=None, score_cutoff=0, li
         sorted(best_list, key=lambda i: i[1], reverse=True)
 
 
-def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
+def extractOne(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0):
     """Find the single best match above a score in a list of choices.
 
     This is a convenience method which returns the single best choice.
