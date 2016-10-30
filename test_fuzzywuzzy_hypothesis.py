@@ -23,7 +23,11 @@ def scorers_processors():
         [(fuzz.WRatio, partial(utils.full_process, force_ascii=True)),
          (fuzz.QRatio, partial(utils.full_process, force_ascii=True)),
          (fuzz.UWRatio, partial(utils.full_process, force_ascii=False)),
-         (fuzz.UQRatio, partial(utils.full_process, force_ascii=False))]
+         (fuzz.UQRatio, partial(utils.full_process, force_ascii=False)),
+         (fuzz.token_set_ratio, partial(utils.full_process, force_ascii=True)),
+         (fuzz.token_sort_ratio, partial(utils.full_process, force_ascii=True)),
+         (fuzz.partial_token_set_ratio, partial(utils.full_process, force_ascii=True)),
+         (fuzz.partial_token_sort_ratio, partial(utils.full_process, force_ascii=True))]
     )
 
     return splist
