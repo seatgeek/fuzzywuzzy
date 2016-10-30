@@ -28,8 +28,9 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 from . import fuzz
 from . import utils
 import heapq
-from warnings import warn
+import warnings
 
+warnings.simplefilter('always')
 
 default_scorer = fuzz.WRatio
 default_processor = utils.full_process
@@ -91,13 +92,6 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     except TypeError:
         pass
 
-    # If the scorer performs full_ratio with force ascii don't run full_process twice
-    if scorer in [fuzz.WRatio, fuzz.QRatio,
-                  fuzz.token_set_ratio, fuzz.token_sort_ratio,
-                  fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio] \
-            and processor == utils.full_process:
-        processor = no_process
-
     # If the processor was removed by setting it to None
     # perfom a noop as it still needs to be a function
     if processor is None:
@@ -107,7 +101,14 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     processed_query = processor(query)
 
     if len(processed_query) == 0:
-        warn("Applied processor reduces input query to empty string, no matches will be found.")
+        warnings.warn("Applied processor reduces input query to empty string, all comparisons will have score 0.")
+
+    # If the scorer performs full_ratio with force ascii don't run full_process twice
+    if scorer in [fuzz.WRatio, fuzz.QRatio,
+                  fuzz.token_set_ratio, fuzz.token_sort_ratio,
+                  fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio] \
+            and processor == utils.full_process:
+        processor = no_process
 
     try:
         # See if choices is a dictionary-like object.
