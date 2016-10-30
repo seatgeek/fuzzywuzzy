@@ -92,7 +92,10 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
         pass
 
     # If the scorer performs full_ratio with force ascii don't run full_process twice
-    if scorer in [fuzz.WRatio, fuzz.QRatio] and processor == utils.full_process:
+    if scorer in [fuzz.WRatio, fuzz.QRatio,
+                  fuzz.token_set_ratio, fuzz.token_sort_ratio,
+                  fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio] \
+            and processor == utils.full_process:
         processor = no_process
 
     # If the processor was removed by setting it to None
