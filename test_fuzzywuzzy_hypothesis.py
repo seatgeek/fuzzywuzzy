@@ -8,6 +8,11 @@ from fuzzywuzzy import fuzz, process, utils
 
 
 def scorers_processors():
+    """
+    Generate a list of (scorer, processor) pairs for testing
+
+    :return: [(scorer, processor), ...]
+    """
     scorers = [fuzz.ratio,
                fuzz.partial_ratio]
     processors = [lambda x: x,
@@ -30,7 +35,8 @@ def scorers_processors():
 @settings(max_examples=100)
 def test_random_strings_identical(scorer, processor, data):
     """
-    Test that in a random set of identical strings, perfect matches
+    Test that in a random set of strings perfect matches return correctly
+
     :param scorer:
     :param processor:
     :param data:
@@ -42,16 +48,14 @@ def test_random_strings_identical(scorer, processor, data):
                  min_size=1, max_size=50))
     # Draw a random integer for the index in that list
     choiceidx = data.draw(st.integers(min_value=0, max_value=(len(strings) - 1)))
-    choice = strings[choiceidx]
 
-    if scorer in [fuzz.WRatio, fuzz.QRatio]:
-        processor = partial(utils.full_process, force_ascii=True)
-    elif scorer in [fuzz.UWRatio, fuzz.UQRatio]:
-        processor = partial(utils.full_process, force_ascii=False)
+    # Extract our choice from the list
+    choice = strings[choiceidx]
 
     # Check process doesn't make our choice the empty string
     assume(processor(choice) != '')
 
+    # Extract all perfect matches
     result = process.extractBests(choice,
                                   strings,
                                   scorer=scorer,
@@ -62,5 +66,5 @@ def test_random_strings_identical(scorer, processor, data):
     # Check we get a result
     assert result != []
 
-    # Check the result is in the list
+    # Check the original is in the list
     assert (choice, 100) in result
