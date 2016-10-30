@@ -7,7 +7,6 @@
 \#*
 .#*
 *#
-dist
 
 # Build files
 build
@@ -31,6 +30,9 @@ doc/aws_hostname.1
 
 # Hypothesis
 .hypothesis/
+
+# py.test
+.cache/
 
 # Pycharm
 .idea/
