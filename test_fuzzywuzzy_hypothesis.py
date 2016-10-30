@@ -37,9 +37,9 @@ def scorers_processors():
                          scorers_processors())
 @given(data=st.data())
 @settings(max_examples=100)
-def test_random_strings_identical(scorer, processor, data):
+def test_identical_strings_extracted(scorer, processor, data):
     """
-    Test that in a random set of strings perfect matches return correctly
+    Test that identical strings will always return a perfect match.
 
     :param scorer:
     :param processor:
