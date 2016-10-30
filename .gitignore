@@ -28,8 +28,9 @@ doc/aws_hostname.1
 # tox
 .tox
 
-# Hypothesis
-.hypothesis/
+# Hypothesis - keep the examples database
+.hypothesis/tmp
+.hypothesis/unicodedata
 
 # py.test
 .cache/
