@@ -28,9 +28,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 from . import fuzz
 from . import utils
 import heapq
+from warnings import warn
 
 
-def extractWithoutOrder(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0):
+default_scorer = fuzz.WRatio
+default_processor = utils.full_process
+
+
+def extractWithoutOrder(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0):
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
@@ -98,6 +103,9 @@ def extractWithoutOrder(query, choices, processor=utils.full_process, scorer=fuz
     # Run the processor on the input query.
     processed_query = processor(query)
 
+    if len(processed_query) == 0:
+        warn("Applied processor reduces input query to empty string, no matches will be found.")
+
     try:
         # See if choices is a dictionary-like object.
         for key, choice in choices.items():
@@ -114,7 +122,7 @@ def extractWithoutOrder(query, choices, processor=utils.full_process, scorer=fuz
                 yield (choice, score)
 
 
-def extract(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, limit=5):
+def extract(query, choices, processor=default_processor, scorer=default_scorer, limit=5):
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
@@ -164,7 +172,7 @@ def extract(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, li
         sorted(sl, key=lambda i: i[1], reverse=True)
 
 
-def extractBests(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0, limit=5):
+def extractBests(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, limit=5):
     """Get a list of the best matches to a collection of choices.
 
     Convenience function for getting the choices with best scores.
@@ -189,7 +197,7 @@ def extractBests(query, choices, processor=utils.full_process, scorer=fuzz.WRati
         sorted(best_list, key=lambda i: i[1], reverse=True)
 
 
-def extractOne(query, choices, processor=utils.full_process, scorer=fuzz.WRatio, score_cutoff=0):
+def extractOne(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0):
     """Find the single best match above a score in a list of choices.
 
     This is a convenience method which returns the single best choice.
