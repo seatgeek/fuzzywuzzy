@@ -1,8 +1,10 @@
+import warnings
+from itertools import product
+from functools import partial
+
 from hypothesis import given, assume, settings
 import hypothesis.strategies as st
 import pytest
-from itertools import product
-from functools import partial
 
 from fuzzywuzzy import fuzz, process, utils
 
@@ -72,3 +74,13 @@ def test_identical_strings_extracted(scorer, processor, data):
 
     # Check the original is in the list
     assert (choice, 100) in result
+
+
+def test_process_warning():
+    """Check that a string reduced to 0 by processor raises a warning"""
+    query = ':::::::'
+    choices = [':::::::']
+    with warnings.catch_warnings(record=True) as w:
+        result = process.extractOne(query, choices)
+        assert issubclass(w[-1].category, UserWarning)
+        assert result == (query, 0)
