@@ -114,6 +114,8 @@ You can also pass additional parameters to ``extractOne`` method to make it use 
 Known Ports
 ============
 
-FuzzyWuzzy is being ported to other languages too! Here is one port we know about:
+FuzzyWuzzy is being ported to other languages too! Here are a few ports we know about:
 
--  Java: https://github.com/WantedTechnologies/xpresso/wiki/Approximate-string-comparison-and-pattern-matching-in-Java
+-  Java: `xpresso's fuzzywuzzy implementation <https://github.com/WantedTechnologies/xpresso/wiki/Approximate-string-comparison-and-pattern-matching-in-Java>`_
+-  Java: `fuzzywuzzy (java port) <https://github.com/xdrop/fuzzywuzzy>`_
+
