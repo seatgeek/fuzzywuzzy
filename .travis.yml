@@ -1,15 +1,24 @@
 language: python
-python:
-  - 2.6
-  - 2.7
-  - 3.3
-  - 3.4
-  - 3.5
-  - pypy
-  - pypy3
+matrix:
+  include:
+  - python: "2.7"
+    env: TEST_SUITE=py.test
+  - python: "3.3"
+    env: TEST_SUITE=py.test
+  - python: "3.4"
+    env: TEST_SUITE=py.test
+  - python: "3.5"
+    env: TEST_SUITE=py.test
+  - python: "pypy"
+    env: TEST_SUITE=py.test
+  - python: "2.6"
+    env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
+  - python: "pypy3"
+    env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
 install:
   - pip install pytest pycodestyle
+  - if [ $TRAVIS_PYTHON_VERSION != 2.6 -a $TRAVIS_PYTHON_VERSION != "pypy3" ]; then pip install hypothesis; fi;
 script:
-  - py.test
+  - $TEST_SUITE
 notifications:
   on_success: always
