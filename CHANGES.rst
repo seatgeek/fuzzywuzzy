@@ -1,6 +1,71 @@
 Changelog
 =========
 
+0.13.0 (2016-11-01)
+-------------------
+
+- Support alternate git status output. [Jose Diaz-Gonzalez]
+
+- Split warning test into new test file, added to travis execution on
+  2.6 / pypy3. [davidcellis]
+
+- Remove hypothesis examples database from gitignore. [davidcellis]
+
+- Add check for warning to tests. [davidcellis]
+
+  Reordered test imports
+
+
+- Check processor and warn before scorer may remove processor.
+  [davidcellis]
+
+- Renamed test - tidied docstring. [davidcellis]
+
+- Add token ratios to the list of scorers that skip running full_process
+  as a processor. [davidcellis]
+
+- Added tokex_sort, token_set to test. [davidcellis]
+
+- Test docstrings/comments. [davidcellis]
+
+  Removed redundant check from test.
+
+
+- Added py.test .cache/ removed duplicated build from gitignore.
+  [davidcellis]
+
+- Added default_scorer, default_processor parameters to make it easier
+  to change in the future. [davidcellis]
+
+  Added warning if the processor reduces the input query to an empty string.
+
+
+- Rewrote extracts to explicitly use default values for processor and
+  scorer. [davidcellis]
+
+- Changed Hypothesis tests to use pytest parameters. [davidcellis]
+
+- Added Hypothesis based tests for identical strings. [Ducksual]
+
+  Added support for hypothesis to travis config.
+  Hypothesis based tests are skipped on Python 2.6 and pypy3.
+
+  Added .hypothesis/ folder to gitignore
+
+
+- Added test for simple 'a, b' string on process.extractOne. [Ducksual]
+
+- Process the query in process.extractWithoutOrder when using a scorer
+  which does not do so. [Ducksual]
+
+  Closes 139
+
+
+- Mention that difflib and levenshtein results may differ. [Jose Diaz-
+  Gonzalez]
+
+  Closes #128
+
 0.12.0 (2016-09-14)
 -------------------
 
