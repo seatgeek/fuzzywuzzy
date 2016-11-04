@@ -511,7 +511,7 @@ class ProcessTest(unittest.TestCase):
 
 class TestCodeFormat(unittest.TestCase):
     def test_pep8_conformance(self):
-        pep8style = pycodestyle.StyleGuide(quiet=True)
+        pep8style = pycodestyle.StyleGuide(quiet=False)
         pep8style.options.ignore = pep8style.options.ignore + tuple(['E501'])
         pep8style.input_dir('fuzzywuzzy')
         result = pep8style.check_files()

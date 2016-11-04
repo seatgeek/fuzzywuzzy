@@ -32,6 +32,8 @@ import logging
 
 
 default_scorer = fuzz.WRatio
+
+
 default_processor = utils.full_process
 
 
