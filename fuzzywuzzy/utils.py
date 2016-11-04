@@ -9,6 +9,12 @@ PY3 = sys.version_info[0] == 3
 
 
 def validate_string(s):
+    """
+    Check input has length and that length > 0
+
+    :param s:
+    :return: True if len(s) > 0 else False
+    """
     try:
         return len(s) > 0
     except TypeError:
