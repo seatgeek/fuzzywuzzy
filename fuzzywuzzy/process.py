@@ -28,7 +28,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 from . import fuzz
 from . import utils
 import heapq
-import warnings
+import logging
 
 
 default_scorer = fuzz.WRatio
@@ -100,11 +100,9 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     processed_query = processor(query)
 
     if len(processed_query) == 0:
-        with warnings.catch_warnings():
-            warnings.simplefilter('always')
-            warnings.warn("Applied processor reduces input query to empty string, "
-                          "all comparisons will have score 0. "
-                          "[Query: \'{0}\']".format(query))
+        logging.warning("Applied processor reduces input query to empty string, "
+                        "all comparisons will have score 0. "
+                        "[Query: \'{0}\']".format(query))
 
     # If the scorer performs full_ratio with force ascii don't run full_process twice
     if scorer in [fuzz.WRatio, fuzz.QRatio,
