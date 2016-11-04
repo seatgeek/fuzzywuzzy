@@ -1,12 +1,15 @@
-import warnings
 from fuzzywuzzy import process
 
 
-def test_process_warning():
-    """Check that a string reduced to 0 by processor raises a warning"""
+def test_process_warning(capsys):
+    """Check that a string reduced to 0 by processor logs a warning to stderr"""
+
     query = ':::::::'
     choices = [':::::::']
-    with warnings.catch_warnings(record=True) as w:
-        result = process.extractOne(query, choices)
-        assert issubclass(w[-1].category, UserWarning)
-        assert result == (query, 0)
+
+    _ = process.extractOne(query, choices)
+
+    out, err = capsys.readouterr()
+
+    assert err == ("WARNING:root:Applied processor reduces input query to empty string, "
+                   "all comparisons will have score 0. [Query: ':::::::']\n")
