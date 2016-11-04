@@ -1,6 +1,27 @@
 Changelog
 =========
 
+0.14.0 (2016-11-04)
+-------------------
+
+- Possible PEP-8 fix + make pep-8 warnings appear in test. [davidcellis]
+
+- Possible PEP-8 fix. [davidcellis]
+
+- Possible PEP-8 fix. [davidcellis]
+
+- Test for stderr log instead of warning. [davidcellis]
+
+- Convert warning.warn to logging.warning. [davidcellis]
+
+- Additional details for empty string warning from process.
+  [davidcellis]
+
+  String formatting fix for python 2.6
+
+
+- Enclose warnings.simplefilter() inside a with statement. [samkennerly]
+
 0.13.0 (2016-11-01)
 -------------------
 
