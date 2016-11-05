@@ -198,6 +198,17 @@ def partial_token_set_ratio(s1, s2, force_ascii=True, full_process=True):
 
 # q is for quick
 def QRatio(s1, s2, force_ascii=True):
+    """
+    Quick ratio comparison between two strings.
+
+    Runs full_process from utils on both strings
+    Short circuits if either of the strings is empty after processing.
+
+    :param s1:
+    :param s2:
+    :param force_ascii: Allow only ASCII characters (Default: True)
+    :return: similarity ratio
+    """
 
     p1 = utils.full_process(s1, force_ascii=force_ascii)
     p2 = utils.full_process(s2, force_ascii=force_ascii)
@@ -211,13 +222,51 @@ def QRatio(s1, s2, force_ascii=True):
 
 
 def UQRatio(s1, s2):
+    """
+    Unicode quick ratio
+
+    Calls QRatio with force_ascii set to False
+
+    :param s1:
+    :param s2:
+    :return: similarity ratio
+    """
     return QRatio(s1, s2, force_ascii=False)
 
 
 # w is for weighted
 def WRatio(s1, s2, force_ascii=True):
-    """Return a measure of the sequences' similarity between 0 and 100,
-    using different algorithms.
+    """
+    Return a measure of the sequences' similarity between 0 and 100, using different algorithms.
+
+    **Steps in the order they occur**
+
+    #. Run full_process from utils on both strings
+    #. Short circuit if this makes either string empty
+    #. Take the ratio of the two processed strings (fuzz.ratio)
+    #. Run checks to compare the length of the strings
+        * If one of the strings is more than 1.5 times as long as the other
+          use partial_ratio comparisons - scale partial results by 0.9
+          (this makes sure only full results can return 100)
+        * If one of the strings is over 8 times as long as the other
+          instead scale by 0.6
+
+    #. Run the other ratio functions
+        * if using partial ratio functions call partial_ratio,
+          partial_token_sort_ratio and partial_token_set_ratio
+          scale all of these by the ratio based on length
+        * otherwise call token_sort_ratio and token_set_ratio
+        * all token based comparisons are scaled by 0.95
+          (on top of any partial scalars)
+
+    #. Take the highest value from these results
+       round it and return it as an integer.
+
+    :param s1:
+    :param s2:
+    :param force_ascii: Allow only ascii characters
+    :type force_ascii: bool
+    :return:
     """
 
     p1 = utils.full_process(s1, force_ascii=force_ascii)
