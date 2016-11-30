@@ -118,4 +118,4 @@ FuzzyWuzzy is being ported to other languages too! Here are a few ports we know 
 
 -  Java: `xpresso's fuzzywuzzy implementation <https://github.com/WantedTechnologies/xpresso/wiki/Approximate-string-comparison-and-pattern-matching-in-Java>`_
 -  Java: `fuzzywuzzy (java port) <https://github.com/xdrop/fuzzywuzzy>`_
-
+-  Rust: `fuzzyrusty (Rust port) <https://github.com/logannc/fuzzyrusty>`
