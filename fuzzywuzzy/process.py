@@ -93,6 +93,8 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     except TypeError:
         pass
 
+    processed_query = utils.full_process(query)
+    
     # If the processor was removed by setting it to None
     # perfom a noop as it still needs to be a function
     if processor is None:
@@ -109,14 +111,14 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
         # See if choices is a dictionary-like object.
         for key, choice in choices.items():
             processed = processor(choice)
-            score = scorer(query, processed)
+            score = scorer(processed_query, processed)
             if score >= score_cutoff:
                 yield (choice, score, key)
     except AttributeError:
         # It's a list; just iterate over it.
         for choice in choices:
             processed = processor(choice)
-            score = scorer(query, processed)
+            score = scorer(processed_query, processed)
             if score >= score_cutoff:
                 yield (choice, score)
 
