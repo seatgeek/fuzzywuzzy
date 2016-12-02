@@ -93,7 +93,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     except TypeError:
         pass
 
-    processed_query = utils.full_process(query)
+    processed_query = query
 
     # If the processor was removed by setting it to None
     # perfom a noop as it still needs to be a function
