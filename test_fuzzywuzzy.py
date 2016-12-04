@@ -356,7 +356,7 @@ class ProcessTest(unittest.TestCase):
         best = process.extractOne(query, events, processor=lambda event: event[0])
         self.assertEqual(best[0], events[0])
 
-    def testWithDictToListProcessor(self):
+    def testWithDictProcessor(self):
         events = [
             {"teams": "chicago cubs vs new york mets", "venue": "CitiField", "date": "2011-05-11", "time": "8pm"},
             {"teams": "new york yankees vs boston red sox",  "venue": "Fenway Park", "date": "2011-05-11", "time": "8pm"},

@@ -1,4 +1,3 @@
-from itertools import product
 from functools import partial
 
 from hypothesis import given, assume, settings
@@ -8,58 +7,57 @@ import pytest
 from fuzzywuzzy import fuzz, process, utils
 
 
-def scorers_processors():
+def scorers():
     """
-    Generate a list of (scorer, processor) pairs for testing
+    Generate a list of scorers for testing
 
-    :return: [(scorer, processor), ...]
+    :return: [scorer,...]
     """
-    scorers = [fuzz.ratio,
-               fuzz.partial_ratio]
-    processors = [lambda x: x,
-                  partial(utils.full_process, force_ascii=False),
-                  partial(utils.full_process, force_ascii=True)]
-    splist = list(product(scorers, processors))
-    splist.extend(
-        [(fuzz.WRatio, partial(utils.full_process, force_ascii=True)),
-         (fuzz.QRatio, partial(utils.full_process, force_ascii=True)),
-         (fuzz.UWRatio, partial(utils.full_process, force_ascii=False)),
-         (fuzz.UQRatio, partial(utils.full_process, force_ascii=False)),
-         (fuzz.token_set_ratio, partial(utils.full_process, force_ascii=True)),
-         (fuzz.token_sort_ratio, partial(utils.full_process, force_ascii=True)),
-         (fuzz.partial_token_set_ratio, partial(utils.full_process, force_ascii=True)),
-         (fuzz.partial_token_sort_ratio, partial(utils.full_process, force_ascii=True))]
-    )
-
-    return splist
+    scorerslist = [fuzz.ratio,
+                   fuzz.partial_ratio,
+                   fuzz.WRatio,
+                   fuzz.QRatio,
+                   fuzz.UWRatio,
+                   fuzz.UQRatio,
+                   fuzz.token_set_ratio,
+                   fuzz.token_sort_ratio,
+                   fuzz.partial_token_set_ratio,
+                   fuzz.partial_token_sort_ratio
+                  ]
+    return scorerslist
 
 
-def full_scorers_processors():
+def full_scorers():
     """
-    Generate a list of (scorer, processor) pairs for testing for scorers that use the full string only
+    Generate a list of scores for testing that use the full string only
 
-    :return: [(scorer, processor), ...]
+    :return: [scorer,...]
     """
-    scorers = [fuzz.ratio]
-    processors = [lambda x: x,
-                  partial(utils.full_process, force_ascii=False),
-                  partial(utils.full_process, force_ascii=True)]
-    splist = list(product(scorers, processors))
-    splist.extend(
-        [(fuzz.WRatio, partial(utils.full_process, force_ascii=True)),
-         (fuzz.QRatio, partial(utils.full_process, force_ascii=True)),
-         (fuzz.UWRatio, partial(utils.full_process, force_ascii=False)),
-         (fuzz.UQRatio, partial(utils.full_process, force_ascii=False))]
-    )
+    scorerslist = [fuzz.ratio,
+                   fuzz.WRatio,
+                   fuzz.QRatio,
+                   fuzz.UWRatio,
+                   fuzz.UQRatio
+                  ]
+#    processors = [lambda x: x,
+#                  partial(utils.full_process, force_ascii=False),
+#                  partial(utils.full_process, force_ascii=True)]
+#    splist = list(product(scorers, processors))
+#    splist.extend(
+#        [(fuzz.WRatio, partial(utils.full_process, force_ascii=True)),
+#         (fuzz.QRatio, partial(utils.full_process, force_ascii=True)),
+#         (fuzz.UWRatio, partial(utils.full_process, force_ascii=False)),
+#         (fuzz.UQRatio, partial(utils.full_process, force_ascii=False))]
+#    )
 
-    return splist
+    return scorerslist
 
 
-@pytest.mark.parametrize('scorer,processor',
-                         scorers_processors())
+@pytest.mark.parametrize('scorer',
+                         scorers())
 @given(data=st.data())
 @settings(max_examples=100)
-def test_identical_strings_extracted(scorer, processor, data):
+def test_identical_strings_extracted(scorer, data):
     """
     Test that identical strings will always return a perfect match.
 
@@ -78,14 +76,20 @@ def test_identical_strings_extracted(scorer, processor, data):
     # Extract our choice from the list
     choice = strings[choiceidx]
 
-    # Check process doesn't make our choice the empty string
-    assume(processor(choice) != '')
+    # Check scorer doesn't make our choice the empty string
+    empty_check_function = partial(utils.full_process, force_ascii=True)
+    # If the scorer doesnt performs full_ratio with force ascii then don't use force_ascii to check blanks
+    if scorer not in [fuzz.WRatio, fuzz.QRatio,
+                      fuzz.token_set_ratio, fuzz.token_sort_ratio,
+                      fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio]:
+        empty_check_function = partial(utils.full_process, force_ascii=False)
+    assume(empty_check_function(choice) != '')
 
     # Extract all perfect matches
     result = process.extractBests(choice,
                                   strings,
                                   scorer=scorer,
-                                  processor=processor,
+                                  processor=None,
                                   score_cutoff=100,
                                   limit=None)
 
@@ -96,11 +100,11 @@ def test_identical_strings_extracted(scorer, processor, data):
     assert (choice, 100) in result
 
 
-@pytest.mark.parametrize('scorer,processor',
-                         full_scorers_processors())
+@pytest.mark.parametrize('scorer',
+                         full_scorers())
 @given(data=st.data())
 @settings(max_examples=100)
-def test_only_identical_strings_extracted(scorer, processor, data):
+def test_only_identical_strings_extracted(scorer, data):
     """
     Test that only identical (post processing) strings score 100 on the test.
 
@@ -122,14 +126,20 @@ def test_only_identical_strings_extracted(scorer, processor, data):
     # Extract our choice from the list
     choice = strings[choiceidx]
 
-    # Check process doesn't make our choice the empty string
-    assume(processor(choice) != '')
+    # Check scorer doesn't make our choice the empty string
+    empty_check_function = partial(utils.full_process, force_ascii=True)
+    # If the scorer doesnt performs full_ratio with force ascii then don't use force_ascii to check blanks
+    if scorer not in [fuzz.WRatio, fuzz.QRatio,
+                      fuzz.token_set_ratio, fuzz.token_sort_ratio,
+                      fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio]:
+        empty_check_function = partial(utils.full_process, force_ascii=False)
+    assume(empty_check_function(choice) != '')
 
     # Extract all perfect matches
     result = process.extractBests(choice,
                                   strings,
                                   scorer=scorer,
-                                  processor=processor,
+                                  processor=None,
                                   score_cutoff=100,
                                   limit=None)
 
@@ -137,6 +147,5 @@ def test_only_identical_strings_extracted(scorer, processor, data):
     assert result != []
 
     # Check THE ONLY result(s) we get are a perfect match for the (processed) original data
-    pchoice = processor(choice)
     for r in result:
-        assert pchoice == processor(r[0])
+        assert choice == r[0]

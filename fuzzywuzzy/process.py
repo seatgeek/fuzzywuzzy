@@ -34,7 +34,7 @@ import logging
 default_scorer = fuzz.WRatio
 
 
-default_processor = utils.full_process
+default_processor = None
 
 
 def extractWithoutOrder(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0):
@@ -58,7 +58,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
 
             lambda x: x[0]
 
-            Defaults to fuzzywuzzy.utils.full_process().
+            Defaults to None.
         scorer: Optional function for scoring matches between the query and
             an individual processed choice. This should be a function
             of the form f(query, choice) -> int.
@@ -93,18 +93,10 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     except TypeError:
         pass
 
-    # If the processor was removed by setting it to None
+    # If the processor was left as None
     # perfom a noop as it still needs to be a function
     if processor is None:
         processor = no_process
-
-    # Run the processor on the input query.
-    processed_query = processor(query)
-
-    if len(processed_query) == 0:
-        logging.warning("Applied processor reduces input query to empty string, "
-                        "all comparisons will have score 0. "
-                        "[Query: \'{0}\']".format(query))
 
     # If the scorer performs full_ratio with force ascii don't run full_process twice
     if scorer in [fuzz.WRatio, fuzz.QRatio,
@@ -117,14 +109,14 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
         # See if choices is a dictionary-like object.
         for key, choice in choices.items():
             processed = processor(choice)
-            score = scorer(processed_query, processed)
+            score = scorer(query, processed)
             if score >= score_cutoff:
                 yield (choice, score, key)
     except AttributeError:
         # It's a list; just iterate over it.
         for choice in choices:
             processed = processor(choice)
-            score = scorer(processed_query, processed)
+            score = scorer(query, processed)
             if score >= score_cutoff:
                 yield (choice, score)
 
