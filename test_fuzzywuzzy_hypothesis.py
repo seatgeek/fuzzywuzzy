@@ -147,5 +147,6 @@ def test_only_identical_strings_extracted(scorer, data):
     assert result != []
 
     # Check THE ONLY result(s) we get are a perfect match for the (processed) original data
+    pchoice = empty_check_function(choice)
     for r in result:
-        assert choice == r[0]
+        assert pchoice == empty_check_function(r[0])

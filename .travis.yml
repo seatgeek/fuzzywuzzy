@@ -12,9 +12,9 @@ matrix:
   - python: "pypy"
     env: TEST_SUITE=py.test
   - python: "2.6"
-    env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
+    env: TEST_SUITE="py.test test_fuzzywuzzy.py"
   - python: "pypy3"
-    env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
+    env: TEST_SUITE="py.test test_fuzzywuzzy.py"
 install:
   - pip install pytest pycodestyle
   - if [ $TRAVIS_PYTHON_VERSION != 2.6 -a $TRAVIS_PYTHON_VERSION != "pypy3" ]; then pip install hypothesis; fi;
