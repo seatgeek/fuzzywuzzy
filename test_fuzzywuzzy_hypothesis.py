@@ -62,7 +62,6 @@ def test_identical_strings_extracted(scorer, data):
     Test that identical strings will always return a perfect match.
 
     :param scorer:
-    :param processor:
     :param data:
     :return:
     """
@@ -112,7 +111,6 @@ def test_only_identical_strings_extracted(scorer, data):
     not be a perfect (100) match.
 
     :param scorer:
-    :param processor:
     :param data:
     :return:
     """
