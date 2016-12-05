@@ -39,16 +39,6 @@ def full_scorers():
                    fuzz.UWRatio,
                    fuzz.UQRatio
                   ]
-#    processors = [lambda x: x,
-#                  partial(utils.full_process, force_ascii=False),
-#                  partial(utils.full_process, force_ascii=True)]
-#    splist = list(product(scorers, processors))
-#    splist.extend(
-#        [(fuzz.WRatio, partial(utils.full_process, force_ascii=True)),
-#         (fuzz.QRatio, partial(utils.full_process, force_ascii=True)),
-#         (fuzz.UWRatio, partial(utils.full_process, force_ascii=False)),
-#         (fuzz.UQRatio, partial(utils.full_process, force_ascii=False))]
-#    )
 
     return scorerslist
 
