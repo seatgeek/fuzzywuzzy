@@ -115,12 +115,14 @@ def test_only_identical_strings_extracted(scorer, data):
     choice = strings[choiceidx]
 
     # Check scorer doesn't make our choice the empty string
-    empty_check_function = partial(utils.full_process, force_ascii=True)
-    # If the scorer doesnt performs full_ratio with force ascii then don't use force_ascii to check blanks
-    if scorer not in [fuzz.WRatio, fuzz.QRatio,
-                      fuzz.token_set_ratio, fuzz.token_sort_ratio,
-                      fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio]:
+    # Match the default behavior of the scorer in empty_check_function
+    if scorer in [fuzz.UWRatio, fuzz.UQRatio]:
         empty_check_function = partial(utils.full_process, force_ascii=False)
+    elif scorer in [fuzz.ratio, fuzz.partial_ratio]:
+        empty_check_function = lambda x: x
+    else:
+        empty_check_function = partial(utils.full_process, force_ascii=True)
+
     assume(empty_check_function(choice) != '')
 
     # Extract all perfect matches
