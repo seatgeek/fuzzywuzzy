@@ -94,10 +94,10 @@ def partial_ratio(s1, s2):
 # Advanced Scoring Functions #
 ##############################
 
-def _process_and_sort(s, force_ascii, full_process=True, process_s1=True):
+def _process_and_sort(s, force_ascii, full_process=True):
     """Return a cleaned string with token sorted."""
     # pull tokens
-    ts = utils.full_process(s, force_ascii=force_ascii) if full_process and process_s1 else s
+    ts = utils.full_process(s, force_ascii=force_ascii) if full_process else s
     tokens = ts.split()
 
     # sort tokens and join
@@ -110,8 +110,8 @@ def _process_and_sort(s, force_ascii, full_process=True, process_s1=True):
 #   sort those tokens and take ratio of resulting joined strings
 #   controls for unordered string elements
 @utils.check_for_none
-def _token_sort(s1, s2, partial=True, force_ascii=True, full_process=True, process_s1=True):
-    sorted1 = _process_and_sort(s1, force_ascii, full_process=full_process, process_s1=process_s1)
+def _token_sort(s1, s2, partial=True, force_ascii=True, full_process=True):
+    sorted1 = _process_and_sort(s1, force_ascii, full_process=full_process)
     sorted2 = _process_and_sort(s2, force_ascii, full_process=full_process)
 
     if partial:
@@ -120,22 +120,22 @@ def _token_sort(s1, s2, partial=True, force_ascii=True, full_process=True, proce
         return ratio(sorted1, sorted2)
 
 
-def token_sort_ratio(s1, s2, force_ascii=True, full_process=True, process_s1=True):
+def token_sort_ratio(s1, s2, force_ascii=True, full_process=True):
     """Return a measure of the sequences' similarity between 0 and 100
     but sorting the token before comparing.
     """
-    return _token_sort(s1, s2, partial=False, force_ascii=force_ascii, full_process=full_process, process_s1=process_s1)
+    return _token_sort(s1, s2, partial=False, force_ascii=force_ascii, full_process=full_process)
 
 
-def partial_token_sort_ratio(s1, s2, force_ascii=True, full_process=True, process_s1=True):
+def partial_token_sort_ratio(s1, s2, force_ascii=True, full_process=True):
     """Return the ratio of the most similar substring as a number between
     0 and 100 but sorting the token before comparing.
     """
-    return _token_sort(s1, s2, partial=True, force_ascii=force_ascii, full_process=full_process, process_s1=process_s1)
+    return _token_sort(s1, s2, partial=True, force_ascii=force_ascii, full_process=full_process)
 
 
 @utils.check_for_none
-def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True, process_s1=True):
+def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
     """Find all alphanumeric tokens in each string...
         - treat them as a set
         - construct two strings of the form:
@@ -143,7 +143,7 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True, proces
         - take ratios of those two strings
         - controls for unordered partial matches"""
 
-    p1 = utils.full_process(s1, force_ascii=force_ascii) if full_process and process_s1 else s1
+    p1 = utils.full_process(s1, force_ascii=force_ascii) if full_process else s1
     p2 = utils.full_process(s2, force_ascii=force_ascii) if full_process else s2
 
     if not utils.validate_string(p1):
@@ -184,12 +184,12 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True, proces
     return max(pairwise)
 
 
-def token_set_ratio(s1, s2, force_ascii=True, full_process=True, process_s1=True):
-    return _token_set(s1, s2, partial=False, force_ascii=force_ascii, full_process=full_process, process_s1=process_s1)
+def token_set_ratio(s1, s2, force_ascii=True, full_process=True):
+    return _token_set(s1, s2, partial=False, force_ascii=force_ascii, full_process=full_process)
 
 
-def partial_token_set_ratio(s1, s2, force_ascii=True, full_process=True, process_s1=True):
-    return _token_set(s1, s2, partial=True, force_ascii=force_ascii, full_process=full_process, process_s1=process_s1)
+def partial_token_set_ratio(s1, s2, force_ascii=True, full_process=True):
+    return _token_set(s1, s2, partial=True, force_ascii=force_ascii, full_process=full_process)
 
 
 ###################
@@ -197,7 +197,7 @@ def partial_token_set_ratio(s1, s2, force_ascii=True, full_process=True, process
 ###################
 
 # q is for quick
-def QRatio(s1, s2, force_ascii=True, process_s1=True):
+def QRatio(s1, s2, force_ascii=True, full_process=True):
     """
     Quick ratio comparison between two strings.
 
@@ -207,15 +207,16 @@ def QRatio(s1, s2, force_ascii=True, process_s1=True):
     :param s1:
     :param s2:
     :param force_ascii: Allow only ASCII characters (Default: True)
-    :process_s1: Process first input, used to avoid reprocessing during multiple runs (Default: True)
+    :full_process: Process inputs, used here to avoid double processing in extract functions (Default: True)
     :return: similarity ratio
     """
 
-    if process_s1:
+    if full_process:
         p1 = utils.full_process(s1, force_ascii=force_ascii)
+        p2 = utils.full_process(s2, force_ascii=force_ascii)
     else:
         p1 = s1
-    p2 = utils.full_process(s2, force_ascii=force_ascii)
+        p2 = s2
 
     if not utils.validate_string(p1):
         return 0
@@ -225,7 +226,7 @@ def QRatio(s1, s2, force_ascii=True, process_s1=True):
     return ratio(p1, p2)
 
 
-def UQRatio(s1, s2, process_s1=True):
+def UQRatio(s1, s2, full_process=True):
     """
     Unicode quick ratio
 
@@ -235,11 +236,11 @@ def UQRatio(s1, s2, process_s1=True):
     :param s2:
     :return: similarity ratio
     """
-    return QRatio(s1, s2, force_ascii=False, process_s1=process_s1)
+    return QRatio(s1, s2, force_ascii=False, full_process=full_process)
 
 
 # w is for weighted
-def WRatio(s1, s2, force_ascii=True, process_s1=True):
+def WRatio(s1, s2, force_ascii=True, full_process=True):
     """
     Return a measure of the sequences' similarity between 0 and 100, using different algorithms.
 
@@ -270,15 +271,16 @@ def WRatio(s1, s2, force_ascii=True, process_s1=True):
     :param s2:
     :param force_ascii: Allow only ascii characters
     :type force_ascii: bool
-    :process_s1: Process first input, used to avoid reprocessing during multiple runs (Default: True)
+    :full_process: Process inputs, used here to avoid double processing in extract functions (Default: True)
     :return:
     """
 
-    if process_s1:
+    if full_process:
         p1 = utils.full_process(s1, force_ascii=force_ascii)
+        p2 = utils.full_process(s2, force_ascii=force_ascii)
     else:
         p1 = s1
-    p2 = utils.full_process(s2, force_ascii=force_ascii)
+        p2 = s2
 
     if not utils.validate_string(p1):
         return 0
@@ -316,8 +318,8 @@ def WRatio(s1, s2, force_ascii=True, process_s1=True):
         return utils.intr(max(base, tsor, tser))
 
 
-def UWRatio(s1, s2, process_s1=True):
+def UWRatio(s1, s2, full_process=True):
     """Return a measure of the sequences' similarity between 0 and 100,
     using different algorithms. Same as WRatio but preserving unicode.
     """
-    return WRatio(s1, s2, force_ascii=False, process_s1=process_s1)
+    return WRatio(s1, s2, force_ascii=False, full_process=full_process)

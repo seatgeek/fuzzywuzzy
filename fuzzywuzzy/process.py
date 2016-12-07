@@ -107,34 +107,38 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
                         "all comparisons will have score 0. "
                         "[Query: \'{0}\']".format(query))
 
-    # If the scorer performs full_ratio with force ascii don't run full_process twice
+    # Don't run full_process twice
     if scorer in [fuzz.WRatio, fuzz.QRatio,
                   fuzz.token_set_ratio, fuzz.token_sort_ratio,
-                  fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio] \
+                  fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio,
+                  fuzz.UWRatio, fuzz.UQRatio] \
             and processor == utils.full_process:
         processor = no_process
 
     # Only process the query once instead of for every choice
     if scorer in [fuzz.UWRatio, fuzz.UQRatio]:
-        processed_query = utils.full_process(processed_query, force_ascii=False)
-        scorer = partial(scorer, process_s1=False)
+        pre_processor = partial(utils.full_process, force_ascii=False)
+        scorer = partial(scorer, full_process=False)
     elif scorer in [fuzz.WRatio, fuzz.QRatio,
                     fuzz.token_set_ratio, fuzz.token_sort_ratio,
                     fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio]:
-        processed_query = utils.full_process(processed_query, force_ascii=True)
-        scorer = partial(scorer, process_s1=False)
+        pre_processor = partial(utils.full_process, force_ascii=True)
+        scorer = partial(scorer, full_process=False)
+    else:
+        pre_processor = no_process
+    processed_query = pre_processor(processed_query)
 
     try:
         # See if choices is a dictionary-like object.
         for key, choice in choices.items():
-            processed = processor(choice)
+            processed = pre_processor(processor(choice))
             score = scorer(processed_query, processed)
             if score >= score_cutoff:
                 yield (choice, score, key)
     except AttributeError:
         # It's a list; just iterate over it.
         for choice in choices:
-            processed = processor(choice)
+            processed = pre_processor(processor(choice))
             score = scorer(processed_query, processed)
             if score >= score_cutoff:
                 yield (choice, score)
