@@ -29,6 +29,7 @@ from . import fuzz
 from . import utils
 import heapq
 import logging
+from functools import partial
 
 
 default_scorer = fuzz.WRatio
@@ -112,6 +113,16 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
                   fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio] \
             and processor == utils.full_process:
         processor = no_process
+
+    # Only process the query once instead of for every choice
+    if scorer in [fuzz.UWRatio, fuzz.UQRatio]:
+        processed_query = utils.full_process(processed_query, force_ascii=False)
+        scorer = partial(scorer, process_s1=False)
+    elif scorer in [fuzz.WRatio, fuzz.QRatio,
+                    fuzz.token_set_ratio, fuzz.token_sort_ratio,
+                    fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio]:
+        processed_query = utils.full_process(processed_query, force_ascii=True)
+        scorer = partial(scorer, process_s1=False)
 
     try:
         # See if choices is a dictionary-like object.
