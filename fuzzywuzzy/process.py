@@ -93,6 +93,20 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     except TypeError:
         pass
 
+    if scorer in [fuzz.UWRatio, fuzz.UQRatio]:
+        processed_query = utils.full_process(query, force_ascii=False)
+    elif scorer in [fuzz.WRatio, fuzz.QRatio,
+                    fuzz.token_set_ratio, fuzz.token_sort_ratio,
+                    fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio]:
+        processed_query = utils.full_process(query, force_ascii=True)
+    else:
+        processed_query = query
+
+    if len(processed_query) == 0:
+        logging.warning("Processed query is an empty string, "
+                        "all comparisons will have score 0. "
+                        "[Query: \'{0}\']".format(query))
+
     # If the processor was left as None
     # perfom a noop as it still needs to be a function
     if processor is None:
