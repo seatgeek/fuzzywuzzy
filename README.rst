@@ -23,6 +23,13 @@ Using PIP via PyPI
 
     pip install fuzzywuzzy
 
+or the following to install `python-Levenshtein` too
+
+.. code:: bash
+
+    pip install fuzzywuzzy[speedup]
+
+
 Using PIP via Github
 
 .. code:: bash
