@@ -1,6 +1,29 @@
 Changelog
 =========
 
+0.15.0 (2017-02-20)
+-------------------
+
+- Add extras require to install python-levenshtein optionally. [Rolando
+  Espinoza]
+
+  This allows to install python-levenshtein as dependency.
+
+
+- Fix link formatting in the README. [Alex Chan]
+
+- Add fuzzball.js JavaScript port link. [nolan]
+
+- Added Rust Port link. [Logan Collins]
+
+- Validate_string docstring. [davidcellis]
+
+- For full comparisons test that ONLY exact matches (after processing)
+  are added. [davidcellis]
+
+- Add detailed docstrings to WRatio and QRatio comparisons.
+  [davidcellis]
+
 0.14.0 (2016-11-04)
 -------------------
 
