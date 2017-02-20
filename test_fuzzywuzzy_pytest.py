@@ -11,8 +11,7 @@ def test_process_warning(capsys):
 
     out, err = capsys.readouterr()
 
-    outstr = ("WARNING:root:Applied processor reduces "
-              "input query to empty string, "
+    outstr = ("WARNING:root:Processed query is an empty string, "
               "all comparisons will have score 0. "
               "[Query: ':::::::']\n")
 
