@@ -93,25 +93,19 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     except TypeError:
         pass
 
+    processed_query = query
+
     # If the processor was removed by setting it to None
     # perfom a noop as it still needs to be a function
     if processor is None:
         processor = no_process
 
-    # Run the processor on the input query.
-    processed_query = processor(query)
-
-    if len(processed_query) == 0:
-        logging.warning("Applied processor reduces input query to empty string, "
-                        "all comparisons will have score 0. "
-                        "[Query: \'{0}\']".format(query))
-
     # If the scorer performs full_ratio with force ascii don't run full_process twice
-    if scorer in [fuzz.WRatio, fuzz.QRatio,
-                  fuzz.token_set_ratio, fuzz.token_sort_ratio,
-                  fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio] \
-            and processor == utils.full_process:
-        processor = no_process
+#    if scorer in [fuzz.WRatio, fuzz.QRatio,
+#                  fuzz.token_set_ratio, fuzz.token_sort_ratio,
+#                  fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio] \
+#            and processor == utils.full_process:
+#        processor = no_process
 
     try:
         # See if choices is a dictionary-like object.
