@@ -102,7 +102,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     processed_query = processor(query)
 
     if len(processed_query) == 0:
-        logging.warning("Applied processor reduces input query to empty string, "
+        logging.warning(u"Applied processor reduces input query to empty string, "
                         "all comparisons will have score 0. "
                         "[Query: \'{0}\']".format(query))
 
