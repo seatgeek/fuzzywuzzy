@@ -50,7 +50,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
             to be matched against the query. Dictionary arguments of
             {key: value} pairs will attempt to match the query against
             each value.
-        processor: Optional function of the form f(a) -> b, where a is an
+        processor: Optional function of the form f(a) -> b, where a is the query or
             individual choice and b is the choice to be used in matching.
 
             This can be used to match against, say, the first element of
@@ -142,7 +142,7 @@ def extract(query, choices, processor=default_processor, scorer=default_scorer, 
             to be matched against the query. Dictionary arguments of
             {key: value} pairs will attempt to match the query against
             each value.
-        processor: Optional function of the form f(a) -> b, where a is an
+        processor: Optional function of the form f(a) -> b, where a is the query or
             individual choice and b is the choice to be used in matching.
 
             This can be used to match against, say, the first element of
