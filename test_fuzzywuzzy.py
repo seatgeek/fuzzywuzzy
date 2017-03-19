@@ -351,7 +351,7 @@ class ProcessTest(unittest.TestCase):
             ["new york yankees vs boston red sox", "Fenway Park", "2011-05-11", "8pm"],
             ["atlanta braves vs pittsburgh pirates", "PNC Park", "2011-05-11", "8pm"],
         ]
-        query = "new york mets vs chicago cubs"
+        query = ["new york mets vs chicago cubs", "CitiField", "2017-03-19", "8pm"],
 
         best = process.extractOne(query, events, processor=lambda event: event[0])
         self.assertEqual(best[0], events[0])
