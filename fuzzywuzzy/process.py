@@ -161,7 +161,7 @@ def extractOne(query, choices, processor=None, scorer=None, score_cutoff=0):
     best_list = extract(query, choices, processor, scorer, limit=1)
     if len(best_list) > 0 and best_list[0][1] >= score_cutoff:
         return best_list[0]
-    return None
+    return (None, None)
 
 
 def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
