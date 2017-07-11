@@ -197,7 +197,7 @@ def partial_token_set_ratio(s1, s2, force_ascii=True, full_process=True):
 ###################
 
 # q is for quick
-def QRatio(s1, s2, force_ascii=True):
+def QRatio(s1, s2, force_ascii=True, full_process=True):
     """
     Quick ratio comparison between two strings.
 
@@ -207,11 +207,16 @@ def QRatio(s1, s2, force_ascii=True):
     :param s1:
     :param s2:
     :param force_ascii: Allow only ASCII characters (Default: True)
+    :full_process: Process inputs, used here to avoid double processing in extract functions (Default: True)
     :return: similarity ratio
     """
 
-    p1 = utils.full_process(s1, force_ascii=force_ascii)
-    p2 = utils.full_process(s2, force_ascii=force_ascii)
+    if full_process:
+        p1 = utils.full_process(s1, force_ascii=force_ascii)
+        p2 = utils.full_process(s2, force_ascii=force_ascii)
+    else:
+        p1 = s1
+        p2 = s2
 
     if not utils.validate_string(p1):
         return 0
@@ -221,7 +226,7 @@ def QRatio(s1, s2, force_ascii=True):
     return ratio(p1, p2)
 
 
-def UQRatio(s1, s2):
+def UQRatio(s1, s2, full_process=True):
     """
     Unicode quick ratio
 
@@ -231,11 +236,11 @@ def UQRatio(s1, s2):
     :param s2:
     :return: similarity ratio
     """
-    return QRatio(s1, s2, force_ascii=False)
+    return QRatio(s1, s2, force_ascii=False, full_process=full_process)
 
 
 # w is for weighted
-def WRatio(s1, s2, force_ascii=True):
+def WRatio(s1, s2, force_ascii=True, full_process=True):
     """
     Return a measure of the sequences' similarity between 0 and 100, using different algorithms.
 
@@ -266,11 +271,16 @@ def WRatio(s1, s2, force_ascii=True):
     :param s2:
     :param force_ascii: Allow only ascii characters
     :type force_ascii: bool
+    :full_process: Process inputs, used here to avoid double processing in extract functions (Default: True)
     :return:
     """
 
-    p1 = utils.full_process(s1, force_ascii=force_ascii)
-    p2 = utils.full_process(s2, force_ascii=force_ascii)
+    if full_process:
+        p1 = utils.full_process(s1, force_ascii=force_ascii)
+        p2 = utils.full_process(s2, force_ascii=force_ascii)
+    else:
+        p1 = s1
+        p2 = s2
 
     if not utils.validate_string(p1):
         return 0
@@ -308,8 +318,8 @@ def WRatio(s1, s2, force_ascii=True):
         return utils.intr(max(base, tsor, tser))
 
 
-def UWRatio(s1, s2):
+def UWRatio(s1, s2, full_process=True):
     """Return a measure of the sequences' similarity between 0 and 100,
     using different algorithms. Same as WRatio but preserving unicode.
     """
-    return WRatio(s1, s2, force_ascii=False)
+    return WRatio(s1, s2, force_ascii=False, full_process=full_process)
