@@ -13,7 +13,7 @@ matrix:
     env: TEST_SUITE=py.test
   - python: "2.6"
     env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
-  - python: "pypy3"
+  - python: "pypy3.5-5.8.0"
     env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
 install:
   - pip install pytest pycodestyle
