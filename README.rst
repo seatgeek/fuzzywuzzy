@@ -12,7 +12,7 @@ Requirements
 -  Python 2.4 or higher
 -  difflib
 -  `python-Levenshtein <https://github.com/ztane/python-Levenshtein/>`_ (optional, provides a 4-10x speedup in String
-   Matching, though may result in [differing results for certain cases](https://github.com/seatgeek/fuzzywuzzy/issues/128))
+   Matching, though may result in `differing results for certain cases <https://github.com/seatgeek/fuzzywuzzy/issues/128>`_)
 
 Installation
 ============
@@ -23,17 +23,24 @@ Using PIP via PyPI
 
     pip install fuzzywuzzy
 
+or the following to install `python-Levenshtein` too
+
+.. code:: bash
+
+    pip install fuzzywuzzy[speedup]
+
+
 Using PIP via Github
 
 .. code:: bash
 
-    pip install git+git://github.com/seatgeek/fuzzywuzzy.git@0.14.0#egg=fuzzywuzzy
+    pip install git+git://github.com/seatgeek/fuzzywuzzy.git@0.15.0#egg=fuzzywuzzy
 
 Adding to your ``requirements.txt`` file (run ``pip install -r requirements.txt`` afterwards)
 
 .. code:: bash
 
-    git+ssh://git@github.com/seatgeek/fuzzywuzzy.git@0.14.0#egg=fuzzywuzzy
+    git+ssh://git@github.com/seatgeek/fuzzywuzzy.git@0.15.0#egg=fuzzywuzzy
     
 Manually via GIT
 
@@ -118,4 +125,5 @@ FuzzyWuzzy is being ported to other languages too! Here are a few ports we know 
 
 -  Java: `xpresso's fuzzywuzzy implementation <https://github.com/WantedTechnologies/xpresso/wiki/Approximate-string-comparison-and-pattern-matching-in-Java>`_
 -  Java: `fuzzywuzzy (java port) <https://github.com/xdrop/fuzzywuzzy>`_
-
+-  Rust: `fuzzyrusty (Rust port) <https://github.com/logannc/fuzzyrusty>`_
+-  JavaScript: `fuzzball.js (JavaScript port) <https://github.com/nol13/fuzzball.js>`_
