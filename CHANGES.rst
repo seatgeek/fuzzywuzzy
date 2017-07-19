@@ -1,6 +1,24 @@
 Changelog
 =========
 
+0.15.1 (2017-07-19)
+-------------------
+
+- Fix setup.py (addresses #155) [Paul O'Leary McCann]
+
+- Merge remote-tracking branch 'upstream/master' into
+  extract_optimizations. [nolan]
+
+- Seed random before generating benchmark strings. [nolan]
+
+- Cleaner implementation of same idea without new param, but adding
+  existing full_process param to Q,W,UQ,UW. [nolan]
+
+- Fix benchmark only generate list once. [nolan]
+
+- Only run util.full_process once on query when using extract functions,
+  add new benchmarks. [nolan]
+
 0.15.0 (2017-02-20)
 -------------------
 
