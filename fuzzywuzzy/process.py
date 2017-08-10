@@ -42,7 +42,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
-    generator of tuples containing the match and it's score. If a dictionary
+    generator of tuples containing the match and its score. If a dictionary
     is used, also returns the key for each match.
 
     Arguments:
@@ -74,7 +74,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
 
         If a list is used for choices, then the result will be 2-tuples.
         If a dictionary is used, then the result will be 3-tuples containing
-        he key for each match.
+        the key for each match.
 
         For example, searching for 'bird' in the dictionary
 
@@ -148,7 +148,7 @@ def extract(query, choices, processor=default_processor, scorer=default_scorer, 
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
-    list of tuples containing the match and it's score. If a dictionary
+    list of tuples containing the match and its score. If a dictionary
     is used, also returns the key for each match.
 
     Arguments:
@@ -179,7 +179,7 @@ def extract(query, choices, processor=default_processor, scorer=default_scorer, 
 
         If a list is used for choices, then the result will be 2-tuples.
         If a dictionary is used, then the result will be 3-tuples containing
-        he key for each match.
+        the key for each match.
 
         For example, searching for 'bird' in the dictionary
 
