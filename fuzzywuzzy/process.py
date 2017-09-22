@@ -38,7 +38,7 @@ default_scorer = fuzz.WRatio
 default_processor = utils.full_process
 
 
-def extractWithoutOrder(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0):
+def extractWithoutOrder(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, key=None):
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
@@ -85,7 +85,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
         ('train', 22, 'bard'), ('man', 0, 'dog')
     """
     # Catch generators without lengths
-    def no_process(x):
+    def noop(x):
         return x
 
     try:
@@ -97,7 +97,10 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     # If the processor was removed by setting it to None
     # perfom a noop as it still needs to be a function
     if processor is None:
-        processor = no_process
+        processor = noop
+
+    if key is None:
+        key = noop
 
     # Run the processor on the input query.
     processed_query = processor(query)
@@ -113,7 +116,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
                   fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio,
                   fuzz.UWRatio, fuzz.UQRatio] \
             and processor == utils.full_process:
-        processor = no_process
+        processor = noop
 
     # Only process the query once instead of for every choice
     if scorer in [fuzz.UWRatio, fuzz.UQRatio]:
@@ -125,26 +128,26 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
         pre_processor = partial(utils.full_process, force_ascii=True)
         scorer = partial(scorer, full_process=False)
     else:
-        pre_processor = no_process
+        pre_processor = noop
     processed_query = pre_processor(processed_query)
 
     try:
         # See if choices is a dictionary-like object.
-        for key, choice in choices.items():
-            processed = pre_processor(processor(choice))
+        for dict_key, choice in choices.items():
+            processed = pre_processor(processor(key(choice)))
             score = scorer(processed_query, processed)
             if score >= score_cutoff:
-                yield (choice, score, key)
+                yield (choice, score, dict_key)
     except AttributeError:
         # It's a list; just iterate over it.
         for choice in choices:
-            processed = pre_processor(processor(choice))
+            processed = pre_processor(processor(key(choice)))
             score = scorer(processed_query, processed)
             if score >= score_cutoff:
                 yield (choice, score)
 
 
-def extract(query, choices, processor=default_processor, scorer=default_scorer, limit=5):
+def extract(query, choices, processor=default_processor, scorer=default_scorer, limit=5, key=None):
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
@@ -189,12 +192,12 @@ def extract(query, choices, processor=default_processor, scorer=default_scorer, 
 
         [('train', 22, 'bard'), ('man', 0, 'dog')]
     """
-    sl = extractWithoutOrder(query, choices, processor, scorer)
+    sl = extractWithoutOrder(query, choices, processor, scorer, key=key)
     return heapq.nlargest(limit, sl, key=lambda i: i[1]) if limit is not None else \
         sorted(sl, key=lambda i: i[1], reverse=True)
 
 
-def extractBests(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, limit=5):
+def extractBests(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, limit=5, key=None):
     """Get a list of the best matches to a collection of choices.
 
     Convenience function for getting the choices with best scores.
@@ -214,12 +217,12 @@ def extractBests(query, choices, processor=default_processor, scorer=default_sco
     Returns: A a list of (match, score) tuples.
     """
 
-    best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
+    best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff, key=key)
     return heapq.nlargest(limit, best_list, key=lambda i: i[1]) if limit is not None else \
         sorted(best_list, key=lambda i: i[1], reverse=True)
 
 
-def extractOne(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0):
+def extractOne(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, key=None):
     """Find the single best match above a score in a list of choices.
 
     This is a convenience method which returns the single best choice.
@@ -240,14 +243,14 @@ def extractOne(query, choices, processor=default_processor, scorer=default_score
         A tuple containing a single match and its score, if a match
         was found that was above score_cutoff. Otherwise, returns None.
     """
-    best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
+    best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff, key=key)
     try:
         return max(best_list, key=lambda i: i[1])
     except ValueError:
         return None
 
 
-def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
+def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio, key=None):
     """This convenience function takes a list of strings containing duplicates and uses fuzzy matching to identify
     and remove duplicates. Specifically, it uses the process.extract to identify duplicates that
     score greater than a user defined threshold. Then, it looks for the longest item in the duplicate list
@@ -281,7 +284,7 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
     # iterate over items in *contains_dupes*
     for item in contains_dupes:
         # return all duplicate matches found
-        matches = extract(item, contains_dupes, limit=None, scorer=scorer)
+        matches = extract(item, contains_dupes, limit=None, scorer=scorer, key=key)
         # filter matches based on the threshold
         filtered = [x for x in matches if x[1] > threshold]
         # if there is only 1 item in *filtered*, no duplicates were found so append to *extracted*
