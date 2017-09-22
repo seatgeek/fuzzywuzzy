@@ -238,13 +238,13 @@ def extractOne(query, choices, processor=default_processor, scorer=default_score
 
     Returns:
         A tuple containing a single match and its score, if a match
-        was found that was above score_cutoff. Otherwise, returns None.
+        was found that was above score_cutoff. Otherwise, returns (None, None).
     """
     best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
     try:
         return max(best_list, key=lambda i: i[1])
     except ValueError:
-        return None
+        return (None, None)
 
 
 def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
