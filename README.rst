@@ -1,17 +1,18 @@
-|Build Status|
+.. image:: https://travis-ci.org/seatgeek/fuzzywuzzy.svg?branch=master
+    :target: https://travis-ci.org/seatgeek/fuzzywuzzy
 
 FuzzyWuzzy
 ==========
 
-Fuzzy string matching like a boss. It uses `Levenshtein Distance <https://en.wikipedia.org/wiki/Levenshtein_distance>`_ to help calculate differences between sequences in a simple to use package.
+Fuzzy string matching like a boss. It uses `Levenshtein Distance <https://en.wikipedia.org/wiki/Levenshtein_distance>`_ to calculate the differences between sequences in a simple-to-use package.
 
 Requirements
 ============
 
 -  Python 2.4 or higher
 -  difflib
--  python-Levenshtein (optional, provides a 4-10x speedup in String
-   Matching)
+-  `python-Levenshtein <https://github.com/ztane/python-Levenshtein/>`_ (optional, provides a 4-10x speedup in String
+   Matching, though may result in `differing results for certain cases <https://github.com/seatgeek/fuzzywuzzy/issues/128>`_)
 
 Installation
 ============
@@ -22,17 +23,24 @@ Using PIP via PyPI
 
     pip install fuzzywuzzy
 
+or the following to install `python-Levenshtein` too
+
+.. code:: bash
+
+    pip install fuzzywuzzy[speedup]
+
+
 Using PIP via Github
 
 .. code:: bash
 
-    pip install git+git://github.com/seatgeek/fuzzywuzzy.git@0.8.2#egg=fuzzywuzzy
+    pip install git+git://github.com/seatgeek/fuzzywuzzy.git@0.15.1#egg=fuzzywuzzy
 
 Adding to your ``requirements.txt`` file (run ``pip install -r requirements.txt`` afterwards)
 
 .. code:: bash
 
-    git+ssh://git@github.com/seatgeek/fuzzywuzzy.git@0.8.2#egg=fuzzywuzzy
+    git+ssh://git@github.com/seatgeek/fuzzywuzzy.git@0.15.1#egg=fuzzywuzzy
     
 Manually via GIT
 
@@ -57,7 +65,7 @@ Simple Ratio
 .. code:: python
 
     >>> fuzz.ratio("this is a test", "this is a test!")
-        96
+        97
 
 Partial Ratio
 ~~~~~~~~~~~~~
@@ -73,7 +81,7 @@ Token Sort Ratio
 .. code:: python
 
     >>> fuzz.ratio("fuzzy wuzzy was a bear", "wuzzy fuzzy was a bear")
-        90
+        91
     >>> fuzz.token_sort_ratio("fuzzy wuzzy was a bear", "wuzzy fuzzy was a bear")
         100
 
@@ -98,11 +106,24 @@ Process
     >>> process.extractOne("cowboys", choices)
         ("Dallas Cowboys", 90)
 
+You can also pass additional parameters to ``extractOne`` method to make it use a specific scorer. A typical use case is to match file paths:
+
+.. code:: python
+  
+    >>> process.extractOne("System of a down - Hypnotize - Heroin", songs)
+        ('/music/library/good/System of a Down/2005 - Hypnotize/01 - Attack.mp3', 86)
+    >>> process.extractOne("System of a down - Hypnotize - Heroin", songs, scorer=fuzz.token_sort_ratio)
+        ("/music/library/good/System of a Down/2005 - Hypnotize/10 - She's Like Heroin.mp3", 61)
+
 .. |Build Status| image:: https://api.travis-ci.org/seatgeek/fuzzywuzzy.png?branch=master
    :target: https:travis-ci.org/seatgeek/fuzzywuzzy
 
 Known Ports
 ============
-Some people are porting FuzzyWuzzy to other languages. Here is one port we know about:
 
--  Java: https://github.com/WantedTechnologies/xpresso/wiki/Approximate-string-comparison-and-pattern-matching-in-Java
+FuzzyWuzzy is being ported to other languages too! Here are a few ports we know about:
+
+-  Java: `xpresso's fuzzywuzzy implementation <https://github.com/WantedTechnologies/xpresso/wiki/Approximate-string-comparison-and-pattern-matching-in-Java>`_
+-  Java: `fuzzywuzzy (java port) <https://github.com/xdrop/fuzzywuzzy>`_
+-  Rust: `fuzzyrusty (Rust port) <https://github.com/logannc/fuzzyrusty>`_
+-  JavaScript: `fuzzball.js (JavaScript port) <https://github.com/nol13/fuzzball.js>`_

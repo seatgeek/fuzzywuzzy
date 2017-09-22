@@ -9,6 +9,12 @@ PY3 = sys.version_info[0] == 3
 
 
 def validate_string(s):
+    """
+    Check input has length and that length > 0
+
+    :param s:
+    :return: True if len(s) > 0 else False
+    """
     try:
         return len(s) > 0
     except TypeError:
@@ -18,10 +24,8 @@ def validate_string(s):
 def check_for_none(func):
     @functools.wraps(func)
     def decorator(*args, **kwargs):
-        if args[0] is None:
-            raise TypeError("s1 is None")
-        if args[1] is None:
-            raise TypeError("s2 is None")
+        if args[0] is None or args[1] is None:
+            return 0
         return func(*args, **kwargs)
     return decorator
 
@@ -33,6 +37,7 @@ def check_empty_string(func):
             return 0
         return func(*args, **kwargs)
     return decorator
+
 
 bad_chars = str("").join([chr(i) for i in range(128, 256)])  # ascii dammit!
 if PY3:

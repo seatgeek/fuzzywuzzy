@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import unittest
 import re
 import sys
-import pep8
+import pycodestyle
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
@@ -277,13 +277,11 @@ class ValidatorTest(unittest.TestCase):
         ]
         decorated_func = utils.check_for_none(self.testFunc)
         for i in invalid_input:
-            self.assertRaises(TypeError, decorated_func, *i)
+            self.assertEqual(decorated_func(*i), 0)
 
-        try:
-            valid_input = ['Some', 'Some']
-            decorated_func(*valid_input)
-        except ValueError as e:
-            self.fail('check_for_none matched non-None input', valid_input, e)
+        valid_input = ('Some', 'Some')
+        actual = decorated_func(*valid_input)
+        self.assertNotEqual(actual, 0)
 
     def testCheckEmptyString(self):
         invalid_input = [
@@ -353,7 +351,7 @@ class ProcessTest(unittest.TestCase):
             ["new york yankees vs boston red sox", "Fenway Park", "2011-05-11", "8pm"],
             ["atlanta braves vs pittsburgh pirates", "PNC Park", "2011-05-11", "8pm"],
         ]
-        query = "new york mets vs chicago cubs"
+        query = ["new york mets vs chicago cubs", "CitiField", "2017-03-19", "8pm"],
 
         best = process.extractOne(query, events, processor=lambda event: event[0])
         self.assertEqual(best[0], events[0])
@@ -500,10 +498,20 @@ class ProcessTest(unittest.TestCase):
         result = process.dedupe(contains_dupes)
         self.assertEqual(result, deduped_list)
 
+    def test_simplematch(self):
+        basic_string = 'a, b'
+        match_strings = ['a, b']
+
+        result = process.extractOne(basic_string, match_strings, scorer=fuzz.ratio)
+        part_result = process.extractOne(basic_string, match_strings, scorer=fuzz.partial_ratio)
+
+        self.assertEqual(result, ('a, b', 100))
+        self.assertEqual(part_result, ('a, b', 100))
+
 
 class TestCodeFormat(unittest.TestCase):
     def test_pep8_conformance(self):
-        pep8style = pep8.StyleGuide(quiet=True)
+        pep8style = pycodestyle.StyleGuide(quiet=False)
         pep8style.options.ignore = pep8style.options.ignore + tuple(['E501'])
         pep8style.input_dir('fuzzywuzzy')
         result = pep8style.check_files()

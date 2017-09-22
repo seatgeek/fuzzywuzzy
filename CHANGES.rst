@@ -1,6 +1,176 @@
 Changelog
 =========
 
+0.15.1 (2017-07-19)
+-------------------
+
+- Fix setup.py (addresses #155) [Paul O'Leary McCann]
+
+- Merge remote-tracking branch 'upstream/master' into
+  extract_optimizations. [nolan]
+
+- Seed random before generating benchmark strings. [nolan]
+
+- Cleaner implementation of same idea without new param, but adding
+  existing full_process param to Q,W,UQ,UW. [nolan]
+
+- Fix benchmark only generate list once. [nolan]
+
+- Only run util.full_process once on query when using extract functions,
+  add new benchmarks. [nolan]
+
+0.15.0 (2017-02-20)
+-------------------
+
+- Add extras require to install python-levenshtein optionally. [Rolando
+  Espinoza]
+
+  This allows to install python-levenshtein as dependency.
+
+
+- Fix link formatting in the README. [Alex Chan]
+
+- Add fuzzball.js JavaScript port link. [nolan]
+
+- Added Rust Port link. [Logan Collins]
+
+- Validate_string docstring. [davidcellis]
+
+- For full comparisons test that ONLY exact matches (after processing)
+  are added. [davidcellis]
+
+- Add detailed docstrings to WRatio and QRatio comparisons.
+  [davidcellis]
+
+0.14.0 (2016-11-04)
+-------------------
+
+- Possible PEP-8 fix + make pep-8 warnings appear in test. [davidcellis]
+
+- Possible PEP-8 fix. [davidcellis]
+
+- Possible PEP-8 fix. [davidcellis]
+
+- Test for stderr log instead of warning. [davidcellis]
+
+- Convert warning.warn to logging.warning. [davidcellis]
+
+- Additional details for empty string warning from process.
+  [davidcellis]
+
+  String formatting fix for python 2.6
+
+
+- Enclose warnings.simplefilter() inside a with statement. [samkennerly]
+
+0.13.0 (2016-11-01)
+-------------------
+
+- Support alternate git status output. [Jose Diaz-Gonzalez]
+
+- Split warning test into new test file, added to travis execution on
+  2.6 / pypy3. [davidcellis]
+
+- Remove hypothesis examples database from gitignore. [davidcellis]
+
+- Add check for warning to tests. [davidcellis]
+
+  Reordered test imports
+
+
+- Check processor and warn before scorer may remove processor.
+  [davidcellis]
+
+- Renamed test - tidied docstring. [davidcellis]
+
+- Add token ratios to the list of scorers that skip running full_process
+  as a processor. [davidcellis]
+
+- Added tokex_sort, token_set to test. [davidcellis]
+
+- Test docstrings/comments. [davidcellis]
+
+  Removed redundant check from test.
+
+
+- Added py.test .cache/ removed duplicated build from gitignore.
+  [davidcellis]
+
+- Added default_scorer, default_processor parameters to make it easier
+  to change in the future. [davidcellis]
+
+  Added warning if the processor reduces the input query to an empty string.
+
+
+- Rewrote extracts to explicitly use default values for processor and
+  scorer. [davidcellis]
+
+- Changed Hypothesis tests to use pytest parameters. [davidcellis]
+
+- Added Hypothesis based tests for identical strings. [Ducksual]
+
+  Added support for hypothesis to travis config.
+  Hypothesis based tests are skipped on Python 2.6 and pypy3.
+
+  Added .hypothesis/ folder to gitignore
+
+
+- Added test for simple 'a, b' string on process.extractOne. [Ducksual]
+
+- Process the query in process.extractWithoutOrder when using a scorer
+  which does not do so. [Ducksual]
+
+  Closes 139
+
+
+- Mention that difflib and levenshtein results may differ. [Jose Diaz-
+  Gonzalez]
+
+  Closes #128
+
+0.12.0 (2016-09-14)
+-------------------
+
+- Declare support for universal wheels. [Thomas Grainger]
+
+- Clarify that license is GPLv2. [Gareth Tan]
+
+0.11.1 (2016-07-27)
+-------------------
+
+- Add editorconfig. [Jose Diaz-Gonzalez]
+
+- Added tox.ini cofig file for easy local multi-environment testing
+  changed travis config to use py.test like tox updated use of pep8
+  module to pycodestyle. [Pedro Rodrigues]
+
+0.11.0 (2016-06-30)
+-------------------
+
+- Clean-up. [desmaisons_david]
+
+- Improving performance. [desmaisons_david]
+
+- Performance Improvement. [desmaisons_david]
+
+- Fix link to Levenshtein. [Brian J. McGuirk]
+
+- Fix readme links. [Brian J. McGuirk]
+
+- Add license to StringMatcher.py. [Jose Diaz-Gonzalez]
+
+  Closes #113
+
+0.10.0 (2016-03-14)
+-------------------
+
+- Handle None inputs same as empty string (Issue #94) [Nick Miller]
+
+0.9.0 (2016-03-07)
+------------------
+
+- Pull down all keys when updating local copy. [Jose Diaz-Gonzalez]
+
 0.8.2 (2016-02-26)
 ------------------
 

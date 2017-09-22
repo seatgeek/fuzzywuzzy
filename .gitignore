@@ -7,7 +7,6 @@
 \#*
 .#*
 *#
-dist
 
 # Build files
 build
@@ -25,3 +24,16 @@ doc/_build
 
 # Generated man page
 doc/aws_hostname.1
+
+# tox
+.tox
+
+# Hypothesis - keep the examples database
+.hypothesis/tmp
+.hypothesis/unicodedata
+
+# py.test
+.cache/
+
+# Pycharm
+.idea/
