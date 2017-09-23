@@ -508,6 +508,20 @@ class ProcessTest(unittest.TestCase):
         self.assertEqual(result, ('a, b', 100))
         self.assertEqual(part_result, ('a, b', 100))
 
+    def test_with_key_function(self):
+        """Test with key function that extracts key from choice objects"""
+        class NamedObject(object):
+            def __init__(self, name):
+                self.name = name
+
+        shiny_object = NamedObject('Shiny')
+        dull_object = NamedObject('Dull')
+
+        result, score = process.extractOne('Shiny', [shiny_object, dull_object], key=lambda x: x.name)
+
+        self.assertTrue(result is shiny_object)
+        self.assertEqual(score, 100)
+
 
 class TestCodeFormat(unittest.TestCase):
     def test_pep8_conformance(self):
