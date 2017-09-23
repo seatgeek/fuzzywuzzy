@@ -52,14 +52,23 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
             {key: value} pairs will attempt to match the query against
             each value.
         processor: Optional function of the form f(a) -> b, where a is the query or
-            individual choice and b is the choice to be used in matching.
+            individual choice and b is the choice to be used in matching. Generally
+            used for cleaning up the text.
+
+            Applied after key function.
+            Defaults to fuzzywuzzy.utils.full_process().
+        key: Optional function of the form f(a) -> b, where a is individual
+            choice and b is the choice to be used in matching. Generally used
+            for extracting text from objects. Similar to key argument in
+            standard library's functions like sorted() or max().
 
             This can be used to match against, say, the first element of
             a list:
 
             lambda x: x[0]
 
-            Defaults to fuzzywuzzy.utils.full_process().
+            Applied before processor function.
+            Defaults to None.
         scorer: Optional function for scoring matches between the query and
             an individual processed choice. This should be a function
             of the form f(query, choice) -> int.
@@ -161,14 +170,23 @@ def extract(query, choices, processor=default_processor, scorer=default_scorer, 
             {key: value} pairs will attempt to match the query against
             each value.
         processor: Optional function of the form f(a) -> b, where a is the query or
-            individual choice and b is the choice to be used in matching.
+            individual choice and b is the choice to be used in matching. Generally
+            used for cleaning up the text.
+
+            Applied after key function.
+            Defaults to fuzzywuzzy.utils.full_process().
+        key: Optional function of the form f(a) -> b, where a is individual
+            choice and b is the choice to be used in matching. Generally used
+            for extracting text from objects. Similar to key argument in
+            standard library's functions like sorted() or max().
 
             This can be used to match against, say, the first element of
             a list:
 
             lambda x: x[0]
 
-            Defaults to fuzzywuzzy.utils.full_process().
+            Applied before processor function.
+            Defaults to None.
         scorer: Optional function for scoring matches between the query and
             an individual processed choice. This should be a function
             of the form f(query, choice) -> int.
@@ -206,7 +224,9 @@ def extractBests(query, choices, processor=default_processor, scorer=default_sco
         query: A string to match against
         choices: A list or dictionary of choices, suitable for use with
             extract().
-        processor: Optional function for transforming choices before matching.
+        processor: Optional function for cleaning up choices before matching.
+            See extract().
+        key: Optional function for transforming choices before matching.
             See extract().
         scorer: Scoring function for extract().
         score_cutoff: Optional argument for score threshold. No matches with
@@ -232,7 +252,9 @@ def extractOne(query, choices, processor=default_processor, scorer=default_score
         query: A string to match against
         choices: A list or dictionary of choices, suitable for use with
             extract().
-        processor: Optional function for transforming choices before matching.
+        processor: Optional function for cleaning up choices before matching.
+            See extract().
+        key: Optional function for transforming choices before matching.
             See extract().
         scorer: Scoring function for extract().
         score_cutoff: Optional argument for score threshold. If the best
@@ -270,6 +292,8 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio, key=None):
             of the form f(query, choice) -> int.
             By default, fuzz.token_set_ratio() is used and expects both query and
             choice to be strings.
+        key: Optional function for transforming choices before matching.
+            See extract().
 
     Returns:
         A deduplicated list. For example:
