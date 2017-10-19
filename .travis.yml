@@ -9,6 +9,8 @@ matrix:
     env: TEST_SUITE=py.test
   - python: "3.5"
     env: TEST_SUITE=py.test
+  - python: "3.6"
+    env: TEST_SUITE=py.test
   - python: "pypy"
     env: TEST_SUITE=py.test
   - python: "2.6"
