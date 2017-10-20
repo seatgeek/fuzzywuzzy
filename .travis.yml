@@ -9,6 +9,8 @@ matrix:
     env: TEST_SUITE=py.test
   - python: "3.5"
     env: TEST_SUITE=py.test
+  - python: "3.6"
+    env: TEST_SUITE=py.test
   - python: "pypy"
     env: TEST_SUITE=py.test
   - python: "2.6"
@@ -18,6 +20,7 @@ matrix:
 install:
   - pip install pytest pycodestyle
   - if [ $TRAVIS_PYTHON_VERSION != 2.6 -a $TRAVIS_PYTHON_VERSION != "pypy3" ]; then pip install hypothesis; fi;
+  - if [ $TRAVIS_PYTHON_VERSION = 3.3 ]; then pip install enum34; fi;
 script:
   - $TEST_SUITE
 notifications:
