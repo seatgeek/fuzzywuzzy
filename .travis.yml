@@ -20,6 +20,7 @@ matrix:
 install:
   - pip install pytest pycodestyle
   - if [ $TRAVIS_PYTHON_VERSION != 2.6 -a $TRAVIS_PYTHON_VERSION != "pypy3" ]; then pip install hypothesis; fi;
+  - if [ $TRAVIS_PYTHON_VERSION = 3.3 ]; then pip install enum34; fi;
 script:
   - $TEST_SUITE
 notifications:
