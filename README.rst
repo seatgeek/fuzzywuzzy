@@ -6,6 +6,14 @@ FuzzyWuzzy
 
 Fuzzy string matching like a boss. It uses `Levenshtein Distance <https://en.wikipedia.org/wiki/Levenshtein_distance>`_ to calculate the differences between sequences in a simple-to-use package.
 
+Always Case Sensitive
+=========
+.. code:: bash
+>>> fuzz.ratio("this is a test".lower(), "this is a TEST!".lower())
+97
+>>> fuzz.partial_ratio("this is a test".lower(), "this is a TEST!".lower())
+100
+
 Requirements
 ============
 
