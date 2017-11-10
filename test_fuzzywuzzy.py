@@ -126,7 +126,7 @@ class RatioTest(unittest.TestCase):
         self.assertEqual(fuzz.token_sort_ratio(self.s1, self.s1a), 100)
 
     def testTokenSortRatioCaseSensitive(self):
-        self.assertEqual(fuzz.token_sort_ratio(self.s8, self.s9), 82)
+        self.assertEqual(fuzz.token_sort_ratio(self.s8, self.s9), 77)
 
     def testPartialTokenSortRatio(self):
         self.assertEqual(fuzz.partial_token_sort_ratio(self.s1, self.s1a), 100)
