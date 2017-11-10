@@ -89,7 +89,9 @@ class RatioTest(unittest.TestCase):
         self.s4 = "new york mets vs atlanta braves"
         self.s5 = "atlanta braves vs new york mets"
         self.s6 = "new york mets - atlanta braves"
-        self.s7 = 'new york city mets - atlanta braves'
+        self.s7 = "new york city mets - atlanta braves"
+        self.s8 = "fuzzy wuzzy was a bear"
+        self.s9 = "fuzzy wuzzy was a BEAR"
 
         self.cirque_strings = [
             "cirque du soleil - zarkana - las vegas",
@@ -113,15 +115,18 @@ class RatioTest(unittest.TestCase):
     def testEqual(self):
         self.assertEqual(fuzz.ratio(self.s1, self.s1a), 100)
 
-    def testCaseInsensitive(self):
+    def testCaseSensitive(self):
         self.assertNotEqual(fuzz.ratio(self.s1, self.s2), 100)
-        self.assertEqual(fuzz.ratio(utils.full_process(self.s1), utils.full_process(self.s2)), 100)
+        self.assertEqual(fuzz.ratio(utils.full_process(self.s1), utils.full_process(self.s2)), 69)
 
     def testPartialRatio(self):
         self.assertEqual(fuzz.partial_ratio(self.s1, self.s3), 100)
 
     def testTokenSortRatio(self):
         self.assertEqual(fuzz.token_sort_ratio(self.s1, self.s1a), 100)
+
+    def testTokenSortRatioCaseSensitive(self):
+        self.assertEqual(fuzz.token_sort_ratio(utils.full_process(self.s8), utils.full_process(self.s9)), 77)
 
     def testPartialTokenSortRatio(self):
         self.assertEqual(fuzz.partial_token_sort_ratio(self.s1, self.s1a), 100)
@@ -130,14 +135,17 @@ class RatioTest(unittest.TestCase):
     def testTokenSetRatio(self):
         self.assertEqual(fuzz.token_set_ratio(self.s4, self.s5), 100)
 
+    def testTokenSetRatioCaseSensitive(self):
+        self.assertEqual(fuzz.token_set_ratio(self.s8, self.s9), 87)
+
     def testPartialTokenSetRatio(self):
         self.assertEqual(fuzz.partial_token_set_ratio(self.s4, self.s7), 100)
 
     def testQuickRatioEqual(self):
         self.assertEqual(fuzz.QRatio(self.s1, self.s1a), 100)
 
-    def testQuickRatioCaseInsensitive(self):
-        self.assertEqual(fuzz.QRatio(self.s1, self.s2), 100)
+    def testQuickRatioCaseSensitive(self):
+        self.assertEqual(fuzz.QRatio(self.s1, self.s2), 69)
 
     def testQuickRatioNotEqual(self):
         self.assertNotEqual(fuzz.QRatio(self.s1, self.s3), 100)
@@ -145,8 +153,8 @@ class RatioTest(unittest.TestCase):
     def testWRatioEqual(self):
         self.assertEqual(fuzz.WRatio(self.s1, self.s1a), 100)
 
-    def testWRatioCaseInsensitive(self):
-        self.assertEqual(fuzz.WRatio(self.s1, self.s2), 100)
+    def testWRatioCaseSensitive(self):
+        self.assertEqual(fuzz.WRatio(self.s1, self.s2), 72)
 
     def testWRatioPartialMatch(self):
         # a partial match is scaled by .9
