@@ -9,10 +9,21 @@ Fuzzy string matching like a boss. It uses `Levenshtein Distance <https://en.wik
 Always Case Sensitive
 =========
 .. code:: bash
+>>> fuzz.ratio("this is a test", "this is a test!")
+97
+>>> fuzz.ratio("this is a test", "this is a TEST!")
+69
 >>> fuzz.ratio("this is a test".lower(), "this is a TEST!".lower())
 97
+
+>>> fuzz.partial_ratio("this is a test", "this is a test!")
+100
+>>> fuzz.partial_ratio("this is a test", "this is a TEST!")
+71
 >>> fuzz.partial_ratio("this is a test".lower(), "this is a TEST!".lower())
 100
+
+
 
 Requirements
 ============
