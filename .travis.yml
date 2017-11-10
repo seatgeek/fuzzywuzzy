@@ -4,7 +4,7 @@ matrix:
   - python: "2.7"
     env: TEST_SUITE=py.test
   - python: "3.3"
-    env: TEST_SUITE=py.test
+    env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
   - python: "3.4"
     env: TEST_SUITE=py.test
   - python: "3.5"
