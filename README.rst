@@ -51,7 +51,7 @@ Manually via GIT
     python setup.py install
 
 
-Usage
+Example Usage
 =====
 
 .. code:: python
