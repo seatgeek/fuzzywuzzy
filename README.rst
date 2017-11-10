@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/seatgeek/fuzzywuzzy.svg?branch=master
-    :target: https://travis-ci.org/seatgeek/fuzzywuzzy
+.. image:: https://travis-ci.org/ZhensongQian/fuzzywuzzy.svg?branch=master
+    :target: https://travis-ci.org/ZhensongQian/fuzzywuzzy
 
 
 
