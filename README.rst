@@ -6,6 +6,8 @@ FuzzyWuzzy
 
 Fuzzy string matching like a boss. It uses `Levenshtein Distance <https://en.wikipedia.org/wiki/Levenshtein_distance>`_ to calculate the differences between sequences in a simple-to-use package.
 
+_`Website<http://chairnerd.seatgeek.com/fuzzywuzzy-fuzzy-string-matching-in-python/>`_
+
 Requirements
 ============
 
