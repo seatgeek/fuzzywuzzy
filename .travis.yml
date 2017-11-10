@@ -22,3 +22,4 @@ script:
   - $TEST_SUITE
 notifications:
   on_success: always
+
