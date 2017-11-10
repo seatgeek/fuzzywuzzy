@@ -69,7 +69,7 @@ Simple Ratio
     >>> fuzz.ratio("this is a test", "this is a test!")
         97
 
-Partial Ratio
+Partial Ratio (best sub-string match)
 ~~~~~~~~~~~~~
 
 .. code:: python
