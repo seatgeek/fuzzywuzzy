@@ -1,20 +1,10 @@
-.. image:: https://travis-ci.org/ZhensongQian/fuzzywuzzy.svg?branch=master
-    :target: https://travis-ci.org/ZhensongQian/fuzzywuzzy
+.. image:: https://travis-ci.org/seatgeek/fuzzywuzzy.svg?branch=master
+    :target: https://travis-ci.org/seatgeek/fuzzywuzzy
 
-
-
-support case insensitive?
-
-combine n-gram?
-
-ignore non-alpha/digit?
-
-FuzzyWuzzy (GPLv2)
+FuzzyWuzzy
 ==========
 
 Fuzzy string matching like a boss. It uses `Levenshtein Distance <https://en.wikipedia.org/wiki/Levenshtein_distance>`_ to calculate the differences between sequences in a simple-to-use package.
-
-`Website <http://chairnerd.seatgeek.com/fuzzywuzzy-fuzzy-string-matching-in-python>`_
 
 Requirements
 ============
@@ -61,7 +51,7 @@ Manually via GIT
     python setup.py install
 
 
-Example Usage
+Usage
 =====
 
 .. code:: python
@@ -77,7 +67,7 @@ Simple Ratio
     >>> fuzz.ratio("this is a test", "this is a test!")
         97
 
-Partial Ratio (best sub-string match)
+Partial Ratio
 ~~~~~~~~~~~~~
 
 .. code:: python
@@ -127,7 +117,6 @@ You can also pass additional parameters to ``extractOne`` method to make it use 
 
 .. |Build Status| image:: https://api.travis-ci.org/seatgeek/fuzzywuzzy.png?branch=master
    :target: https:travis-ci.org/seatgeek/fuzzywuzzy
-
 
 Known Ports
 ============
