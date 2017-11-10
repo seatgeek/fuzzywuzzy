@@ -2,9 +2,12 @@
     :target: https://travis-ci.org/seatgeek/fuzzywuzzy
 
 
-.. support case insensitive?
-.. combine n-gram?
-.. ignore non-alpha/digit?
+
+support case insensitive?
+
+combine n-gram?
+
+ignore non-alpha/digit?
 
 FuzzyWuzzy
 ==========
