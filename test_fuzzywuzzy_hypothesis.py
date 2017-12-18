@@ -1,6 +1,6 @@
 from itertools import product
 from functools import partial
-from string import ascii_letters, digits
+from string import ascii_letters, digits, punctuation
 
 from hypothesis import given, assume, settings
 import hypothesis.strategies as st
@@ -9,7 +9,7 @@ import pytest
 from fuzzywuzzy import fuzz, process, utils
 
 
-HYPOTHESIS_ALPHABET = ascii_letters + digits
+HYPOTHESIS_ALPHABET = ascii_letters + digits + punctuation
 
 
 def scorers_processors():
