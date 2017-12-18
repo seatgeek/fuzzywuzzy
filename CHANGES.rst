@@ -1,6 +1,43 @@
 Changelog
 =========
 
+0.16.0 (2017-12-18)
+-------------------
+
+- Add punctuation characters back in so process does something.
+  [davidcellis]
+
+- Simpler alphabet and even fewer examples. [davidcellis]
+
+- Fewer examples and larger deadlines for Hypothesis. [davidcellis]
+
+- Slightly more examples. [davidcellis]
+
+- Attempt to fix the failing 2.7 and 3.6 python tests. [davidcellis]
+
+- Readme: add link to C++ port. [Lizard]
+
+- Fix tests on Python 3.3. [Jon Banafato]
+
+  Modify tox.ini and .travis.yml to install enum34 when running with
+  Python 3.3 to allow hypothesis tests to pass.
+
+
+- Normalize Python versions. [Jon Banafato]
+
+  - Enable Travis-CI tests for Python 3.6
+  - Enable tests for all supported Python versions in tox.ini
+  - Add Trove classifiers for Python 3.4 - 3.6 to setup.py
+
+  ---
+
+  Note: Python 2.6 and 3.3 are no longer supported by the Python core
+  team. Support for these can likely be dropped, but that's out of scope
+  for this change set.
+
+
+- Fix typos. [Sven-Hendrik Haase]
+
 0.15.1 (2017-07-19)
 -------------------
 
