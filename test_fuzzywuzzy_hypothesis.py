@@ -1,11 +1,15 @@
 from itertools import product
 from functools import partial
+from string import ascii_letters, digits, punctuation
 
 from hypothesis import given, assume, settings
 import hypothesis.strategies as st
 import pytest
 
 from fuzzywuzzy import fuzz, process, utils
+
+
+HYPOTHESIS_ALPHABET = ascii_letters + digits + punctuation
 
 
 def scorers_processors():
@@ -58,7 +62,7 @@ def full_scorers_processors():
 @pytest.mark.parametrize('scorer,processor',
                          scorers_processors())
 @given(data=st.data())
-@settings(max_examples=100)
+@settings(max_examples=20, deadline=5000)
 def test_identical_strings_extracted(scorer, processor, data):
     """
     Test that identical strings will always return a perfect match.
@@ -70,8 +74,12 @@ def test_identical_strings_extracted(scorer, processor, data):
     """
     # Draw a list of random strings
     strings = data.draw(
-        st.lists(st.text(min_size=10, max_size=100),
-                 min_size=1, max_size=50))
+        st.lists(
+            st.text(min_size=10, max_size=100, alphabet=HYPOTHESIS_ALPHABET),
+            min_size=1,
+            max_size=10
+        )
+    )
     # Draw a random integer for the index in that list
     choiceidx = data.draw(st.integers(min_value=0, max_value=(len(strings) - 1)))
 
@@ -99,7 +107,7 @@ def test_identical_strings_extracted(scorer, processor, data):
 @pytest.mark.parametrize('scorer,processor',
                          full_scorers_processors())
 @given(data=st.data())
-@settings(max_examples=100)
+@settings(max_examples=20, deadline=5000)
 def test_only_identical_strings_extracted(scorer, processor, data):
     """
     Test that only identical (post processing) strings score 100 on the test.
@@ -114,8 +122,11 @@ def test_only_identical_strings_extracted(scorer, processor, data):
     """
     # Draw a list of random strings
     strings = data.draw(
-        st.lists(st.text(min_size=10, max_size=100),
-                 min_size=1, max_size=50))
+        st.lists(
+            st.text(min_size=10, max_size=100, alphabet=HYPOTHESIS_ALPHABET),
+            min_size=1,
+            max_size=10)
+    )
     # Draw a random integer for the index in that list
     choiceidx = data.draw(st.integers(min_value=0, max_value=(len(strings) - 1)))
 
