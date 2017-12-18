@@ -58,7 +58,7 @@ def full_scorers_processors():
 @pytest.mark.parametrize('scorer,processor',
                          scorers_processors())
 @given(data=st.data())
-@settings(max_examples=25, deadline=2000)
+@settings(max_examples=50, deadline=2000)
 def test_identical_strings_extracted(scorer, processor, data):
     """
     Test that identical strings will always return a perfect match.
