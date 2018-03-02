@@ -45,6 +45,20 @@ from . import utils
 @utils.check_for_none
 @utils.check_empty_string
 def ratio(s1, s2):
+    """Return the ratio [0, 100] using the formula 2*M/T where M is the number
+    of matches and T is the total number of elements in both strings
+
+    :param s1:
+    :param s2:
+
+    :Example:
+
+    >>> from fuzzywuzzy import fuzz
+    >>> fuzz.ratio("YANKEES", "YANKEES")
+    100
+    >>> fuzz.ratio("YANKEES", "YANKEEZ")
+    86
+    """
     s1, s2 = utils.make_type_consistent(s1, s2)
 
     m = SequenceMatcher(None, s1, s2)
@@ -54,8 +68,19 @@ def ratio(s1, s2):
 @utils.check_for_none
 @utils.check_empty_string
 def partial_ratio(s1, s2):
-    """"Return the ratio of the most similar substring
-    as a number between 0 and 100."""
+    """"Return the ratio [0, 100] of the most similar substrings
+
+    :param s1:
+    :param s2:
+
+    :Example:
+
+    >>> from fuzzywuzzy import fuzz
+    >>> fuzz.partial_ratio("YANKEES", "NEW YORK YANKEES")
+    100
+    >>> fuzz.partial_ratio("NEW YORK METS", "NEW YORK YANKEES")
+    69
+    """
     s1, s2 = utils.make_type_consistent(s1, s2)
 
     if len(s1) <= len(s2):
@@ -121,15 +146,26 @@ def _token_sort(s1, s2, partial=True, force_ascii=True, full_process=True):
 
 
 def token_sort_ratio(s1, s2, force_ascii=True, full_process=True):
-    """Return a measure of the sequences' similarity between 0 and 100
-    but sorting the token before comparing.
+    """Return the ratio [0, 100] but sorting tokens before comparing
+
+    :Example:
+
+    >>> from fuzzywuzzy import fuzz
+    >>> fuzz.token_sort_ratio("New York Mets vs Atlanta Braves", "Atlanta Braves vs New York Mets")
+    100
     """
     return _token_sort(s1, s2, partial=False, force_ascii=force_ascii, full_process=full_process)
 
 
 def partial_token_sort_ratio(s1, s2, force_ascii=True, full_process=True):
-    """Return the ratio of the most similar substring as a number between
-    0 and 100 but sorting the token before comparing.
+    """Return the ratio [0, 100] of the most similar substring but sorting
+    tokens before comparing
+
+    :Example:
+
+    >>> from fuzzywuzzy import fuzz
+    >>> fuzz.token_sort_ratio("The New York Mets vs Atlanta Braves", "Atlanta Braves vs New York Mets")
+    100
     """
     return _token_sort(s1, s2, partial=True, force_ascii=force_ascii, full_process=full_process)
 
@@ -185,10 +221,42 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
 
 
 def token_set_ratio(s1, s2, force_ascii=True, full_process=True):
+    """"Return the ratio [0, 100] by tokenizing and sorting first and then
+    splitting tokens in [SORTED_INTERSECTION], [SORTED_REST_OF_STRING1] and
+    [SORTED_REST_OF_STRING2], then the following sequences are computed:
+
+    t0 = [SORTED_INTERSECTION]
+    t1 = [SORTED_INTERSECTION] + [SORTED_REST_OF_STRING1]
+    t2 = [SORTED_INTERSECTION] + [SORTED_REST_OF_STRING2]
+
+    `fuzz.ratio` is computed for the three possible pairs and the maximum is
+    returned
+
+    :Example:
+
+    >>> fuzz.token_set_ratio("mariners vs angels", "los angeles angels of anaheim at seattle mariners")
+    91
+    """
     return _token_set(s1, s2, partial=False, force_ascii=force_ascii, full_process=full_process)
 
 
 def partial_token_set_ratio(s1, s2, force_ascii=True, full_process=True):
+    """"Return the ratio [0, 100] by tokenizing and sorting first and then
+    splitting tokens in [SORTED_INTERSECTION], [SORTED_REST_OF_STRING1] and
+    [SORTED_REST_OF_STRING2], then the following sequences are computed:
+
+    t0 = [SORTED_INTERSECTION]
+    t1 = [SORTED_INTERSECTION] + [SORTED_REST_OF_STRING1]
+    t2 = [SORTED_INTERSECTION] + [SORTED_REST_OF_STRING2]
+
+    `fuzz.partial_ratio` is computed for the three possible pairs and the
+    maximum is returned
+
+    :Example:
+
+    >>> fuzz.partial_token_set_ratio("mariners vs angels", "los angeles angels of anaheim at seattle mariners")
+    100
+    """
     return _token_set(s1, s2, partial=True, force_ascii=force_ascii, full_process=full_process)
 
 
