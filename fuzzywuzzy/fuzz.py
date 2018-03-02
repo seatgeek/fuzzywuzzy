@@ -68,7 +68,7 @@ def ratio(s1, s2):
 @utils.check_for_none
 @utils.check_empty_string
 def partial_ratio(s1, s2):
-    """"Return the ratio [0, 100] of the most similar substrings
+    """Return the ratio [0, 100] of the most similar substrings
 
     :param s1:
     :param s2:
@@ -221,7 +221,7 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
 
 
 def token_set_ratio(s1, s2, force_ascii=True, full_process=True):
-    """"Return the ratio [0, 100] by tokenizing and sorting first and then
+    """Return the ratio [0, 100] by tokenizing and sorting first and then
     splitting tokens in [SORTED_INTERSECTION], [SORTED_REST_OF_STRING1] and
     [SORTED_REST_OF_STRING2], then the following sequences are computed:
 
@@ -241,7 +241,7 @@ def token_set_ratio(s1, s2, force_ascii=True, full_process=True):
 
 
 def partial_token_set_ratio(s1, s2, force_ascii=True, full_process=True):
-    """"Return the ratio [0, 100] by tokenizing and sorting first and then
+    """Return the ratio [0, 100] by tokenizing and sorting first and then
     splitting tokens in [SORTED_INTERSECTION], [SORTED_REST_OF_STRING1] and
     [SORTED_REST_OF_STRING2], then the following sequences are computed:
 
