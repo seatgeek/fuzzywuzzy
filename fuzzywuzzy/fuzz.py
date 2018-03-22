@@ -43,6 +43,7 @@ from . import utils
 ###########################
 
 @utils.check_for_none
+@utils.check_for_equivalence
 @utils.check_empty_string
 def ratio(s1, s2):
     s1, s2 = utils.make_type_consistent(s1, s2)
@@ -52,6 +53,7 @@ def ratio(s1, s2):
 
 
 @utils.check_for_none
+@utils.check_for_equivalence
 @utils.check_empty_string
 def partial_ratio(s1, s2):
     """"Return the ratio of the most similar substring
