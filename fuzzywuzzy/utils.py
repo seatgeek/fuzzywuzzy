@@ -80,9 +80,6 @@ def full_process(s, force_ascii=False):
         -- force to lower case
         if force_ascii == True, force convert to ascii"""
 
-    if s is None:
-        return ""
-
     if force_ascii:
         s = asciidammit(s)
     # Keep only Letters and Numbers (see Unicode docs).
