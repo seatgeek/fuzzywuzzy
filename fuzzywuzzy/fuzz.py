@@ -145,6 +145,9 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
         - take ratios of those two strings
         - controls for unordered partial matches"""
 
+    if not full_process and s1 == s2:
+        return 100
+
     p1 = utils.full_process(s1, force_ascii=force_ascii) if full_process else s1
     p2 = utils.full_process(s2, force_ascii=force_ascii) if full_process else s2
 
