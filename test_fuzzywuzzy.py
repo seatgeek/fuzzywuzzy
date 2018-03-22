@@ -93,6 +93,10 @@ class RatioTest(unittest.TestCase):
         # test silly corner cases
         self.s8 = '{'
         self.s8a = '{'
+        self.s9 = '{a'
+        self.s9a = '{a'
+        self.s10 = 'a{'
+        self.s10a = '{b'
 
         self.cirque_strings = [
             "cirque du soleil - zarkana - las vegas",
@@ -116,6 +120,7 @@ class RatioTest(unittest.TestCase):
     def testEqual(self):
         self.assertEqual(fuzz.ratio(self.s1, self.s1a), 100)
         self.assertEqual(fuzz.ratio(self.s8, self.s8a), 100)
+        self.assertEqual(fuzz.ratio(self.s9, self.s9a), 100)
 
     def testCaseInsensitive(self):
         self.assertNotEqual(fuzz.ratio(self.s1, self.s2), 100)
@@ -130,9 +135,17 @@ class RatioTest(unittest.TestCase):
     def testPartialTokenSortRatio(self):
         self.assertEqual(fuzz.partial_token_sort_ratio(self.s1, self.s1a), 100)
         self.assertEqual(fuzz.partial_token_sort_ratio(self.s4, self.s5), 100)
+        self.assertEqual(fuzz.partial_token_sort_ratio(self.s8, self.s8a, full_process=False), 100)
+        self.assertEqual(fuzz.partial_token_sort_ratio(self.s9, self.s9a, full_process=True), 100)
+        self.assertEqual(fuzz.partial_token_sort_ratio(self.s9, self.s9a, full_process=False), 100)
+        self.assertEqual(fuzz.partial_token_sort_ratio(self.s10, self.s10a, full_process=False), 50)
 
     def testTokenSetRatio(self):
         self.assertEqual(fuzz.token_set_ratio(self.s4, self.s5), 100)
+        self.assertEqual(fuzz.token_set_ratio(self.s8, self.s8a, full_process=False), 100)
+        self.assertEqual(fuzz.token_set_ratio(self.s9, self.s9a, full_process=True), 100)
+        self.assertEqual(fuzz.token_set_ratio(self.s9, self.s9a, full_process=False), 100)
+        self.assertEqual(fuzz.token_set_ratio(self.s10, self.s10a, full_process=False), 50)
 
     def testPartialTokenSetRatio(self):
         self.assertEqual(fuzz.partial_token_set_ratio(self.s4, self.s7), 100)
