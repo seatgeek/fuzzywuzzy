@@ -90,6 +90,9 @@ class RatioTest(unittest.TestCase):
         self.s5 = "atlanta braves vs new york mets"
         self.s6 = "new york mets - atlanta braves"
         self.s7 = 'new york city mets - atlanta braves'
+        # test silly corner cases
+        self.s8 = '{'
+        self.s8a = '{'
 
         self.cirque_strings = [
             "cirque du soleil - zarkana - las vegas",
@@ -112,6 +115,7 @@ class RatioTest(unittest.TestCase):
 
     def testEqual(self):
         self.assertEqual(fuzz.ratio(self.s1, self.s1a), 100)
+        self.assertEqual(fuzz.ratio(self.s8, self.s8a), 100)
 
     def testCaseInsensitive(self):
         self.assertNotEqual(fuzz.ratio(self.s1, self.s2), 100)
@@ -162,9 +166,9 @@ class RatioTest(unittest.TestCase):
     def testQRatioUnicode(self):
         self.assertEqual(fuzz.WRatio(unicode(self.s1), unicode(self.s1a)), 100)
 
-    def testEmptyStringsScore0(self):
-        self.assertEqual(fuzz.ratio("", ""), 0)
-        self.assertEqual(fuzz.partial_ratio("", ""), 0)
+    def testEmptyStringsScore100(self):
+        self.assertEqual(fuzz.ratio("", ""), 100)
+        self.assertEqual(fuzz.partial_ratio("", ""), 100)
 
     def testIssueSeven(self):
         s1 = "HSINCHUANG"
