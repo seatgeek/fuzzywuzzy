@@ -43,6 +43,7 @@ from . import utils
 ###########################
 
 @utils.check_for_none
+@utils.check_for_equivalence
 @utils.check_empty_string
 def ratio(s1, s2):
     s1, s2 = utils.make_type_consistent(s1, s2)
@@ -52,6 +53,7 @@ def ratio(s1, s2):
 
 
 @utils.check_for_none
+@utils.check_for_equivalence
 @utils.check_empty_string
 def partial_ratio(s1, s2):
     """"Return the ratio of the most similar substring
@@ -142,6 +144,9 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
             <sorted_intersection><sorted_remainder>
         - take ratios of those two strings
         - controls for unordered partial matches"""
+
+    if not full_process and s1 == s2:
+        return 100
 
     p1 = utils.full_process(s1, force_ascii=force_ascii) if full_process else s1
     p2 = utils.full_process(s2, force_ascii=force_ascii) if full_process else s2

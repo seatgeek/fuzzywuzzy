@@ -21,6 +21,15 @@ def validate_string(s):
         return False
 
 
+def check_for_equivalence(func):
+    @functools.wraps(func)
+    def decorator(*args, **kwargs):
+        if args[0] == args[1]:
+            return 100
+        return func(*args, **kwargs)
+    return decorator
+
+
 def check_for_none(func):
     @functools.wraps(func)
     def decorator(*args, **kwargs):
@@ -79,9 +88,6 @@ def full_process(s, force_ascii=False):
         -- trim whitespace
         -- force to lower case
         if force_ascii == True, force convert to ascii"""
-
-    if s is None:
-        return ""
 
     if force_ascii:
         s = asciidammit(s)
