@@ -17,9 +17,11 @@ matrix:
     env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
   - python: "pypy3.5-5.8.0"
     env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
+  - python: 3.6
+    env: TEST_SUITE="python setup.py check --restructuredtext --strict --metadata"
 install:
   - pip install -U pip setuptools wheel
-  - pip install pytest==3.2.5 pycodestyle
+  - pip install pytest==3.2.5 pycodestyle docutils Pygments
   - if [ $TRAVIS_PYTHON_VERSION != 2.6 -a $TRAVIS_PYTHON_VERSION != "pypy3" ]; then pip install hypothesis; fi;
   - if [ $TRAVIS_PYTHON_VERSION = 3.3 ]; then pip install enum34; fi;
 script:
