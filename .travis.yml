@@ -21,6 +21,7 @@ matrix:
     env: TEST_SUITE="python setup.py check --restructuredtext --strict --metadata"
 install:
   - pip install -U pip setuptools wheel
+  - pip install -e .
   - pip install pytest==3.2.5 pycodestyle docutils Pygments
   - if [ $TRAVIS_PYTHON_VERSION != 2.6 -a $TRAVIS_PYTHON_VERSION != "pypy3" ]; then pip install hypothesis; fi;
   - if [ $TRAVIS_PYTHON_VERSION = 3.3 ]; then pip install enum34; fi;
