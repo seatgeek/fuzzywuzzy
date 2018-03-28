@@ -25,7 +25,7 @@ setup(
     packages=['fuzzywuzzy'],
     extras_require={'speedup': ['python-levenshtein>=0.12']},
     install_requires=[
-        'fuzzywuzzymit~=0.0.0'
+        'fuzzywuzzymit~=0.0.2'
     ],
     url='https://github.com/seatgeek/fuzzywuzzy',
     license="GPL",
