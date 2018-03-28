@@ -124,6 +124,15 @@ You can also pass additional parameters to ``extractOne`` method to make it use 
 .. |Build Status| image:: https://api.travis-ci.org/seatgeek/fuzzywuzzy.png?branch=master
    :target: https:travis-ci.org/seatgeek/fuzzywuzzy
 
+License
+=======
+
+Fuzzywuzzy is dual licensed under the MIT and GPL, however fuzzywuzzy contains
+and optionally depends on GPL code from David Necas (Yeti) which must be removed
+before derivative works of fuzzywuzzy can be created.
+
+See `./COPYING` for more information.
+
 Known Ports
 ============
 
