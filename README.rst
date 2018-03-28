@@ -15,7 +15,7 @@ Requirements
    Matching, though may result in `differing results for certain cases <https://github.com/seatgeek/fuzzywuzzy/issues/128>`_)
 
 For testing
------------
+~~~~~~~~~~~
 -  pycodestyle
 -  hypothesis
 -  pytest
