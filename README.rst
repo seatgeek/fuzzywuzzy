@@ -135,3 +135,7 @@ FuzzyWuzzy is being ported to other languages too! Here are a few ports we know 
 -  JavaScript: `fuzzball.js (JavaScript port) <https://github.com/nol13/fuzzball.js>`_
 -  C++: `Tmplt/fuzzywuzzy <https://github.com/Tmplt/fuzzywuzzy>`_
 -  C#: `fuzzysharp (.Net port) <https://github.com/BoomTownRoi/BoomTown.FuzzySharp>`_
+-  Go: `go-fuzzywuzz (Go port) <https://github.com/paul-mannino/go-fuzzywuzzy>`_
+
+
+
