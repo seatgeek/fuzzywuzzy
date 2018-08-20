@@ -9,7 +9,7 @@ Fuzzy string matching like a boss. It uses `Levenshtein Distance <https://en.wik
 Requirements
 ============
 
--  Python 2.4 or higher
+-  Python 2.7 or higher
 -  difflib
 -  `python-Levenshtein <https://github.com/ztane/python-Levenshtein/>`_ (optional, provides a 4-10x speedup in String
    Matching, though may result in `differing results for certain cases <https://github.com/seatgeek/fuzzywuzzy/issues/128>`_)
