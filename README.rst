@@ -15,7 +15,7 @@ Requirements
    Matching, though may result in `differing results for certain cases <https://github.com/seatgeek/fuzzywuzzy/issues/128>`_)
 
 For testing
------------
+~~~~~~~~~~~
 -  pycodestyle
 -  hypothesis
 -  pytest
@@ -134,3 +134,8 @@ FuzzyWuzzy is being ported to other languages too! Here are a few ports we know 
 -  Rust: `fuzzyrusty (Rust port) <https://github.com/logannc/fuzzyrusty>`_
 -  JavaScript: `fuzzball.js (JavaScript port) <https://github.com/nol13/fuzzball.js>`_
 -  C++: `Tmplt/fuzzywuzzy <https://github.com/Tmplt/fuzzywuzzy>`_
+-  C#: `fuzzysharp (.Net port) <https://github.com/BoomTownRoi/BoomTown.FuzzySharp>`_
+-  Go: `go-fuzzywuzz (Go port) <https://github.com/paul-mannino/go-fuzzywuzzy>`_
+
+
+
