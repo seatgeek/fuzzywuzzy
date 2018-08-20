@@ -1,6 +1,106 @@
 Changelog
 =========
 
+0.17.0 (2018-08-20)
+-------------------
+
+- Make benchmarks script Py3 compatible. [Stefan Behnel]
+
+- Add Go lang port. [iddober]
+
+- Add reference to C# port. [ericcoleman]
+
+- Chore: remove license header from files. [Jose Diaz-Gonzalez]
+
+  The files should all inherit the projects license.
+
+
+- Fix README title style. [Thomas Grainger]
+
+- Add readme check. [Thomas Grainger]
+
+  install docutils and Pygments
+
+
+- Cache pip. [Thomas Grainger]
+
+- Upgrade pip/setuptools for hypothesis. [Thomas Grainger]
+
+- Feat: drop py26 and py33 support from tox. [Jose Diaz-Gonzalez]
+
+- Feat: drop support for 2.6 in test_fuzzywuzzy.py. [Jose Diaz-Gonzalez]
+
+- Feat: drop reference to 2.4 from readme. [Jose Diaz-Gonzalez]
+
+- Feat: drop py2.6 and py3.3 classifiers. [Jose Diaz-Gonzalez]
+
+- Feat: drop 2.6 and 3.3 support. [Jose Diaz-Gonzalez]
+
+  These are no longer supported. Please upgrade your python version if you are using either version.
+
+- Fuzz: _token_sort: check for equivalence. [Ralf Ramsauer]
+
+  If we don't have to full_process the strings, we can safely assume to
+  return 100 in case both candidates equal.
+
+  Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+
+
+- Test: add more test cases. [Ralf Ramsauer]
+
+  Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+
+
+- Utils: add and use check_for_equivalence decorator. [Ralf Ramsauer]
+
+  And decorate basic scoring functions.
+
+  The check_for_equivalence decorator MUST be used after the
+  check_for_none decorator, as otherwise ratio(None, None) will get a
+  score of 100.
+
+  This fixes the first part of the recently introduced changes in the test
+  set.
+
+  Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+
+
+- Tests: add some corner cases. [Ralf Ramsauer]
+
+  '' and '' are equal, so are '{' and '{'. Test if fuzzywuzzy gives them a
+  score of 100.
+
+  For the moment, this patch breaks tests, fixes in fuzzywuzzy follow.
+
+  Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+
+
+- Utils: remove superfluous check. [Ralf Ramsauer]
+
+  Decorators make sure that only non None-values are passed. We can safely
+  assume that None will never get here.
+
+  Other than that, None's shouldn't simply be ignored and erroneously
+  changed to empty strings. Better let users fail.
+
+  This commit doesn't break any tests.
+
+  Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+
+
+- README: add missing requirements. [Ralf Ramsauer]
+
+  pycodestyle and hypothesis are required for automatic testing. Add them
+  to README's requirement section.
+
+  Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+
+
+- Remove empty document. [Ralf Ramsauer]
+
+  Signed-off-by: Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
+
+
 0.16.0 (2017-12-18)
 -------------------
 
