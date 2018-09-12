@@ -92,6 +92,10 @@ class RatioTest(unittest.TestCase):
         self.s10 = 'a{'
         self.s10a = '{b'
 
+        self.s11 = 'thane'
+        self.s11a = 'nation hospitality honda water thane thane west'
+        self.s11b = 'nation hospitality honda water thane west'
+
         self.cirque_strings = [
             "cirque du soleil - zarkana - las vegas",
             "cirque du soleil ",
@@ -122,6 +126,8 @@ class RatioTest(unittest.TestCase):
 
     def testPartialRatio(self):
         self.assertEqual(fuzz.partial_ratio(self.s1, self.s3), 100)
+        self.assertEqual(fuzz.partial_ratio(self.s11, self.s11a), 100)
+        self.assertEqual(fuzz.partial_ratio(self.s11, self.s11b), 100)
 
     def testTokenSortRatio(self):
         self.assertEqual(fuzz.token_sort_ratio(self.s1, self.s1a), 100)
