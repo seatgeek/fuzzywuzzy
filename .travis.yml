@@ -12,7 +12,7 @@ matrix:
   - python: "pypy"
     env: TEST_SUITE=py.test
   - python: "pypy3.5-5.8.0"
-    env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
+    env: TEST_SUITE="py.test"
   - python: 3.6
     env: TEST_SUITE="python setup.py check --restructuredtext --strict --metadata"
 install:
