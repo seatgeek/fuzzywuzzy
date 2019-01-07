@@ -2,22 +2,22 @@ language: python
 matrix:
   include:
   - python: "2.7"
-    env: TEST_SUITE=py.test
+    env: TEST_SUITE=pytest
   - python: "3.4"
-    env: TEST_SUITE=py.test
+    env: TEST_SUITE=pytest
   - python: "3.5"
-    env: TEST_SUITE=py.test
+    env: TEST_SUITE=pytest
   - python: "3.6"
-    env: TEST_SUITE=py.test
+    env: TEST_SUITE=pytest
   - python: "pypy"
-    env: TEST_SUITE=py.test
+    env: TEST_SUITE=pytest
   - python: "pypy3.5-5.8.0"
-    env: TEST_SUITE="py.test"
+    env: TEST_SUITE="pytest"
   - python: 3.6
     env: TEST_SUITE="python setup.py check --restructuredtext --strict --metadata"
 install:
   - pip install -U pip setuptools wheel
-  - pip install pytest==3.2.5 pycodestyle docutils Pygments hypothesis
+  - pip install pytest pycodestyle docutils Pygments hypothesis
 script:
   - $TEST_SUITE
 notifications:
