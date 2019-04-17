@@ -21,8 +21,9 @@ from . import utils
 @utils.check_for_none
 @utils.check_for_equivalence
 @utils.check_empty_string
-def ratio(s1, s2):
-    s1, s2 = utils.make_type_consistent(s1, s2)
+def ratio(s1, s2, make_type_consistent=True):
+    if make_type_consistent: 
+        s1, s2 = utils.make_type_consistent(s1, s2)
 
     m = SequenceMatcher(None, s1, s2)
     return utils.intr(100 * m.ratio())
@@ -31,10 +32,12 @@ def ratio(s1, s2):
 @utils.check_for_none
 @utils.check_for_equivalence
 @utils.check_empty_string
-def partial_ratio(s1, s2):
+def partial_ratio(s1, s2, make_type_consistent=True):
     """"Return the ratio of the most similar substring
     as a number between 0 and 100."""
-    s1, s2 = utils.make_type_consistent(s1, s2)
+    
+    if make_type_consistent: 
+        s1, s2 = utils.make_type_consistent(s1, s2)
 
     if len(s1) <= len(s2):
         shorter = s1
