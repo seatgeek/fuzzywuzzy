@@ -27,6 +27,18 @@ def ratio(s1, s2):
     m = SequenceMatcher(None, s1, s2)
     return utils.intr(100 * m.ratio())
 
+def get_token_start_index(longer, index):
+    for i in range(index, -1, -1):
+        if ' ' == longer[i]:
+            return (i+1)
+    return 0
+
+def get_token_end_index(longer, index):
+    len_ = len(longer)
+    for i in range(index, len_):
+        if ' ' == longer[i]:
+            return (i-1)
+    return len_ - 1
 
 @utils.check_for_none
 @utils.check_for_equivalence
@@ -55,8 +67,10 @@ def partial_ratio(s1, s2):
     scores = []
     for block in blocks:
         long_start = block[1] - block[0] if (block[1] - block[0]) > 0 else 0
+        long_start = get_token_start_index(longer, long_start)
         long_end = long_start + len(shorter)
-        long_substr = longer[long_start:long_end]
+        long_end = get_token_end_index(longer, long_end)
+        long_substr = longer[long_start:long_end+1]
 
         m2 = SequenceMatcher(None, shorter, long_substr)
         r = m2.ratio()
