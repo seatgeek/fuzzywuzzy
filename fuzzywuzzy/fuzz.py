@@ -63,7 +63,7 @@ def partial_ratio(s1, s2):
     # the best partial match will block align with at least one of those blocks
     #   e.g. shorter = "abcd", longer = XXXbcdeEEE
     #   block = (1,3,3)
-    #   best score === ratio("abcd", "Xbcd")
+    #   best score === ratio("abcd", "Xbcd") 
     scores = []
     for block in blocks:
         long_start = block[1] - block[0] if (block[1] - block[0]) > 0 else 0
