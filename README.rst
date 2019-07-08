@@ -136,6 +136,6 @@ FuzzyWuzzy is being ported to other languages too! Here are a few ports we know 
 -  C++: `Tmplt/fuzzywuzzy <https://github.com/Tmplt/fuzzywuzzy>`_
 -  C#: `fuzzysharp (.Net port) <https://github.com/BoomTownRoi/BoomTown.FuzzySharp>`_
 -  Go: `go-fuzzywuzz (Go port) <https://github.com/paul-mannino/go-fuzzywuzzy>`_
-
+-  R: `fuzzywuzzyR (R port) <https://github.com/mlampros/fuzzywuzzyR>`_
 
 
