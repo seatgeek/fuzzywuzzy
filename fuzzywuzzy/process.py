@@ -65,7 +65,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
 
     try:
         if choices is None or len(choices) == 0:
-            raise StopIteration
+            return
     except TypeError:
         pass
 
