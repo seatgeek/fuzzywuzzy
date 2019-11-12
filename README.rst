@@ -137,5 +137,6 @@ FuzzyWuzzy is being ported to other languages too! Here are a few ports we know 
 -  C#: `fuzzysharp (.Net port) <https://github.com/BoomTownRoi/BoomTown.FuzzySharp>`_
 -  Go: `go-fuzzywuzz (Go port) <https://github.com/paul-mannino/go-fuzzywuzzy>`_
 -  Free Pascal: `FuzzyWuzzy.pas (Free Pascal port) <https://github.com/DavidMoraisFerreira/FuzzyWuzzy.pas>`_
+-  Kotlin multiplatform: `FuzzyWuzzy-Kotlin <https://github.com/willowtreeapps/fuzzywuzzy-kotlin>`_
 
 
