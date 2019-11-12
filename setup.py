@@ -25,7 +25,7 @@ setup(
     packages=['fuzzywuzzy'],
     extras_require={'speedup': ['python-levenshtein>=0.12']},
     url='https://github.com/seatgeek/fuzzywuzzy',
-    license="GPL",
+    license="GPLv2",
     classifiers=[
         'Intended Audience :: Developers',
         'Programming Language :: Python',
