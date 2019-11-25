@@ -47,7 +47,7 @@ Adding to your ``requirements.txt`` file (run ``pip install -r requirements.txt`
 .. code:: bash
 
     git+ssh://git@github.com/seatgeek/fuzzywuzzy.git@0.17.0#egg=fuzzywuzzy
-    
+
 Manually via GIT
 
 .. code:: bash
@@ -109,13 +109,16 @@ Process
     >>> choices = ["Atlanta Falcons", "New York Jets", "New York Giants", "Dallas Cowboys"]
     >>> process.extract("new york jets", choices, limit=2)
         [('New York Jets', 100), ('New York Giants', 78)]
+    >>> process.extractBests("new york", choices, score_cutoff=85, limit=3)
+        [('New York Jets', 90), ('New York Giants', 90)]
+
     >>> process.extractOne("cowboys", choices)
         ("Dallas Cowboys", 90)
 
 You can also pass additional parameters to ``extractOne`` method to make it use a specific scorer. A typical use case is to match file paths:
 
 .. code:: python
-  
+
     >>> process.extractOne("System of a down - Hypnotize - Heroin", songs)
         ('/music/library/good/System of a Down/2005 - Hypnotize/01 - Attack.mp3', 86)
     >>> process.extractOne("System of a down - Hypnotize - Heroin", songs, scorer=fuzz.token_sort_ratio)
