@@ -42,13 +42,13 @@ def check_for_none(func):
 def check_empty_string(func):
     @functools.wraps(func)
     def decorator(*args, **kwargs):
-        if len(args[0]) == 0 or len(args[1]) == 0:
+        if not (args[0] and args[1]):
             return 0
         return func(*args, **kwargs)
     return decorator
 
 
-bad_chars = str("").join([chr(i) for i in range(128, 256)])  # ascii dammit!
+bad_chars = str("").join(chr(i) for i in range(128, 256))  # ascii dammit!
 if PY3:
     translation_table = dict((ord(c), None) for c in bad_chars)
     unicode = str

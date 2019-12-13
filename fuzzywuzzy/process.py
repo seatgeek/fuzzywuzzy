@@ -64,7 +64,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
         return x
 
     try:
-        if choices is None or len(choices) == 0:
+        if choices is None or not choices:
             return
     except TypeError:
         pass
@@ -77,7 +77,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     # Run the processor on the input query.
     processed_query = processor(query)
 
-    if len(processed_query) == 0:
+    if not processed_query:
         logging.warning(u"Applied processor reduces input query to empty string, "
                         "all comparisons will have score 0. "
                         "[Query: \'{0}\']".format(query))
