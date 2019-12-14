@@ -252,7 +252,7 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
     # iterate over items in *contains_dupes*
     for item in contains_dupes:
         # return all duplicate matches found
-        matches = process.extract(item, contains_dupes, limit=None, scorer=scorer)
+        matches = extract(item, contains_dupes, limit=None, scorer=scorer)
         # filter matches based on the threshold
         filtered = [x for x in matches if x[1] > threshold]
         # if there is only 1 item in *filtered*, no duplicates were found so add to *extracted*
