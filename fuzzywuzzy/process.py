@@ -283,3 +283,66 @@ def dedupe(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
         return contains_dupes
     else:
         return extractor
+
+
+def dedupe_removed(contains_dupes, threshold=70, scorer=fuzz.token_set_ratio):
+    """This convenience function takes a list of strings containing duplicates and uses fuzzy matching to identify
+    and remove duplicates; unlike `dedupe`, however, it also returns the set of removed tokens. Specifically, it
+    uses the process.extract to identify duplicates that score greater than a user defined threshold. Then, it
+    looks for the longest item in the duplicate list since we assume this item contains the most entity information
+    and returns that. It breaks string length ties on an alphabetical sort.
+
+    Note: as the threshold DECREASES the number of duplicates that are found INCREASES. This means that the
+        returned deduplicated list will likely be shorter. Raise the threshold for fuzzy_dedupe to be less
+        sensitive.
+
+    Args:
+        contains_dupes: A list of strings that we would like to dedupe.
+        threshold: the numerical value (0,100) point at which we expect to find duplicates.
+            Defaults to 70 out of 100
+        scorer: Optional function for scoring matches between the query and
+            an individual processed choice. This should be a function
+            of the form f(query, choice) -> int.
+            By default, fuzz.token_set_ratio() is used and expects both query and
+            choice to be strings.
+
+    Returns:
+        A deduplicated list and dictionary of mapped duplicates. For example:
+
+            In: contains_dupes = ['Frodo Baggin', 'Frodo Baggins', 'F. Baggins', 'Samwise G.', 'Gandalf', 'Bilbo Baggins']
+            In: dedupe_removed(contains_dupes)
+            Out: {'Tom Sawyer', 'Samuel L. Jackson', 'Frodo Baggins', 'Bilbo Baggins'}
+                {'Tom Sawyer': 'Tom Sawyer',
+                'Bilbo Baggin': 'Bilbo Baggins',
+                'Frody Baggins': 'Frodo Baggins',
+                'F. Baggins': 'Bilbo Baggins',
+                'Frodo Baggins': 'Frodo Baggins',
+                'Samuel L. Jackson': 'Samuel L. Jackson',
+                'Bilbo Baggins': 'Bilbo Baggins'}
+        """
+
+    extractor = []
+
+    # iterate over items in *contains_dupes*
+    dupe_mapping = {}
+    for item in set(contains_dupes):
+        # return all duplicate matches found
+        matches = extract(item, contains_dupes, limit=None, scorer=scorer)
+        # filter matches based on the threshold
+        filtered = [x for x in matches if x[1] > threshold]
+
+        # if there is only 1 item in *filtered*, no duplicates were found so
+        # append to *extracted*
+        if len(filtered) == 1:
+            dupe_mapping[filtered[0][0]] = filtered[0][0]
+
+        else:
+            # alpha sort
+            filtered = sorted(filtered, key=lambda x: x[0])
+            # length sort
+            filter_sort = sorted(filtered, key=lambda x: len(x[0]), reverse=True)
+            # take first item as our 'canonical example'
+            dupe_mapping[item] = filter_sort[0][0]
+
+    # return the duplicate data and mapping
+    return set(dupe_mapping.values()), dupe_mapping

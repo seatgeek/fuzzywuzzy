@@ -519,6 +519,36 @@ class ProcessTest(unittest.TestCase):
         self.assertEqual(result, ('a, b', 100))
         self.assertEqual(part_result, ('a, b', 100))
 
+    def test_dedupe_removed(self):
+        """
+        Test `dedupe_removed`
+        """
+        # Test 1
+        contains_dupes = ['Frodo Baggins', 'Tom Sawyer', 'Bilbo Baggin', 'Samuel L. Jackson', 'F. Baggins',
+                          'Frody Baggins', 'Bilbo Baggins']
+
+        result, mapping = process.dedupe_removed(contains_dupes)
+        print("\n")
+        print(result)
+        print("\n")
+        print(mapping)
+
+        # Check result
+        self.assertTrue(len(result) < len(contains_dupes))
+
+        # Check mapping
+        correct_mapping = {'Bilbo Baggin': 'Bilbo Baggins',
+                           'Bilbo Baggins': 'Bilbo Baggins',
+                           'F. Baggins': 'Bilbo Baggins',
+                           'Frodo Baggins': 'Frodo Baggins',
+                           'Frody Baggins': 'Frodo Baggins',
+                           'Samuel L. Jackson': 'Samuel L. Jackson',
+                           'Tom Sawyer': 'Tom Sawyer'}
+        self.assertEqual(sorted(correct_mapping.keys()), sorted(mapping.keys()))
+        for key in mapping.keys():
+            self.assertTrue(key in correct_mapping)
+            self.assertEqual(sorted(correct_mapping[key]), sorted(mapping[key]))
+
 
 class TestCodeFormat(unittest.TestCase):
     def test_pep8_conformance(self):
