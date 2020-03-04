@@ -119,7 +119,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
                 yield (choice, score)
 
 
-def extract(query, choices, processor=default_processor, scorer=default_scorer, limit=5):
+def extract(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, limit=5):
     """Select the best match in a list or dictionary of choices.
 
     Find best matches in a list or dictionary of choices, return a
@@ -146,6 +146,8 @@ def extract(query, choices, processor=default_processor, scorer=default_scorer, 
             of the form f(query, choice) -> int.
             By default, fuzz.WRatio() is used and expects both query and
             choice to be strings.
+        score_cutoff: Optional argument for score threshold. No matches with
+            a score less than this number will be returned. Defaults to 0.
         limit: Optional maximum for the number of elements returned. Defaults
             to 5.
 
@@ -164,7 +166,7 @@ def extract(query, choices, processor=default_processor, scorer=default_scorer, 
 
         [('train', 22, 'bard'), ('man', 0, 'dog')]
     """
-    sl = extractWithoutOrder(query, choices, processor, scorer)
+    sl = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
     return heapq.nlargest(limit, sl, key=lambda i: i[1]) if limit is not None else \
         sorted(sl, key=lambda i: i[1], reverse=True)
 
