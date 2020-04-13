@@ -434,7 +434,7 @@ class ProcessTest(unittest.TestCase):
         # Only find 100-score cases
         res = process.extractOne(query, choices, score_cutoff=100)
         self.assertTrue(res is not None)
-        best_match, score = res
+        best_match, _ = res
         self.assertTrue(best_match is choices[0])
 
     def testEmptyStrings(self):
@@ -488,7 +488,7 @@ class ProcessTest(unittest.TestCase):
         search = 'aaa'
         result = process.extract(search, choices)
         self.assertTrue(len(result) > 0)
-        for value, confidence, key in result:
+        for value, _, _ in result:
             self.assertTrue(value in choices.values())
 
     def test_dedupe(self):
