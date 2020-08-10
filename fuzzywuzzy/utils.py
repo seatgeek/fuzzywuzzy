@@ -99,6 +99,18 @@ def full_process(s, force_ascii=False):
     string_out = StringProcessor.strip(string_out)
     return string_out
 
+def allow_key(func):
+    """Allow key function that extracts the text from passed object to be used.
+    similar to python's max, min functions
+    """
+    @functools.wraps(func)
+    def decorated(*args,
+                  key = lambda s: s, #type: Callable[[Any], str]
+                  **kwargs):
+        kwargs.update(zip(func.__code__.co_varnames, args))
+        return func(**{k:key(v) for k,v in kwargs.items()})
+    return decorated
+
 
 def intr(n):
     '''Returns a correctly rounded integer'''

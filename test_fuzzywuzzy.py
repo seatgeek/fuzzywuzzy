@@ -4,6 +4,7 @@ import unittest
 import re
 import sys
 import pycodestyle
+from collections import namedtuple
 
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
@@ -50,6 +51,9 @@ class UtilsTest(unittest.TestCase):
             "a\xac\u1234\u20ac\U00008000",
             "\u00C1"
         ]
+        self.Dummy = namedtuple("DummyObject",["content"])
+        self.dummy_key_simple = lambda obj:obj.content
+        self.dummy_key_typed = lambda obj:obj.content if isinstance(obj,self.Dummy) else obj
 
     def tearDown(self):
         pass
@@ -71,6 +75,19 @@ class UtilsTest(unittest.TestCase):
     def test_fullProcessForceAscii(self):
         for s in self.mixed_strings:
             utils.full_process(s, force_ascii=True)
+
+    def testAllowKey(self):
+        s1_obj = self.Dummy(self.s1)
+        @utils.allow_key
+        def upper(s): return s.upper()
+        self.assertEqual(self.s1.upper(), upper(s1_obj, key=self.dummy_key_simple))
+        @utils.allow_key
+        def upper_if_length_n(s, length):
+            if len(s) == length: return s.upper()
+            else: return s
+        processed = upper_if_length_n(s1_obj, length=len(self.s1),
+                                      key=self.dummy_key_typed)
+        self.assertEqual(self.s1.upper(), processed)
 
 
 class RatioTest(unittest.TestCase):
