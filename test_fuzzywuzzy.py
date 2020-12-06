@@ -91,6 +91,17 @@ class RatioTest(unittest.TestCase):
         self.s9a = '{a'
         self.s10 = 'a{'
         self.s10a = '{b'
+        # Jaro tests
+        self.s11 = 'initial 10test'
+        self.s11a = 'initial 10 test'
+        self.s12 = 'five test'
+        self.s12a = 'five case'
+        self.s13 = 'seven t'
+        self.s13a = 'seven test'
+        self.s14 = 'Thorkel'
+        self.s14a = 'Thorgier'
+        self.s15 = 'D'
+        self.s15a = 'Dinsdale'
 
         self.cirque_strings = [
             "cirque du soleil - zarkana - las vegas",
@@ -122,6 +133,24 @@ class RatioTest(unittest.TestCase):
 
     def testPartialRatio(self):
         self.assertEqual(fuzz.partial_ratio(self.s1, self.s3), 100)
+
+    def testJaroWinkler(self):
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s1, self.s1a), 100)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s8, self.s8a), 100)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s9, self.s9a), 100)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s11, self.s11a), 100)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s12, self.s12a, common_prefix_length=5), 100)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s12, self.s12a), 90)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s13, self.s13a, common_prefix_length=7), 100)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s14, self.s14a), 87)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s14, self.s14a, common_prefix_length=4), 100)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s14, self.s14a, common_prefix_length=0), 87)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s14, self.s14a, common_prefix_length=4.2), 87)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s15, self.s15a), 74)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s15, self.s15a, common_prefix_length=1), 100)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s15, self.s15a, common_prefix_length=-1), 74)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s15, self.s15a, common_prefix_length="1"), 74)
+        self.assertEqual(fuzz.jaro_winkler_ratio(self.s15, self.s15a, common_prefix_length=1000), 71)
 
     def testTokenSortRatio(self):
         self.assertEqual(fuzz.token_sort_ratio(self.s1, self.s1a), 100)
