@@ -520,6 +520,32 @@ class ProcessTest(unittest.TestCase):
         self.assertEqual(part_result, ('a, b', 100))
 
 
+    def test_extractOne_sort_by_common_letter_count(self):
+        # Test case 1
+        query_1 = 'Company 2'
+        choices_1 = ['Company', 'Company 1', 'Company 2', 'Awesome Company']
+
+        result_without_sort_1 = process.extractOne(query_1, choices_1, scorer=fuzz.partial_token_set_ratio, char_sort=False)
+        result_char_sort_1 = process.extractOne(query_1, choices_1, scorer=fuzz.partial_token_set_ratio, char_sort=True)
+
+        self.assertEqual(result_without_sort_1, ('Company', 100))
+        self.assertEqual(result_char_sort_1, ('Company 2', 100))
+
+        # Test case 2
+        query_2 = 'apple pie'
+        choices_2 = ['pie', 'apple', 'pieapples', 'apple pie', 'pie apple']
+
+        result_char_sort_2 = process.extractOne(query_2, choices_2, scorer= fuzz.ratio, char_sort=True)
+
+        self.assertEqual(result_char_sort_2, ('apple pie', 100))
+
+        # Test case 3
+        query_3 = 'ABC NEWS'
+        choices_3 = ['BCD NEWS', 'NEWS ABC', 'DFG NEWS']
+        result_char_sort_2 = process.extractOne(query_3, choices_3, scorer=fuzz.partial_token_set_ratio, char_sort=True)
+
+        self.assertEqual(result_char_sort_2, ('NEWS ABC', 100))
+
 class TestCodeFormat(unittest.TestCase):
     def test_pep8_conformance(self):
         pep8style = pycodestyle.StyleGuide(quiet=False)
