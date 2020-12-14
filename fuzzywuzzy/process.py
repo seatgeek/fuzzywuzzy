@@ -165,7 +165,7 @@ def extract(query, choices, processor=default_processor, scorer=default_scorer, 
         [('train', 22, 'bard'), ('man', 0, 'dog')]
     """
     sl = extractWithoutOrder(query, choices, processor, scorer)
-    if char_sort == False:
+    if char_sort is False:
         return heapq.nlargest(limit, sl, key=lambda i: i[1]) if limit is not None else \
             sorted(sl, key=lambda i: i[1], reverse=True)
     else:
@@ -174,8 +174,8 @@ def extract(query, choices, processor=default_processor, scorer=default_scorer, 
             sortByCommonLetter(sl, query)
 
 
-def extractBests(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, limit=5, \
-                 char_sort = False):
+def extractBests(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, limit=5,
+                 char_sort=False):
     """Get a list of the best matches to a collection of choices.
 
     Convenience function for getting the choices with best scores.
@@ -194,10 +194,8 @@ def extractBests(query, choices, processor=default_processor, scorer=default_sco
 
     Returns: A a list of (match, score) tuples.
     """
-
-
     best_list = extractWithoutOrder(query, choices, processor, scorer)
-    if char_sort == False:
+    if char_sort is False:
         return heapq.nlargest(limit, best_list, key=lambda i: i[1]) if limit is not None else \
             sorted(best_list, key=lambda i: i[1], reverse=True)
     else:
@@ -206,7 +204,7 @@ def extractBests(query, choices, processor=default_processor, scorer=default_sco
             sortByCommonLetter(best_list, query)
 
 
-def extractOne(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, char_sort = False):
+def extractOne(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, char_sort=False):
     """Find the single best match above a score in a list of choices.
 
     This is a convenience method which returns the single best choice.
@@ -228,7 +226,7 @@ def extractOne(query, choices, processor=default_processor, scorer=default_score
         was found that was above score_cutoff. Otherwise, returns None.
     """
     best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
-    if char_sort == False:
+    if char_sort is False:
         try:
             return max(best_list, key=lambda i: i[1])
         except ValueError:
@@ -236,7 +234,7 @@ def extractOne(query, choices, processor=default_processor, scorer=default_score
     else:
         best_list = sorted(best_list, key=lambda i: i[1], reverse=True)
         try:
-            return max(sortByCommonLetter(best_list, query) , key=lambda i: i[1])
+            return max(sortByCommonLetter(best_list, query), key=lambda i: i[1])
         except ValueError:
             return None
 
@@ -244,23 +242,23 @@ def extractOne(query, choices, processor=default_processor, scorer=default_score
 def sortByCommonLetter(sl, query):
     """This function further sorts the strings with the same scores by common letter count to the query."""
     current_score, last_index = -1, -1
-    #Iterate over list and look for words with the same scores
+    # Iterate over list and look for words with the same scores
     for i in range(0, len(sl)):
-        #Identify the indexes of the strings with the same scores
+        # Identify the indexes of the strings with the same scores
         if sl[i][1] != current_score or i == len(sl) - 1:
             current_score = sl[i][1]
-            #First iteration, there are no previous words so we do not have to do anything
+            # First iteration, there are no previous words so we do not have to do anything
             if last_index == -1:
                 last_index = i
                 continue
-            #Found a group of words with the same scores! Now sort them
+            # Found a group of words with the same scores! Now sort them
             if i - last_index > 1:
                 count_list = []
-                for j in range (last_index, i):
+                for j in range(last_index, i):
                     count_list.append((sl[j][0], calculateCommonLetter(query, sl[j][0])))
                 count_list = sorted(count_list, key=lambda k: k[1], reverse=True)
-                #Copy the sorted portion
-                for j in range (0, len(count_list)):
+                # Copy the sorted portion
+                for j in range(0, len(count_list)):
                     sl[last_index + j] = (count_list[j][0], current_score)
             last_index = i
     return sl
