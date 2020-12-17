@@ -3,12 +3,15 @@
 from __future__ import unicode_literals
 import platform
 import warnings
+from collections import Counter
+import math
 
 try:
     from .StringMatcher import StringMatcher as SequenceMatcher
 except ImportError:
     if platform.python_implementation() != "PyPy":
-        warnings.warn('Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning')
+        warnings.warn(
+            'Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning')
     from difflib import SequenceMatcher
 
 from . import utils
@@ -98,18 +101,85 @@ def _token_sort(s1, s2, partial=True, force_ascii=True, full_process=True):
         return ratio(sorted1, sorted2)
 
 
+# helper function for calculating cosine similarity
+def cosine_sim(s1, s2):
+    v1 = Counter(s1)
+    v2 = Counter(s2)
+
+    intersect = set(v1.keys()) & set(v2.keys())
+    numerator = sum([v1[x] * v2[x] for x in intersect])
+
+    sum1 = sum([v1[x] ** 2 for x in v1.keys()])
+    sum2 = sum([v2[x] ** 2 for x in v2.keys()])
+
+    denominator = math.sqrt(sum1) * math.sqrt(sum2)
+
+    try:
+        return numerator / denominator
+    except:
+        return 0
+
+
+@utils.check_for_none
+def _token_sim(s1, s2, partial, force_ascii=True, full_process=True):
+    '''
+    function that sorts the 2nd list of tokens based on similarity with first list.
+    original issue: https://github.com/seatgeek/fuzzywuzzy/issues/272
+    '''
+
+    # sort s1 tokens normally
+    sorted1 = _process_and_sort(s1, force_ascii, full_process=full_process)
+    sorted2 = _process_and_sort(s2, force_ascii, full_process=full_process)
+
+    # get list of tokens
+    sorted1_tokens = sorted1.split()
+    sorted2_tokens = sorted2.split()
+
+    # initialize sorted version of s2
+    sorted2_new = []
+    i = 0
+
+    # sort the 2nd list according to the 1st
+    while sorted2_tokens and i < len(sorted1_tokens):
+        # most similar to first token in s1, 2nd token, ... n tokens
+
+        # sort by similarity to sorted1[i], take most similar
+        sim = sorted(sorted2_tokens, key=lambda x:
+        cosine_sim(sorted1[i], x), reverse=True)
+
+        sorted2_new.append(sim[0])
+        i += 1
+        sorted2_tokens.remove(sim[0])
+
+    # if sorted2 is longer, append it to the end
+    sorted2_new.extend(sorted2_tokens)
+
+    # calculate ratio as normal
+    if partial:
+        return partial_ratio(sorted1, ' '.join(sorted2_new))
+    else:
+        return ratio(sorted1, ' '.join(sorted2_new))
+
+
 def token_sort_ratio(s1, s2, force_ascii=True, full_process=True):
     """Return a measure of the sequences' similarity between 0 and 100
     but sorting the token before comparing.
     """
-    return _token_sort(s1, s2, partial=False, force_ascii=force_ascii, full_process=full_process)
+    return _token_sort(s1, s2, partial=False, force_ascii=force_ascii,
+                       full_process=full_process)
+
+
+def token_sim_ratio(s1, s2, force_ascii=True, full_process=True):
+    return _token_sim(s1, s2, partial=False, force_ascii=force_ascii,
+                      full_process=full_process)
 
 
 def partial_token_sort_ratio(s1, s2, force_ascii=True, full_process=True):
     """Return the ratio of the most similar substring as a number between
     0 and 100 but sorting the token before comparing.
     """
-    return _token_sort(s1, s2, partial=True, force_ascii=force_ascii, full_process=full_process)
+    return _token_sort(s1, s2, partial=True, force_ascii=force_ascii,
+                       full_process=full_process)
 
 
 @utils.check_for_none
@@ -166,11 +236,13 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
 
 
 def token_set_ratio(s1, s2, force_ascii=True, full_process=True):
-    return _token_set(s1, s2, partial=False, force_ascii=force_ascii, full_process=full_process)
+    return _token_set(s1, s2, partial=False, force_ascii=force_ascii,
+                      full_process=full_process)
 
 
 def partial_token_set_ratio(s1, s2, force_ascii=True, full_process=True):
-    return _token_set(s1, s2, partial=True, force_ascii=force_ascii, full_process=full_process)
+    return _token_set(s1, s2, partial=True, force_ascii=force_ascii,
+                      full_process=full_process)
 
 
 ###################
@@ -287,9 +359,9 @@ def WRatio(s1, s2, force_ascii=True, full_process=True):
     if try_partial:
         partial = partial_ratio(p1, p2) * partial_scale
         ptsor = partial_token_sort_ratio(p1, p2, full_process=False) \
-            * unbase_scale * partial_scale
+                * unbase_scale * partial_scale
         ptser = partial_token_set_ratio(p1, p2, full_process=False) \
-            * unbase_scale * partial_scale
+                * unbase_scale * partial_scale
 
         return utils.intr(max(base, partial, ptsor, ptser))
     else:
