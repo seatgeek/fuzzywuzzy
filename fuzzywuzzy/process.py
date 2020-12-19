@@ -169,7 +169,7 @@ def extract(query, choices, processor=default_processor, scorer=default_scorer, 
         return heapq.nlargest(limit, sl, key=lambda i: i[1]) if limit is not None else \
             sorted(sl, key=lambda i: i[1], reverse=True)
     else:
-        best_list = sorted(sl, key=lambda i: i[1], reverse=True)
+        sl = sorted(sl, key=lambda i: i[1], reverse=True)
         return sortByCommonLetter(sl, query)[0: min(limit, len(sl))] if limit is not None else \
             sortByCommonLetter(sl, query)
 
@@ -200,7 +200,7 @@ def extractBests(query, choices, processor=default_processor, scorer=default_sco
             sorted(best_list, key=lambda i: i[1], reverse=True)
     else:
         best_list = sorted(best_list, key=lambda i: i[1], reverse=True)
-        return sortByCommonLetter(best_list, query)[0: min(limit, len(sl))] if limit is not None else \
+        return sortByCommonLetter(best_list, query)[0: min(limit, len(best_list))] if limit is not None else \
             sortByCommonLetter(best_list, query)
 
 
@@ -267,6 +267,8 @@ def sortByCommonLetter(sl, query):
 def calculateCommonLetter(s1, s2):
     char_dict = {}
     commonLetterCount = 0
+    s1 = utils.full_process(s1)
+    s2 = utils.full_process(s2)
     for char in s1:
         if char in char_dict:
             char_dict[char] += 1
@@ -279,6 +281,13 @@ def calculateCommonLetter(s1, s2):
             char_dict[char] -= 1
             if char_dict[char] == 0:
                 del char_dict[char]
+        # Add penalty for extra letters
+        else:
+            commonLetterCount -= 1
+
+    # Add penalty for missing letters
+    for char in char_dict:
+        commonLetterCount -= 1
 
     return commonLetterCount
 
