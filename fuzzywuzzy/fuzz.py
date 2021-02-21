@@ -27,6 +27,24 @@ def ratio(s1, s2):
     m = SequenceMatcher(None, s1, s2)
     return utils.intr(100 * m.ratio())
 
+@utils.check_for_none
+@utils.check_for_equivalence
+@utils.check_empty_string
+def setratio(s1, s2):
+    s1, s2 = utils.make_type_consistent(s1, s2)
+
+    m = SequenceMatcher(None, s1, s2)
+    return utils.intr(100 * m.setratio())
+
+@utils.check_for_none
+@utils.check_for_equivalence
+@utils.check_empty_string
+def seqratio(s1, s2):
+    s1, s2 = utils.make_type_consistent(s1, s2)
+
+    m = SequenceMatcher(None, s1, s2)
+    return utils.intr(100 * m.seqratio())
+
 
 @utils.check_for_none
 @utils.check_for_equivalence
@@ -140,23 +158,28 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
     diff1to2 = tokens1.difference(tokens2)
     diff2to1 = tokens2.difference(tokens1)
 
-    sorted_sect = " ".join(sorted(intersection))
-    sorted_1to2 = " ".join(sorted(diff1to2))
-    sorted_2to1 = " ".join(sorted(diff2to1))
+    delimiter = "+++"
+    sorted_sect = delimiter.join(sorted(intersection))
+    sorted_1to2 = delimiter.join(sorted(diff1to2))
+    sorted_2to1 = delimiter.join(sorted(diff2to1))
 
-    combined_1to2 = sorted_sect + " " + sorted_1to2
-    combined_2to1 = sorted_sect + " " + sorted_2to1
+    combined_1to2 = sorted_sect + delimiter + sorted_1to2
+    combined_2to1 = sorted_sect + delimiter + sorted_2to1
 
     # strip
     sorted_sect = sorted_sect.strip()
     combined_1to2 = combined_1to2.strip()
     combined_2to1 = combined_2to1.strip()
 
+    # replace
+    sorted_sect = sorted_sect.replace(delimiter, " ")
+    combined_1to2 = combined_1to2.replace(delimiter, " ")
+    combined_2to1 = combined_2to1.replace(delimiter, " ")
+
     if partial:
         ratio_func = partial_ratio
     else:
-        ratio_func = ratio
-
+        ratio_func = setratio
     pairwise = [
         ratio_func(sorted_sect, combined_1to2),
         ratio_func(sorted_sect, combined_2to1),
