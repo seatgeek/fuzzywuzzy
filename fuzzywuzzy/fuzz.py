@@ -8,7 +8,8 @@ try:
     from .StringMatcher import StringMatcher as SequenceMatcher
 except ImportError:
     if platform.python_implementation() != "PyPy":
-        warnings.warn('Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning')
+        warnings.warn(
+            'Using slow pure-python SequenceMatcher. Install python-Levenshtein to remove this warning')
     from difflib import SequenceMatcher
 
 from . import utils
@@ -27,6 +28,7 @@ def ratio(s1, s2):
     m = SequenceMatcher(None, s1, s2)
     return utils.intr(100 * m.ratio())
 
+
 @utils.check_for_none
 @utils.check_for_equivalence
 @utils.check_empty_string
@@ -35,6 +37,7 @@ def setratio(s1, s2):
 
     m = SequenceMatcher(None, s1, s2)
     return utils.intr(100 * m.setratio())
+
 
 @utils.check_for_none
 @utils.check_for_equivalence
@@ -142,8 +145,10 @@ def _token_set(s1, s2, partial=True, force_ascii=True, full_process=True):
     if not full_process and s1 == s2:
         return 100
 
-    p1 = utils.full_process(s1, force_ascii=force_ascii) if full_process else s1
-    p2 = utils.full_process(s2, force_ascii=force_ascii) if full_process else s2
+    p1 = utils.full_process(
+        s1, force_ascii=force_ascii) if full_process else s1
+    p2 = utils.full_process(
+        s2, force_ascii=force_ascii) if full_process else s2
 
     if not utils.validate_string(p1):
         return 0

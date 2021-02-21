@@ -68,7 +68,7 @@ class StringMatcher:
         if(not hasattr(self, '_setratio')):
             self._setratio = setratio(self._str1, self._str2)
         return self._setratio
-    
+
     def seqratio(self):
         if(not hasattr(self, '_seqratio')):
             self._seqratio = seqratio(self._str1, self._str2)

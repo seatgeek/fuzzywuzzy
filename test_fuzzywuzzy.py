@@ -140,6 +140,7 @@ class RatioTest(unittest.TestCase):
         self.assertEqual(fuzz.token_set_ratio(self.s9, self.s9a, full_process=True), 100)
         self.assertEqual(fuzz.token_set_ratio(self.s9, self.s9a, full_process=False), 100)
         self.assertEqual(fuzz.token_set_ratio(self.s10, self.s10a, full_process=False), 50)
+        
 
     def testPartialTokenSetRatio(self):
         self.assertEqual(fuzz.partial_token_set_ratio(self.s4, self.s7), 100)
