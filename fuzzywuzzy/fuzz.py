@@ -24,7 +24,7 @@ from . import utils
 def ratio(s1, s2):
     s1, s2 = utils.make_type_consistent(s1, s2)
 
-    m = SequenceMatcher(None, s1, s2)
+    m = SequenceMatcher(None, s1, s2, False)
     return utils.intr(100 * m.ratio())
 
 
@@ -43,7 +43,7 @@ def partial_ratio(s1, s2):
         shorter = s2
         longer = s1
 
-    m = SequenceMatcher(None, shorter, longer)
+    m = SequenceMatcher(None, shorter, longer, False)
     blocks = m.get_matching_blocks()
 
     # each block represents a sequence of matching characters in a string
@@ -58,7 +58,7 @@ def partial_ratio(s1, s2):
         long_end = long_start + len(shorter)
         long_substr = longer[long_start:long_end]
 
-        m2 = SequenceMatcher(None, shorter, long_substr)
+        m2 = SequenceMatcher(None, shorter, long_substr, False)
         r = m2.ratio()
         if r > .995:
             return 100
