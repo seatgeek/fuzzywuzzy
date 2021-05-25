@@ -47,7 +47,7 @@ Adding to your ``requirements.txt`` file (run ``pip install -r requirements.txt`
 .. code:: bash
 
     git+ssh://git@github.com/seatgeek/fuzzywuzzy.git@0.18.0#egg=fuzzywuzzy
-    
+
 Manually via GIT
 
 .. code:: bash
@@ -115,7 +115,7 @@ Process
 You can also pass additional parameters to ``extractOne`` method to make it use a specific scorer. A typical use case is to match file paths:
 
 .. code:: python
-  
+
     >>> process.extractOne("System of a down - Hypnotize - Heroin", songs)
         ('/music/library/good/System of a Down/2005 - Hypnotize/01 - Attack.mp3', 86)
     >>> process.extractOne("System of a down - Hypnotize - Heroin", songs, scorer=fuzz.token_sort_ratio)
@@ -138,4 +138,4 @@ FuzzyWuzzy is being ported to other languages too! Here are a few ports we know 
 -  Go: `go-fuzzywuzz (Go port) <https://github.com/paul-mannino/go-fuzzywuzzy>`_
 -  Free Pascal: `FuzzyWuzzy.pas (Free Pascal port) <https://github.com/DavidMoraisFerreira/FuzzyWuzzy.pas>`_
 -  Kotlin multiplatform: `FuzzyWuzzy-Kotlin <https://github.com/willowtreeapps/fuzzywuzzy-kotlin>`_
--  R: `fuzzywuzzyR (R port) <https://github.com/mlampros/fuzzywuzzyR>`_
+-  R: `fuzzywuzzyR (R port) <https://github.com/mlampros/fuzzywuzzyR>`_ and `levitate (pure R reimplementation) <https://lewinfox.github.io/levitate/>`_
