@@ -1,3 +1,11 @@
+
+This project has been renamed and moved to https://github.com/seatgeek/thefuzz
+###############################################################################
+
+**The Fuzz** version 0.19.0 correlates with this project's 0.18.0 version with `thefuzz` replacing all instances of this project's name.
+
+------
+
 .. image:: https://travis-ci.org/seatgeek/fuzzywuzzy.svg?branch=master
     :target: https://travis-ci.org/seatgeek/fuzzywuzzy
 
