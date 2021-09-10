@@ -8,7 +8,7 @@ ported from python-Levenshtein
 License available here: https://github.com/miohtama/python-Levenshtein/blob/master/COPYING
 """
 
-from Levenshtein import *
+from Levenshtein._levenshtein import *
 from warnings import warn
 
 
@@ -63,6 +63,16 @@ class StringMatcher:
         if not self._ratio:
             self._ratio = ratio(self._str1, self._str2)
         return self._ratio
+
+    def setratio(self):
+        if(not hasattr(self, '_setratio')):
+            self._setratio = setratio(self._str1, self._str2)
+        return self._setratio
+
+    def seqratio(self):
+        if(not hasattr(self, '_seqratio')):
+            self._seqratio = seqratio(self._str1, self._str2)
+        return self._seqratio
 
     def quick_ratio(self):
         # This is usually quick enough :o)
