@@ -1,0 +1,14 @@
+version = 1
+
+test_patterns = [
+    "test_fuzzywuzzy.py",
+    "test_fuzzywuzzy_hypothesis.py",
+    "test_fuzzywuzzy_pytest.py"
+]
+
+[[analyzers]]
+name = "python"
+enabled = true
+
+  [analyzers.meta]
+  runtime_version = "3.x.x"
