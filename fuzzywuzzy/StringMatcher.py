@@ -18,6 +18,7 @@ class StringMatcher:
     def _reset_cache(self):
         self._ratio = self._distance = None
         self._opcodes = self._editops = self._matching_blocks = None
+        self._jaro_ratio = self._prefix_length = None
 
     def __init__(self, isjunk=None, seq1='', seq2=''):
         if isjunk:
@@ -78,3 +79,19 @@ class StringMatcher:
         if not self._distance:
             self._distance = distance(self._str1, self._str2)
         return self._distance
+
+    def jaro_winkler_ratio(self):
+        if not self._jaro_ratio:
+            if self._prefix_length:
+                prefix_weight = 1.0 / self._prefix_length
+                self._jaro_ratio = jaro_winkler(self._str1, self._str2, prefix_weight)
+                return self._jaro_ratio
+            self._jaro_ratio = jaro_winkler(self._str1, self._str2)
+        return self._jaro_ratio
+
+    def set_prefix_length(self, common_prefix_length):
+        if common_prefix_length:
+            if isinstance(common_prefix_length, int) and common_prefix_length > 0:
+                self._prefix_length = common_prefix_length
+                return
+        self._prefix_length = None

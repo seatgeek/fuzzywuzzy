@@ -31,6 +31,17 @@ def ratio(s1, s2):
 @utils.check_for_none
 @utils.check_for_equivalence
 @utils.check_empty_string
+def jaro_winkler_ratio(s1, s2, common_prefix_length=None):
+    s1, s2 = utils.make_type_consistent(s1, s2)
+
+    m = SequenceMatcher(None, s1, s2)
+    m.set_prefix_length(common_prefix_length)
+    return utils.intr(100 * m.jaro_winkler_ratio())
+
+
+@utils.check_for_none
+@utils.check_for_equivalence
+@utils.check_empty_string
 def partial_ratio(s1, s2):
     """"Return the ratio of the most similar substring
     as a number between 0 and 100."""
