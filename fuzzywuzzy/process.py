@@ -70,7 +70,7 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
         pass
 
     # If the processor was removed by setting it to None
-    # perfom a noop as it still needs to be a function
+    # perform a noop as it still needs to be a function
     if processor is None:
         processor = no_process
 
