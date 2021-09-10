@@ -74,22 +74,6 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
     if processor is None:
         processor = no_process
 
-    # Run the processor on the input query.
-    processed_query = processor(query)
-
-    if len(processed_query) == 0:
-        logging.warning(u"Applied processor reduces input query to empty string, "
-                        "all comparisons will have score 0. "
-                        "[Query: \'{0}\']".format(query))
-
-    # Don't run full_process twice
-    if scorer in [fuzz.WRatio, fuzz.QRatio,
-                  fuzz.token_set_ratio, fuzz.token_sort_ratio,
-                  fuzz.partial_token_set_ratio, fuzz.partial_token_sort_ratio,
-                  fuzz.UWRatio, fuzz.UQRatio] \
-            and processor == utils.full_process:
-        processor = no_process
-
     # Only process the query once instead of for every choice
     if scorer in [fuzz.UWRatio, fuzz.UQRatio]:
         pre_processor = partial(utils.full_process, force_ascii=False)
@@ -101,7 +85,14 @@ def extractWithoutOrder(query, choices, processor=default_processor, scorer=defa
         scorer = partial(scorer, full_process=False)
     else:
         pre_processor = no_process
-    processed_query = pre_processor(processed_query)
+
+    # Run the processor-preprocessor on the input query.
+    processed_query = pre_processor(processor(query))
+
+    if len(processed_query) == 0:
+        logging.warning(u"Applied processor reduces input query to empty string, "
+                        "all comparisons will have score 0. "
+                        "[Query: \'{0}\']".format(query))
 
     try:
         # See if choices is a dictionary-like object.
