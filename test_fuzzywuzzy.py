@@ -126,6 +126,15 @@ class RatioTest(unittest.TestCase):
     def testTokenSortRatio(self):
         self.assertEqual(fuzz.token_sort_ratio(self.s1, self.s1a), 100)
 
+    def testTokenSimRatio(self):
+        self.assertEqual(fuzz.token_sim_ratio(self.s1, self.s1a), 100)
+        self.assertEqual(fuzz.token_sim_ratio("willy` wonka", "willy zonka"),
+                         fuzz.token_sim_ratio("willy` wonka", "willy vonka"))
+        self.assertEqual(fuzz.token_sim_ratio("", ""),
+                         fuzz.token_sim_ratio("", ""))
+        self.assertEqual(fuzz.token_sim_ratio("fuzzy wuzzy", "wuzzy fuzzy"),
+                         100)
+
     def testPartialTokenSortRatio(self):
         self.assertEqual(fuzz.partial_token_sort_ratio(self.s1, self.s1a), 100)
         self.assertEqual(fuzz.partial_token_sort_ratio(self.s4, self.s5), 100)
