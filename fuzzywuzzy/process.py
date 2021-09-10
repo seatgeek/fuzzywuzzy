@@ -214,6 +214,10 @@ def extractOne(query, choices, processor=default_processor, scorer=default_score
     Returns:
         A tuple containing a single match and its score, if a match
         was found that was above score_cutoff. Otherwise, returns None.
+
+        If a list is used for choices, then the result will be 2-tuples.
+        If a dictionary is used, then the result will be 3-tuples containing
+        the key for each match.
     """
     best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
     try:
