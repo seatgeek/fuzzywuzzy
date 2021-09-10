@@ -356,6 +356,26 @@ class ProcessTest(unittest.TestCase):
         best = process.extractOne(query, self.baseball_strings)
         self.assertEqual(best[0], self.baseball_strings[0])
 
+    def testGetBestChoiceFailOnTie1(self):
+        query = "new york mets at atlanta braves"
+        best = process.extractOne(query, self.baseball_strings, fail_on_tie=True)
+        self.assertEqual(best[0], "braves vs mets")
+
+    def testGetBestChoiceFailOnTie2(self):
+        query = "philadelphia phillies at atlanta braves"
+        best = process.extractOne(query, self.baseball_strings, fail_on_tie=True)
+        self.assertEqual(best[0], self.baseball_strings[2])
+
+    def testGetBestChoiceFailOnTie3(self):
+        query = "atlanta braves at philadelphia phillies"
+        best = process.extractOne(query, self.baseball_strings, fail_on_tie=True)
+        self.assertEqual(best, None)
+
+    def testGetBestChoiceFailOnTie4(self):
+        query = "chicago cubs vs new york mets"
+        best = process.extractOne(query, self.baseball_strings, fail_on_tie=True)
+        self.assertEqual(best[0], self.baseball_strings[0])
+
     def testWithProcessor(self):
         events = [
             ["chicago cubs vs new york mets", "CitiField", "2011-05-11", "8pm"],
@@ -366,6 +386,17 @@ class ProcessTest(unittest.TestCase):
 
         best = process.extractOne(query, events, processor=lambda event: event[0])
         self.assertEqual(best[0], events[0])
+
+    def testFailOnTieWithProcessor(self):
+        events = [
+            ["chicago cubs vs new york mets", "CitiField", "2011-05-11", "8pm"],
+            ["new york yankees vs boston red sox", "Fenway Park", "2011-05-11", "8pm"],
+            ["atlanta braves vs pittsburgh pirates", "PNC Park", "2011-05-11", "8pm"],
+        ]
+        query = ["new york mets vs chicago cubs", "CitiField", "2017-03-19", "8pm"],
+
+        best = process.extractOne(query, events, processor=lambda event: event[0], fail_on_tie=True)
+        self.assertEqual(best, None)
 
     def testWithScorer(self):
         choices = [

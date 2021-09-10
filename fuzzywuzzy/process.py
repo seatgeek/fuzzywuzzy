@@ -194,7 +194,31 @@ def extractBests(query, choices, processor=default_processor, scorer=default_sco
         sorted(best_list, key=lambda i: i[1], reverse=True)
 
 
-def extractOne(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0):
+def getUniqueMax(best_list):
+    """Given a fuzzymatching generator computed by extractWithoutOrder, return
+    the best 2-tuple if the maximum score is unique, else raise a ValueError.
+    """
+    runmax, runcount = 0, 0
+    for best_item in best_list:
+        score = best_item[1]
+
+        if score > runmax:
+            # Record maximum score and corresponding best_item
+            runmax = score
+            runcount = 1
+            match_out = best_item
+
+        elif score == runmax:
+            # Record duplicate max scores
+            runcount += 1
+
+    if runcount > 1:
+        raise ValueError('Best match is non-unique.')
+
+    return match_out
+
+
+def extractOne(query, choices, processor=default_processor, scorer=default_scorer, score_cutoff=0, fail_on_tie=False):
     """Find the single best match above a score in a list of choices.
 
     This is a convenience method which returns the single best choice.
@@ -210,14 +234,21 @@ def extractOne(query, choices, processor=default_processor, scorer=default_score
         score_cutoff: Optional argument for score threshold. If the best
             match is found, but it is not greater than this number, then
             return None anyway ("not a good enough match").  Defaults to 0.
+        fail_on_tie: Optional argument. If True, return None in the case of a
+            scoring tie.
 
     Returns:
         A tuple containing a single match and its score, if a match
         was found that was above score_cutoff. Otherwise, returns None.
+        If fail_on_tie is True, return None in the case of a tie.
     """
     best_list = extractWithoutOrder(query, choices, processor, scorer, score_cutoff)
+
     try:
-        return max(best_list, key=lambda i: i[1])
+        if fail_on_tie:
+            return getUniqueMax(best_list)
+        else:
+            return max(best_list, key=lambda i: i[1])
     except ValueError:
         return None
 
