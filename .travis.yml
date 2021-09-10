@@ -14,7 +14,7 @@ matrix:
   - python: "pypy3.5-5.8.0"
     env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
   - python: 3.6
-    env: TEST_SUITE="python setup.py check --restructuredtext --strict --metadata"
+    env: TEST_SUITE="py.test test_fuzzywuzzy.py test_fuzzywuzzy_pytest.py"
 install:
   - pip install -U pip setuptools wheel
   - pip install pytest==3.2.5 pycodestyle docutils Pygments hypothesis
