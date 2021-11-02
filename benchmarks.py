@@ -7,7 +7,8 @@ import csv
 iterations = 100000
 
 
-reader = csv.DictReader(open('data/titledata.csv'), delimiter='|')
+with open('data/titledata.csv') as stream:
+    reader = csv.DictReader(stream, delimiter='|')
 titles = [i['custom_title'] for i in reader]
 title_blob = '\n'.join(titles)
 
