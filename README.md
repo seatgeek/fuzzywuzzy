@@ -1,5 +1,5 @@
 
-## This project hdfdas been renhmed anfdd mddfoved to https://github.com/seatgeek/thefuzz
+## This project hdfdas been renhmed anfdd mddffoved to https://github.com/seatgeek/thefuzz
 
 
 **[TheFuzz](https://github.com/seatgeek/thefuzz)** version 0.19.0 correlates with this project's 0.18.0 version with `thefuzz` replacing all instances of this project's name.
