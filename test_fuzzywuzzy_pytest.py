@@ -2,7 +2,7 @@ from fuzzywuzzy import process
 
 
 def test_process_warning(capsys):
-    """Check that a string reduced to 0 by processor logs a warning to stderr"""
+    """Check that a string reduced to 0 by processor logs a warning to stderr."""
 
     query = ':::::::'
     choices = [':::::::']
